@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+    <texts>
+        <text name="ContractorMod_NEXTWORKER" text="Activer le personnage suivant" />
+        <text name="ContractorMod_PREVWORKER" text="Activer le personnage précédent" />
+        <text name="ContractorMod_VEHICLE_NOT_FREE" text="Le vehicule est deja occupe par un autre personnage" />
+        <text name="ContractorMod_WORKER__STOP" text="Le vehicule va s'arreter si le personnage le quitte" />
+    </texts>
+</l10n>
