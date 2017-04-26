@@ -1,19 +1,9 @@
-==== Fixed in beta3 version ====
--Character name is now hidden when using HudHider
--Character remains visible in a vehicle when switching to another character so you can more easily know if a vehicle if free or not
--Passenger remains visible in a vehicle when switching to another character so you can more easily know if a vehicle if free for passenger or not
--No more error when selling a vehicle occupied by a character
--Manage from 2 to 8 characters
--Default key for switching between characters is now Tab / Shift+Tab since switching between vehicles is disable
-==== Fixed in beta4 version ====
--Character as passenger is now rightly managed during game saving and loading
--Leaving a vehicle controlled by AI (worker/followMe/Courseplay) will stop it
--Disable the ability to have several character driving the same vehicle (optional)
--Character remains visible in a vehicle when loading a game
--Display several info
-==== Fixed in v1.0 version ====
--Commented all traces in the code
+==== Fixed in v1.1rc1 version ====
+-First public version for testing
+-FS17 portage with a lot of changes in code to manage characters visibility in vehicles
+-Basic compatibility tested with FollowMe and Courseplay mods
 ==== Known issues ====
--When enableSeveralDrivers is set to true, leaving a vehicle with several drivers will hide the vehicle driver even if another driver is remaining inside the vehicle
--On FS15, farmer appears standing instead of seated inside a vehicle just after loading a game. Activating the character fix the issue.
+-enableSeveralDrivers=true not tested on FS17 yet
+-characters clothes color changes when activating a worker
 -Pedestrians characters are not visible
+-Driver disappear when using FollowMe if FollowMe is stopped due to follower too far from the leader vehicle
