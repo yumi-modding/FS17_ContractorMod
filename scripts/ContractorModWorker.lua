@@ -3,7 +3,7 @@ source(Utils.getFilename("scripts/Passenger.lua", g_currentModDirectory))
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
-debug = true --false --
+debug = false --true --
 -- TODO: Check colorIndex value OK
 --       To try all color index and map to worker color
 
