@@ -1,9 +1,16 @@
+==== New in v1.1beta1 version ====
+-Show pedestrians characters
+-Fix call stack after ending a mission leading to break savegame
 ==== Fixed in v1.1rc1 version ====
 -First public version for testing
 -FS17 portage with a lot of changes in code to manage characters visibility in vehicles
 -Basic compatibility tested with FollowMe and Courseplay mods
+==== New in v1.1rc2 version ====
+-Display pedestrians characters under variable in ContractorMod.xml displayOnFootWorker="true"
+-Fix issues related to pedestrians characters
+-Fix driver invisible when switching vehicle with incab camera active
 ==== Known issues ====
--enableSeveralDrivers=true not tested on FS17 yet
+-When enableSeveralDrivers is set to true, leaving a vehicle with several drivers will hide the vehicle driver even if another driver is remaining inside the vehicle
 -characters clothes color changes when activating a worker
--Pedestrians characters are not visible
 -Driver disappear when using FollowMe if FollowMe is stopped due to follower too far from the leader vehicle
+

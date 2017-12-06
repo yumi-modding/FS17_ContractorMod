@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<ContractorMod>
+    <!--
+    This file is used only when creating new savegame.
+    Following changes can be made here:
+     - You can set from 2 to 8 workers by changing numWorkers value.
+     - Worker name can be changed.
+     - enableSeveralDrivers: 
+       -true  => several characters can drive the same vehicle (useful when no PassengerMod spec)
+       -false => only one character can drive a vehicle
+     - displayOnFootWorker:
+       -true  => display pedestrian worker
+       -false => only show worker when inside a vehicle
+    If you want to modify some element on a savegame, you can edit similar file in corresponding savegame directory
+    -->
+    <workers numWorkers="4" enableSeveralDrivers="false" displayOnFootWorker="true">
+        <worker name="Alex" />
+        <worker name="Bob" />
+        <worker name="Chris" />
+        <worker name="David" />
+        <worker name="Ed" />
+        <worker name="Frank" />
+        <worker name="Gary" />
+        <worker name="Henry" />
+    </workers>
+</ContractorMod>
