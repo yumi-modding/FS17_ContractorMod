@@ -363,7 +363,9 @@ function ContractorModWorker:beforeSwitch(noEventSend)
       self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
       self.rotY = g_currentMission.player.rotY;
       if self.farmerId ~= nil and self.displayOnFoot then
-        setVisibility(self.farmerId, true)
+        if noEventSend == nil or noEventSend == false then
+          setVisibility(self.farmerId, true)
+        end
         setTranslation(self.PRTG, self.x, self.y-0.7, self.z)
         setRotation(self.PRTG, 0, math.pi + self.rotY, 0)
       end
