@@ -297,6 +297,34 @@ function ContractorMod:onEnterVehicle(vehicle)
 end
 BaseMission.onEnterVehicle = Utils.appendedFunction(BaseMission.onEnterVehicle, ContractorMod.onEnterVehicle);
 
+-- Stops additional drivers from being displayed
+-- Might be extended to show passengers.
+function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
+    local occupied = false
+    for i = 1, ContractorMod.numWorkers do
+      local worker = ContractorMod.workers[i]
+      if worker.currentVehicle == self then
+        occupied=true
+      end
+    end
+
+    if occupied == true then
+      local tmpVehicleCharacter=self.vehicleCharacter
+      local tmpPlayerIndex=self.playerIndex
+      local tmpPlayerColorIndex=self.playerColorIndex
+      self.vehicleCharacter=nil -- Keep it from beeing modified
+      superFunc(self, isControlling, playerIndex, playerColorIndex)
+      self.vehicleCharacter=tmpVehicleCharacter
+      self.playerIndex=tmpPlayerIndex
+      self.playerColorIndex=tmpPlayerColorIndex
+    else
+      superFunc(self, isControlling, playerIndex, playerColorIndex)
+    end
+end
+
+Steerable.enterVehicle = Utils.overwrittenFunction(Steerable.enterVehicle, ContractorMod.ReplaceEnterVehicle)
+
+
 -- Steerable:enter()        => loadCharacter if isHired == false
 -- Steerable:leaveVehicle() => deleteCharacter if disableCharacterOnLeave == true
 
@@ -394,27 +422,40 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
 
   if controlledVehicle ~= nil then
     if self.shouldStopWorker then
+			
+    local occupants=0
     
-      --Leaving vehicle
-      if debug then print("controlled vehicle " .. controlledVehicle.typeName) end
-      if not controlledVehicle.steeringEnabled then
-        --Leaving and AI activated
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_WORKER__STOP"))
-        --Manage CoursePlay vehicles
-        if controlledVehicle.cp ~= nil then
-          if controlledVehicle.cp.isDriving then
-            -- Try to stop the CP vehicle
-            if debug then print("setCourseplayFunc stop") end
-            controlledVehicle:setCourseplayFunc('stop', nil, false, 1);
+    for i = 1, self.numWorkers do
+      local worker = self.workers[i]
+      if worker.currentVehicle == controlledVehicle then
+        occupants=occupants+1
+      end
+    end
+
+      if occupants == 1 then -- Last driver leaving
+        --Leaving vehicle
+        if debug then print("controlled vehicle " .. controlledVehicle.typeName) end
+       if not controlledVehicle.steeringEnabled then
+          --Leaving and AI activated
+          g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_WORKER__STOP"))
+          --Manage CoursePlay vehicles
+          if controlledVehicle.cp ~= nil then
+            if controlledVehicle.cp.isDriving then
+             -- Try to stop the CP vehicle
+              if debug then print("setCourseplayFunc stop") end
+              controlledVehicle:setCourseplayFunc('stop', nil, false, 1);
+            else
+              controlledVehicle:stopAIVehicle();
+            end
           else
             controlledVehicle:stopAIVehicle();
           end
-        else
-          controlledVehicle:stopAIVehicle();
+          --Leaving and no AI activated
+          --Bear
+          controlledVehicle.disableCharacterOnLeave = true;
         end
       else
-        --Leaving and no AI activated
-        controlledVehicle.disableCharacterOnLeave = true;
+        controlledVehicle.disableCharacterOnLeave = false;
       end
     else
     
