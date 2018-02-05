@@ -451,7 +451,6 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
             controlledVehicle:stopAIVehicle();
           end
           --Leaving and no AI activated
-          --Bear
           controlledVehicle.disableCharacterOnLeave = true;
         end
       else
