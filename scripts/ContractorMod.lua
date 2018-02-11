@@ -60,13 +60,13 @@ function ContractorMod:init()
     if not self:initFromParam() or #self.workers <= 0 then
       -- default values
       if debug then print("ContractorMod: No savegame: set default values") end
-      local worker = ContractorModWorker:new("Alex", 1, false)
+      local worker = ContractorModWorker:new("Alex", 1, false, "male", 1)
       table.insert(self.workers,worker)
-      worker = ContractorModWorker:new("Bob", 2, false)
+      worker = ContractorModWorker:new("Barbara", 2, false, "female", 2)
       table.insert(self.workers,worker)
-      worker = ContractorModWorker:new("Chris", 3, false)
+      worker = ContractorModWorker:new("Chris", 3, false, "male", 3)
       table.insert(self.workers,worker)
-      worker = ContractorModWorker:new("David", 4, false)
+      worker = ContractorModWorker:new("David", 4, false, "male", 4)
       table.insert(self.workers,worker)
     end
   end
@@ -99,12 +99,21 @@ function ContractorMod:initFromSave()
             self.displayOnFootWorker = displayOnFootWorker
           else
             self.displayOnFootWorker = false
-          end          
+          end
+        
           for i = 1, numWorkers do
             key = xmlKey .. string.format(".worker(%d)",i-1)
             local workerName = getXMLString(xmlFile, key.."#name");
+            local gender = getXMLString(xmlFile, key .. string.format("#gender"));
+            if gender == nil then
+                gender = "male"
+            end
+            local colorIndex = getXMLInt(xmlFile, key .. string.format("#colorIndex"));
+            if colorIndex == nil then
+                colorIndex = 1
+            end   
             if debug then print(workerName) end
-            local worker = ContractorModWorker:new(workerName, i, self.displayOnFootWorker)
+            local worker = ContractorModWorker:new(workerName, i, gender, colorIndex, self.displayOnFootWorker)
             if debug then print(getXMLString(xmlFile, key.."#position")) end
             local x,y,z = Utils.getVectorFromString(getXMLString(xmlFile, key.."#position"));
             if debug then print("x "..tostring(x)) end
@@ -178,8 +187,16 @@ function ContractorMod:initFromParam()
           for i = 1, numWorkers do
             key = xmlKey .. string.format(".worker(%d)",i-1)
             local workerName = getXMLString(xmlFile, key.."#name");
+            local gender = getXMLString(xmlFile, key .. string.format("#gender"));
+            if gender == nil then
+                gender = "male"
+            end
+            local colorIndex = getXMLInt(xmlFile, key .. string.format("#colorIndex"));
+            if colorIndex == nil then
+                colorIndex = 1
+            end 
             if debug then print(workerName) end
-            local worker = ContractorModWorker:new(workerName, i, self.displayOnFootWorker)
+            local worker = ContractorModWorker:new(workerName, i, gender, colorIndex, self.displayOnFootWorker)
             if debug then print(getXMLString(xmlFile, key.."#position")) end
             local x,y,z = Utils.getVectorFromString(getXMLString(xmlFile, key.."#position"));
             if debug then print("x "..tostring(x)) end
@@ -297,6 +314,8 @@ function ContractorMod:onEnterVehicle(vehicle)
 end
 BaseMission.onEnterVehicle = Utils.appendedFunction(BaseMission.onEnterVehicle, ContractorMod.onEnterVehicle);
 
+
+-- Added by Bear
 -- Stops additional drivers from being displayed
 -- Might be extended to show passengers.
 function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
@@ -307,23 +326,44 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
         occupied=true
       end
     end
+    
 
+    local tmpXmlFilename=PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename
+    PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=ContractorMod.workers[ContractorMod.currentID].xmlFile
+
+    -- TODO: Wrong code path for driver on loading savegame.
     if occupied == true then
       local tmpVehicleCharacter=self.vehicleCharacter
       local tmpPlayerIndex=self.playerIndex
       local tmpPlayerColorIndex=self.playerColorIndex
       self.vehicleCharacter=nil -- Keep it from beeing modified
-      superFunc(self, isControlling, playerIndex, playerColorIndex)
+      superFunc(self, isControlling, playerIndex, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
       self.vehicleCharacter=tmpVehicleCharacter
       self.playerIndex=tmpPlayerIndex
       self.playerColorIndex=tmpPlayerColorIndex
     else
-      superFunc(self, isControlling, playerIndex, playerColorIndex)
+      superFunc(self, isControlling, playerIndex, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
     end
+    PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=tmpXmlFilename
 end
 
 Steerable.enterVehicle = Utils.overwrittenFunction(Steerable.enterVehicle, ContractorMod.ReplaceEnterVehicle)
 
+function ContractorMod:ReplaceOnStartAiVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
+    local tmpVehicleCharacter=self.vehicleCharacter
+    self.vehicleCharacter=nil -- Keep it from beeing modified
+    superFunc(self)
+    self.vehicleCharacter=tmpVehicleCharacter
+end
+AIVehicle.onStartAiVehicle = Utils.overwrittenFunction(AIVehicle.onStartAiVehicle, ContractorMod.ReplaceOnStartAiVehicle)
+
+function ContractorMod:ReplaceOnStopAiVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
+    local tmpVehicleCharacter=self.vehicleCharacter
+    self.vehicleCharacter=nil -- Keep it from beeing modified
+    superFunc(self)
+    self.vehicleCharacter=tmpVehicleCharacter
+end
+AIVehicle.onStopAiVehicle = Utils.overwrittenFunction(AIVehicle.onStopAiVehicle, ContractorMod.ReplaceOnStopAiVehicle)
 
 -- Steerable:enter()        => loadCharacter if isHired == false
 -- Steerable:leaveVehicle() => deleteCharacter if disableCharacterOnLeave == true
@@ -422,7 +462,8 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
 
   if controlledVehicle ~= nil then
     if self.shouldStopWorker then
-			
+    
+    --Bear
     local occupants=0
     
     for i = 1, self.numWorkers do
@@ -431,7 +472,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
         occupants=occupants+1
       end
     end
-
+    print("Occupants in vehicle: " .. occupants);
       if occupants == 1 then -- Last driver leaving
         --Leaving vehicle
         if debug then print("controlled vehicle " .. controlledVehicle.typeName) end
@@ -451,6 +492,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
             controlledVehicle:stopAIVehicle();
           end
           --Leaving and no AI activated
+          --Bear
           controlledVehicle.disableCharacterOnLeave = true;
         end
       else
@@ -548,6 +590,8 @@ function ContractorMod:onSaveCareerSavegame()
         local worker = self.workers[i]
         local key = string.format(rootXmlKey .. ".workers.worker(%d)", i-1);
         setXMLString(xmlFile, key.."#name", worker.name);
+        setXMLString(xmlFile, key.."#gender", worker.gender);
+        setXMLInt(xmlFile, key.."#colorIndex", worker.playerColorIndex);
         local pos = worker.x..' '..worker.y..' '..worker.z
         setXMLString(xmlFile, key.."#position", pos);
         local rot = worker.dx..' '..worker.dy..' '..worker.dz
@@ -653,18 +697,20 @@ function ContractorMod:update(dt)
        for i = 2, self.numWorkers do
          local worker = self.workers[i]
          if worker.currentVehicle ~= nil then
-           if worker.farmerId and self.displayOnFootWorker then
-             setVisibility(worker.farmerId, false)
+           if worker.meshThirdPerson and self.displayOnFootWorker then
+             setVisibility(worker.meshThirdPerson, false)
+             setVisibility(worker.animRootThirdPerson, false)
            end
            --if debug then print("sendEvent VehicleEnterRequestEvent " .. worker.name .. " : " .. worker.currentVehicle.typeName) end
            g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(worker.currentVehicle, g_settingsNickname, worker.playerIndex, worker.playerColorIndex));
            g_currentMission:onLeaveVehicle()
          else
-           if worker.farmerId and self.displayOnFootWorker then
-             if debug then print("ContractorMod: setVisibility(worker.farmerId"); end
-             setVisibility(worker.farmerId, true)
-             setTranslation(worker.PRTG, worker.x, worker.y-0.7, worker.z)
-             setRotation(worker.PRTG, 0, math.pi + worker.rotY, 0)
+           if worker.meshThirdPerson and self.displayOnFootWorker then
+             if debug then print("ContractorMod: setVisibility(worker.meshThirdPerson"); end
+             setVisibility(worker.meshThirdPerson, true)
+             setVisibility(worker.animRootThirdPerson, true)
+             setTranslation(worker.graphicsRootNode, worker.x, worker.y+0.2, worker.z)
+             setRotation(worker.graphicsRootNode, 0, worker.rotY, 0)
            end
          end
        end
