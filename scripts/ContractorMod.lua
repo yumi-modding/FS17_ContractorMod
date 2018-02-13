@@ -314,25 +314,84 @@ function ContractorMod:onEnterVehicle(vehicle)
 end
 BaseMission.onEnterVehicle = Utils.appendedFunction(BaseMission.onEnterVehicle, ContractorMod.onEnterVehicle);
 
+function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+        local id = loadI3DFile(ContractorMod.myCurrentModDirectory.."passenger.i3d", false, false, false)
+        local passagerNode=getChildAt(id,0)
+        link(vehicle.components[1].node, passagerNode)
+        local ChildIndex=getChildIndex(passagerNode)
+        setTranslation(passagerNode, x, y, z)
+        setRotation(passagerNode, rx, ry, rz)
+        
+        local xmltext=" \z
+        <vehicle> \z
+        <characterNode index=\"0>"..ChildIndex.."\" cameraMinDistance=\"1.5\" spineRotation=\"180 0 90\" > \z
+            <target ikChain=\"rightFoot\" targetNode=\"0>"..ChildIndex.."|1\" /> \z
+            <target ikChain=\"leftFoot\"  targetNode=\"0>"..ChildIndex.."|2\" /> \z
+            <target ikChain=\"rightArm\"  targetNode=\"0>"..ChildIndex.."|3\" /> \z
+            <target ikChain=\"leftArm\"   targetNode=\"0>"..ChildIndex.."|4\" /> \z
+        </characterNode></vehicle> \z
+        "
+        local xmlFile=loadXMLFileFromMemory("passengerConfig", xmltext)
+        local passenger=VehicleCharacter:new(vehicle)
+        passenger:load(xmlFile, "vehicle.characterNode")
+        return passenger
+end
+
+function ContractorMod:ManageNewVehicle(i3dNode, arguments)
+
+    self.passengers={}
+
+    local xmlFile = loadXMLFile('passengerSeats', ContractorMod.myCurrentModDirectory.."passengerseats.xml");
+    local i = 0
+    while hasXMLProperty(xmlFile, "passengerSeats"..string.format(".Passenger(%d)",i)) do
+        xmlPath="passengerSeats"..string.format(".Passenger(%d)",i)
+        print("xmlPath: "..xmlPath.."#vehiclesName")
+        xmlVehicleName=getXMLString(xmlFile, xmlPath.."#vehiclesName")
+        if self.configFileName == xmlVehicleName then
+            local seatIndex=getXMLFloat(xmlFile, xmlPath.."#seatIndex")
+            local x=getXMLFloat(xmlFile, xmlPath.."#x")
+            local y=getXMLFloat(xmlFile, xmlPath.."#y")
+            local z=getXMLFloat(xmlFile, xmlPath.."#z")
+            local rx=getXMLFloat(xmlFile, xmlPath.."#rx")
+            local ry=getXMLFloat(xmlFile, xmlPath.."#ry")
+            local rz=getXMLFloat(xmlFile, xmlPath.."#rz")
+            self.passengers[seatIndex]=ContractorMod.addPassenger(self, x, y, z, rx, ry, rz)
+        end
+        i=i+1
+    end
+end
+Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
 
 -- Added by Bear
 -- Stops additional drivers from being displayed
 -- Might be extended to show passengers.
 function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
-    local occupied = false
-    for i = 1, ContractorMod.numWorkers do
-      local worker = ContractorMod.workers[i]
-      if worker.currentVehicle == self then
-        occupied=true
-      end
-    end
-    
+
 
     local tmpXmlFilename=PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename
     PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=ContractorMod.workers[ContractorMod.currentID].xmlFile
+    
+      -- Find free passagerSeat.
+      -- 0 is drivers seat
+      -- Modified below
+      local seat
+      local firstFreePassagerSeat = -1 -- no seat assigned. nil: not in vehicle.
+      for seat = 0, 4 do
+        local seatUsed=false
+        for i = 1, ContractorMod.numWorkers do
+          local worker = ContractorMod.workers[i]
+          if worker.currentSeat == seat and worker.currentVehicle == self then
+            seatUsed=true
+            break
+          end
+        end
+        if seatUsed==false and ( self.passengers[1] ~= nil or seat == 0 ) then
+          firstFreePassagerSeat=seat
+          break
+        end
+      end
 
     -- TODO: Wrong code path for driver on loading savegame.
-    if occupied == true then
       local tmpVehicleCharacter=self.vehicleCharacter
       local tmpPlayerIndex=self.playerIndex
       local tmpPlayerColorIndex=self.playerColorIndex
@@ -341,9 +400,21 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
       self.vehicleCharacter=tmpVehicleCharacter
       self.playerIndex=tmpPlayerIndex
       self.playerColorIndex=tmpPlayerColorIndex
-    else
-      superFunc(self, isControlling, playerIndex, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
-    end
+      
+      
+      if ContractorMod.workers[ContractorMod.currentID].currentSeat == nil then 
+        ContractorMod.workers[ContractorMod.currentID].currentSeat=firstFreePassagerSeat
+        if firstFreePassagerSeat == 0 then
+          self.vehicleCharacter:loadCharacter(ContractorMod.workers[ContractorMod.currentID].xmlFile, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
+          IKUtil.updateIKChains(self.vehicleCharacter.ikChains);
+        else
+          if self.passengers[firstFreePassagerSeat] ~= nil then
+            self.passengers[firstFreePassagerSeat]:loadCharacter(ContractorMod.workers[ContractorMod.currentID].xmlFile, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
+            IKUtil.updateIKChains(self.passengers[firstFreePassagerSeat].ikChains);
+          end
+        end
+      end
+
     PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=tmpXmlFilename
 end
 
@@ -496,8 +567,17 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
           controlledVehicle.disableCharacterOnLeave = true;
         end
       else
+        -- Drivers left
         controlledVehicle.disableCharacterOnLeave = false;
       end
+      if ContractorMod.workers[ContractorMod.currentID].currentSeat == 0 then
+        controlledVehicle.vehicleCharacter:delete()
+      else
+        if controlledVehicle.passengers[ContractorMod.workers[ContractorMod.currentID].currentSeat] ~= nil then
+          controlledVehicle.passengers[ContractorMod.workers[ContractorMod.currentID].currentSeat]:delete()
+        end
+      end
+      ContractorMod.workers[ContractorMod.currentID].currentSeat=nil
     else
     
       --Switching

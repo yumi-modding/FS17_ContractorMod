@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="jcb325T" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="7.1.0"/>
+  </Asset>
+
+  <Files>
+  </Files>
+
+
+  <Materials>
+  </Materials>
+
+
+  <Shapes>
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="player_root" nodeId="7">
+      <TransformGroup name="player_skin" translation="3.55271e-17 -0.0188999 -0.038541" rotation="-14.6072 0 0" nodeId="8"/>
+      <TransformGroup name="player_rightFoot" translation="-0.17161 -0.43704 0.549" rotation="0 -10 0" nodeId="9"/>
+      <TransformGroup name="player_leftFoot" translation="0.144442 -0.43704 0.553031" rotation="0 5.01511 0" nodeId="10"/>
+      <TransformGroup name="player_rightHand" translation="-0.296064 0.202402 0.225512" rotation="-33.1565 39.2404 32.7888" nodeId="11"/>
+      <TransformGroup name="player_leftHand" translation="0.311747 0.203164 0.221016" rotation="-21.4148 -45.8923 -46.932" nodeId="12"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>
