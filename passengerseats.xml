@@ -1,0 +1,4 @@
+<passengerSeats>
+    <Passenger vehiclesName="data/vehicles/steerable/lizard/lizardPickupRodeo.xml" seatIndex="1" x="-0.401" y="0.811" z="0.433" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/lizard/lizardPickupRodeo.xml" seatIndex="2" x="-0.401" y="1.811" z="0.433" rx="0" ry="3.141592" rz="0" />
+</passengerSeats>
