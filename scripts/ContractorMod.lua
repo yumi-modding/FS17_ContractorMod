@@ -354,7 +354,6 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     local i = 0
     while hasXMLProperty(xmlFile, "passengerSeats"..string.format(".Passenger(%d)",i)) do
         xmlPath="passengerSeats"..string.format(".Passenger(%d)",i)
-        print("xmlPath: "..xmlPath.."#vehiclesName")
         xmlVehicleName=getXMLString(xmlFile, xmlPath.."#vehiclesName")
         if self.configFileName == xmlVehicleName then
             local seatIndex=getXMLFloat(xmlFile, xmlPath.."#seatIndex")
@@ -544,7 +543,6 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
   if controlledVehicle ~= nil then
     if self.shouldStopWorker then
     
-    --Bear
     local occupants=0
     
     for i = 1, self.numWorkers do
@@ -553,7 +551,6 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
         occupants=occupants+1
       end
     end
-    print("Occupants in vehicle: " .. occupants);
       if occupants == 1 then -- Last driver leaving
         --Leaving vehicle
         if debug then print("controlled vehicle " .. controlledVehicle.typeName) end
