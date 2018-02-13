@@ -132,6 +132,10 @@ function ContractorMod:initFromSave()
                 if vehicle ~= nil then
                   if debug then print("ContractorMod: vehicle not nil") end
                   worker.currentVehicle = vehicle
+                  local currentSeat = getXMLInt(xmlFile, key.."#currentSeat");
+                  if currentSeat ~= nil then
+                    worker.currentSeat = currentSeat
+                  end
                   local isPassenger = getXMLBool(xmlFile, key.."#isPassenger");
                   if isPassenger then
                     worker.isPassenger = isPassenger
@@ -144,6 +148,11 @@ function ContractorMod:initFromSave()
               end
             end;
             table.insert(self.workers,worker)
+            -- Display visual drivers when loading savegame
+            -- Done here since we don't know which of the drivers entering during initialization
+            if worker.currentVehicle ~= nil and worker.currentSeat ~=nil then
+              ContractorMod.placeVisualWorkerInVehicle(worker,worker.currentVehicle,worker.currentSeat)
+            end
           end
           local enableSeveralDrivers = getXMLBool(xmlFile, xmlKey .. string.format("#enableSeveralDrivers"));
           if enableSeveralDrivers ~= nil then
@@ -362,9 +371,19 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
 end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
 
--- Added by Bear
--- Stops additional drivers from being displayed
--- Might be extended to show passengers.
+function ContractorMod.placeVisualWorkerInVehicle(worker,vehicle,seat)
+  if seat == 0 then
+    vehicle.vehicleCharacter:loadCharacter(worker.xmlFile, worker.playerColorIndex)
+    IKUtil.updateIKChains(vehicle.vehicleCharacter.ikChains);
+  else
+    if vehicle.passengers[seat] ~= nil then
+      vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerColorIndex)
+      IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
+    end
+  end
+end
+
+
 function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
 
 
@@ -373,7 +392,6 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
     
       -- Find free passagerSeat.
       -- 0 is drivers seat
-      -- Modified below
       local seat
       local firstFreePassagerSeat = -1 -- no seat assigned. nil: not in vehicle.
       for seat = 0, 4 do
@@ -391,7 +409,6 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
         end
       end
 
-    -- TODO: Wrong code path for driver on loading savegame.
       local tmpVehicleCharacter=self.vehicleCharacter
       local tmpPlayerIndex=self.playerIndex
       local tmpPlayerColorIndex=self.playerColorIndex
@@ -401,18 +418,11 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
       self.playerIndex=tmpPlayerIndex
       self.playerColorIndex=tmpPlayerColorIndex
       
-      
-      if ContractorMod.workers[ContractorMod.currentID].currentSeat == nil then 
+      -- When Initializing we are called when ContractorMod.currentID is not set.
+      -- When switching vehicle we are called for drivers already entered but then currentSeat ~= nil.
+      if ContractorMod.workers[ContractorMod.currentID].currentSeat == nil and not ContractorMod.initializing  then 
         ContractorMod.workers[ContractorMod.currentID].currentSeat=firstFreePassagerSeat
-        if firstFreePassagerSeat == 0 then
-          self.vehicleCharacter:loadCharacter(ContractorMod.workers[ContractorMod.currentID].xmlFile, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
-          IKUtil.updateIKChains(self.vehicleCharacter.ikChains);
-        else
-          if self.passengers[firstFreePassagerSeat] ~= nil then
-            self.passengers[firstFreePassagerSeat]:loadCharacter(ContractorMod.workers[ContractorMod.currentID].xmlFile, ContractorMod.workers[ContractorMod.currentID].playerColorIndex)
-            IKUtil.updateIKChains(self.passengers[firstFreePassagerSeat].ikChains);
-          end
-        end
+        ContractorMod.placeVisualWorkerInVehicle(ContractorMod.workers[ContractorMod.currentID],self,firstFreePassagerSeat)
       end
 
     PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=tmpXmlFilename
@@ -672,6 +682,9 @@ function ContractorMod:onSaveCareerSavegame()
         setXMLString(xmlFile, key.."#name", worker.name);
         setXMLString(xmlFile, key.."#gender", worker.gender);
         setXMLInt(xmlFile, key.."#colorIndex", worker.playerColorIndex);
+        if worker.currentSeat ~= nil then
+          setXMLInt(xmlFile, key.."#currentSeat", worker.currentSeat);
+        end
         local pos = worker.x..' '..worker.y..' '..worker.z
         setXMLString(xmlFile, key.."#position", pos);
         local rot = worker.dx..' '..worker.dy..' '..worker.dz
