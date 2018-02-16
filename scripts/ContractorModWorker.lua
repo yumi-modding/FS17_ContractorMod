@@ -4,7 +4,7 @@
 -- No event plugged, only called when interacting with ContractorMod
 --
 -- @author  yumi
--- free for noncommerical-usage
+-- free for noncommercial-usage
 --
 
 source(Utils.getFilename("scripts/Passenger.lua", g_currentModDirectory))
@@ -13,8 +13,6 @@ ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
 debug = false --true --
--- TODO: Check colorIndex value OK
---       To try all color index and map to worker color
 
 function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;
@@ -30,6 +28,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   g_settingsNickname = name
   self.currentVehicle = nil
   self.isPassenger = false
+  self.isNewPassenger = false -- to replace isPassenger waiting code cleaning
   self.passengerPlace = nil
   self.playerIndex = 2
   self.gender=gender
@@ -42,7 +41,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   self.playerColorIndex = playerColorIndex
   self.followMeIsStarted = false
   self.displayOnFoot = displayOnFoot
-  -- Bellow needed to load player caracter to make caracter visible with displayOnFoot.
+  -- Bellow needed to load player character to make character visible with displayOnFoot.
   self.ikChains = {}
   self.idleWeight = 1;
   self.walkWeight = 0;

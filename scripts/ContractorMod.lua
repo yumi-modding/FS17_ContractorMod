@@ -4,7 +4,7 @@
 -- Update attached to update event of the map
 --
 -- @author  yumi
--- free for noncommerical-usage
+-- free for noncommercial-usage
 --
 
 source(Utils.getFilename("scripts/ContractorModWorker.lua", g_currentModDirectory))
@@ -13,6 +13,12 @@ ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
 debug = false --true --
+-- TODO: 
+-- Passenger exit: if indoor camera => driver -> invisible  FIXED
+-- Passenger: Try to add cameras
+-- Passenger: Worker continues until no more character in the vehicle
+-- Check save for driver & passengers
+-- Clean old passenger references & code
 
 function ContractorMod:loadMap(name)
   if debug then print("ContractorMod:loadMap(name)") end
@@ -310,7 +316,30 @@ function ContractorMod:ManageEnterVehicle(vehicle)
   else
     if debug then print("ContractorMod: 253 " .. tostring(vehicle.isHired)) end
   end
-  
+
+  --[[
+  if self.workers ~= nil then
+    local currentWorker = self.workers[self.currentID]
+    if currentWorker.isNewPassenger then
+      local activeCam = getCamera()
+      if (activeCam ~= nil) then
+        -- Change camera here
+        -- get current camera position
+        local x,y,z = getTranslation(activeCam)
+        print("x:"..tostring(x).." y:"..tostring(y).." z:"..tostring(z))
+        -- local passengerNode = vehicle.passengers[currentWorker.seatIndex]
+        -- print(tostring(passengerNode))
+        -- local characterNode = vehicle.vehicleCharacter
+        -- print(tostring(characterNode))
+        -- local transformCam = localToLocal(passengerNode, characterNode)
+        -- print(tostring(transformCam))
+        -- move it for passenger
+        -- setTranslation(vehicle.activeCamera.cameraPositionNode, (x - 1), y, z)
+        -- vehicle.activeCamera:resetCamera()
+      end
+    end
+  end ]]
+
   if debug then print("ContractorMod: 251 " .. tostring(self.switching) .. " : " .. tostring(vehicle.steeringEnabled)) end
   if debug then print("ContractorMod:appendedEnterVehicle <<" .. vehicleName) end
   if vehicle ~= nil then
@@ -324,12 +353,13 @@ end
 BaseMission.onEnterVehicle = Utils.appendedFunction(BaseMission.onEnterVehicle, ContractorMod.onEnterVehicle);
 
 function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+    if debug then print("ContractorMod.addPassenger") end
         local id = loadI3DFile(ContractorMod.myCurrentModDirectory.."passenger.i3d", false, false, false)
-        local passagerNode=getChildAt(id,0)
-        link(vehicle.components[1].node, passagerNode)
-        local ChildIndex=getChildIndex(passagerNode)
-        setTranslation(passagerNode, x, y, z)
-        setRotation(passagerNode, rx, ry, rz)
+        local passengerNode=getChildAt(id,0)
+        link(vehicle.components[1].node, passengerNode)
+        local ChildIndex=getChildIndex(passengerNode)
+        setTranslation(passengerNode, x, y, z)
+        setRotation(passengerNode, rx, ry, rz)
         
         local xmltext=" \z
         <vehicle> \z
@@ -343,41 +373,91 @@ function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
         local xmlFile=loadXMLFileFromMemory("passengerConfig", xmltext)
         local passenger=VehicleCharacter:new(vehicle)
         passenger:load(xmlFile, "vehicle.characterNode")
+
+        --[[ Trying to add camera like passenger
+        local cameraId = loadI3DFile(ContractorMod.myCurrentModDirectory.."camera.i3d", false, false, false)
+        local cameraNode=getChildAt(cameraId,0)
+        link(vehicle.components[1].node, cameraNode)
+        local cameraChildIndex=getChildIndex(cameraNode)
+        setTranslation(cameraNode, x, y, z)
+        setRotation(cameraNode, rx, ry, rz)
+print("child "..cameraChildIndex)
+        print("Passenger: x:"..tostring(x).." y:"..tostring(y).." z:"..tostring(z))
+        local xmlCameraText=" \z
+        <vehicle> \z
+        <cameras count=\"1\"> \z
+            <camera1 index=\"0>"..cameraChildIndex.."\" rotatable=\"true\" limit=\"true\" rotMinX=\"-1.1\" rotMaxX=\"0.4\" transMin=\"0\" transMax=\"0\" useMirror=\"true\" isInside=\"true\" /> \z
+        </cameras></vehicle> \z
+        "
+        local xmlCameraFile=loadXMLFileFromMemory("passengerCameraConfig", xmlCameraText)
+        local camera=VehicleCamera:new(vehicle)
+        camera:loadFromXML(xmlCameraFile, "vehicle.cameras")]]
+        -- get vehicleCharacter position (from xml ?)
+        -- local characterNode = vehicle.vehicleCharacter.nodeId
+        -- print(tostring(characterNode))
+        -- local x1,y2,z1 = getTranslation(characterNode)
+        -- print("x1:"..tostring(x1).." y1:"..tostring(y1).." z1:"..tostring(z1))
+        -- compute transform
+        -- local transformCam = localToLocal(passengerNode, characterNode)
+        -- print(tostring(transformCam))
+        -- add new camera
+
         return passenger
 end
 
 function ContractorMod:ManageNewVehicle(i3dNode, arguments)
+    if debug then print("ContractorMod.ManageNewVehicle") end
 
-    self.passengers={}
+    if SpecializationUtil.hasSpecialization(Steerable, self.specializations) then
+      self.passengers={}
 
-    local xmlFile = loadXMLFile('passengerSeats', ContractorMod.myCurrentModDirectory.."passengerseats.xml");
-    local i = 0
-    while hasXMLProperty(xmlFile, "passengerSeats"..string.format(".Passenger(%d)",i)) do
-        xmlPath="passengerSeats"..string.format(".Passenger(%d)",i)
-        xmlVehicleName=getXMLString(xmlFile, xmlPath.."#vehiclesName")
-        if self.configFileName == xmlVehicleName then
-            local seatIndex=getXMLFloat(xmlFile, xmlPath.."#seatIndex")
-            local x=getXMLFloat(xmlFile, xmlPath.."#x")
-            local y=getXMLFloat(xmlFile, xmlPath.."#y")
-            local z=getXMLFloat(xmlFile, xmlPath.."#z")
-            local rx=getXMLFloat(xmlFile, xmlPath.."#rx")
-            local ry=getXMLFloat(xmlFile, xmlPath.."#ry")
-            local rz=getXMLFloat(xmlFile, xmlPath.."#rz")
-            self.passengers[seatIndex]=ContractorMod.addPassenger(self, x, y, z, rx, ry, rz)
-        end
-        i=i+1
+      local xmlFile = loadXMLFile('passengerSeats', ContractorMod.myCurrentModDirectory.."passengerseats.xml");
+      local i = 0
+      while hasXMLProperty(xmlFile, "passengerSeats"..string.format(".Passenger(%d)",i)) do
+          xmlPath="passengerSeats"..string.format(".Passenger(%d)",i)
+          xmlVehicleName=getXMLString(xmlFile, xmlPath.."#vehiclesName")
+          print("Trying to add passenger to "..xmlVehicleName)
+          --> ==Manage DLC & mods thanks to dural==
+          --replace $pdlcdir by the full path
+          if string.sub(xmlVehicleName,1,8):lower()=="$pdlcdir" then
+            --xmlVehicleName = getUserProfileAppPath() .. "pdlc/" .. string.sub(xmlVehicleName,10)
+            --required for steam users
+            xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
+          elseif string.sub(xmlVehicleName,1,7):lower()=="$moddir" then --20171116 - fix for Horsch CTF vehicle pack
+            xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
+          end
+          --< ======================================
+          if self.configFileName == xmlVehicleName then
+              local seatIndex=getXMLFloat(xmlFile, xmlPath.."#seatIndex")
+              local x=getXMLFloat(xmlFile, xmlPath.."#x")
+              local y=getXMLFloat(xmlFile, xmlPath.."#y")
+              local z=getXMLFloat(xmlFile, xmlPath.."#z")
+              local rx=getXMLFloat(xmlFile, xmlPath.."#rx")
+              local ry=getXMLFloat(xmlFile, xmlPath.."#ry")
+              local rz=getXMLFloat(xmlFile, xmlPath.."#rz")
+              self.passengers[seatIndex]=ContractorMod.addPassenger(self, x, y, z, rx, ry, rz)
+          end
+          i=i+1
+      end
     end
 end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
 
 function ContractorMod.placeVisualWorkerInVehicle(worker,vehicle,seat)
-  if seat == 0 then
+    if debug then print("ContractorMod.placeVisualWorkerInVehicle") end
+    -- TODO: analyze situation where these variables are nil
+    if vehicle.vehicleCharacter == nil then print("ContractorMod: vehicle.vehicleCharacter == nil" ) end          
+    if vehicle.passengers == nil then print("ContractorMod: vehicle.passengers == nil" ) end          
+
+  if seat == 0 and vehicle.vehicleCharacter ~= nil then
     vehicle.vehicleCharacter:loadCharacter(worker.xmlFile, worker.playerColorIndex)
     IKUtil.updateIKChains(vehicle.vehicleCharacter.ikChains);
   else
-    if vehicle.passengers[seat] ~= nil then
-      vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerColorIndex)
-      IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
+    if vehicle.passengers ~= nil then
+      if vehicle.passengers[seat] ~= nil then
+        vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerColorIndex)
+        IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
+      end
     end
   end
 end
@@ -385,14 +465,13 @@ end
 
 function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex, playerColorIndex)
 
-
     local tmpXmlFilename=PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename
     PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=ContractorMod.workers[ContractorMod.currentID].xmlFile
     
-      -- Find free passagerSeat.
+      -- Find free passengerSeat.
       -- 0 is drivers seat
       local seat
-      local firstFreePassagerSeat = -1 -- no seat assigned. nil: not in vehicle.
+      local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
       for seat = 0, 4 do
         local seatUsed=false
         for i = 1, ContractorMod.numWorkers do
@@ -403,7 +482,7 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
           end
         end
         if seatUsed==false and ( self.passengers[1] ~= nil or seat == 0 ) then
-          firstFreePassagerSeat=seat
+          firstFreepassengerSeat=seat
           break
         end
       end
@@ -420,8 +499,17 @@ function ContractorMod:ReplaceEnterVehicle(superFunc ,isControlling, playerIndex
       -- When Initializing we are called when ContractorMod.currentID is not set.
       -- When switching vehicle we are called for drivers already entered but then currentSeat ~= nil.
       if ContractorMod.workers[ContractorMod.currentID].currentSeat == nil and not ContractorMod.initializing  then 
-        ContractorMod.workers[ContractorMod.currentID].currentSeat=firstFreePassagerSeat
-        ContractorMod.placeVisualWorkerInVehicle(ContractorMod.workers[ContractorMod.currentID],self,firstFreePassagerSeat)
+        ContractorMod.workers[ContractorMod.currentID].currentSeat=firstFreepassengerSeat
+        ContractorMod.placeVisualWorkerInVehicle(ContractorMod.workers[ContractorMod.currentID],self,firstFreepassengerSeat)
+        if firstFreepassengerSeat > 0 then
+          if debug then print("passenger entering") end
+          ContractorMod.workers[ContractorMod.currentID].isNewPassenger = true
+          -- TODO: Test somewhere if current worker is passenger/driver => update camera position
+          -- get playerRoot vehicle
+          -- compute seat - playerRoot transfo
+          -- apply transfo to inside camera
+          if debug then print("Passenger should not be able to drive") end
+        end
       end
 
     PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename=tmpXmlFilename
@@ -582,11 +670,19 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
       else
         if controlledVehicle.passengers[ContractorMod.workers[ContractorMod.currentID].currentSeat] ~= nil then
           controlledVehicle.passengers[ContractorMod.workers[ContractorMod.currentID].currentSeat]:delete()
+          ContractorMod.workers[ContractorMod.currentID].isNewPassenger = false
+          if debug then print("passenger leaving") end
+          if controlledVehicle.vehicleCharacter ~= nil then
+            if controlledVehicle.isEntered then
+              -- Seems new issue after patch 1.5: character not visible when exiting passenger with inCab camera
+              if debug then print("ContractorMod:setCharacterVisibility") end
+              controlledVehicle.vehicleCharacter:setCharacterVisibility(true)
+            end
+          end
         end
       end
       ContractorMod.workers[ContractorMod.currentID].currentSeat=nil
     else
-    
       --Switching
       if controlledVehicle.steeringEnabled then
         if debug then print("ContractorMod: steeringEnabled TRUE") end
@@ -736,7 +832,12 @@ function ContractorMod:draw()
         if worker.currentVehicle == nil then
           worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, 0);
         else
-          worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, worker.currentVehicle.components[1].node, true);
+          if worker.currentVehicle.components ~= nil then
+            worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, worker.currentVehicle.components[1].node, true);
+          else
+            -- TODO: Analyze in which situation this happens
+            if debug then print("ContractorMod: worker.currentVehicle.components == nil" ) end          
+          end
         end
 --[[
 	local hotspotX, _, hotspotZ = getWorldTranslation(vehicle.rootNode);
