@@ -5,6 +5,16 @@
     Following changes can be made here:
      - You can set from 2 to 8 workers by changing numWorkers value.
      - Worker name can be changed.
+     - Worker gender can be male or female
+     - Worker colorIndex can be set from 1 to 8 (being colors available when starting a new game)
+       - white      : 1
+       - grey       : 2
+       - blue       : 3
+       - navy       : 4
+       - green      : 5
+       - dark green : 6
+       - red        : 7
+       - brown      : 8
      - enableSeveralDrivers: 
        -true  => several characters can drive the same vehicle (useful when no PassengerMod spec)
        -false => only one character can drive a vehicle
@@ -13,14 +23,14 @@
        -false => only show worker when inside a vehicle
     If you want to modify some element on a savegame, you can edit similar file in corresponding savegame directory
     -->
-    <workers numWorkers="4" enableSeveralDrivers="false" displayOnFootWorker="true">
-        <worker name="Alex" />
-        <worker name="Bob" />
-        <worker name="Chris" />
-        <worker name="David" />
-        <worker name="Ed" />
-        <worker name="Frank" />
-        <worker name="Gary" />
-        <worker name="Henry" />
+    <workers numWorkers="4" enableSeveralDrivers="true" displayOnFootWorker="true">
+        <worker name="Alex" gender="male" colorIndex="1" />
+        <worker name="Barbara" gender="female" colorIndex="2" />
+        <worker name="Chris" gender="male" colorIndex="3" />
+        <worker name="David" gender="male" colorIndex="4" />
+        <worker name="Ed" gender="male" colorIndex="5" />
+        <worker name="Frank" gender="male" colorIndex="6" />
+        <worker name="Gary" gender="male" colorIndex="7" />
+        <worker name="Henry" gender="male" colorIndex="8" />
     </workers>
 </ContractorMod>
