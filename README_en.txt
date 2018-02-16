@@ -18,9 +18,9 @@ Dafault key to swtich between characters are:
 They can be changed but by default replaced the standard switch between vehicle since it's disable.
 
 
-This mod is compatible with PassengerMod specialization and with CoursePlay and FollowMe mods.
+This mod is compatible with CoursePlay and FollowMe mods.
 So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
 
 
-Characters name and number of characters can be changed in ContractorMod.xml file for new games.
+Characters name, gender, color and number of characters can be changed in ContractorMod.xml file for new games.
 Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.

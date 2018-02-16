@@ -1,32 +1,32 @@
 ==== README ====
 Merci de tester ce ContractorMod.
 
-Ce mod permet de simuler un nombre défini de personnage différents durant une partie solo que vous controlez tour à tour.
+Ce mod permet de simuler un nombre dï¿½fini de personnage diffï¿½rents durant une partie solo que vous controlez tour ï¿½ tour.
 
-La vidéo suivante montre un scénario de jeu utilisant le ContractorMod (enregistré sur en version beta sur FS2013)
+La vidï¿½o suivante montre un scï¿½nario de jeu utilisant le ContractorMod (enregistrï¿½ sur en version beta sur FS2013)
 https://www.youtube.com/watch?v=xlj-0i8aMsc
 
 
-Par défaut, 4 personnages sont disponible Alex, Bob, Chris et David.
-Au premier chargement d'une map ils sont positionnés au point de départ de la map.
-Dès la première sauvegarde, les positions/véhicules des perso sont sauvegardés et seront 
-rechargés au prochain chargement.
+Par dï¿½faut, 4 personnages sont disponible Alex, Bob, Chris et David.
+Au premier chargement d'une map ils sont positionnï¿½s au point de dï¿½part de la map.
+Dï¿½s la premiï¿½re sauvegarde, les positions/vï¿½hicules des perso sont sauvegardï¿½s et seront 
+rechargï¿½s au prochain chargement.
 
 
-Les touches par défaut pour passer d'un perso à l'autre sont:
+Les touches par dï¿½faut pour passer d'un perso ï¿½ l'autre sont:
  - SUIVANT   : Tab
  - PRECEDENT : Shift + Tab
-Ces touches peuvent être personnalisées et remplacent le switch standard de véhicule qui est désactivé dans le mod.
+Ces touches peuvent ï¿½tre personnalisï¿½es et remplacent le switch standard de vï¿½hicule qui est dï¿½sactivï¿½ dans le mod.
 
 
-Ce mod est compatible avec la specialisation PassengerMod et avec les mods CoursePlay et FollowMe.
+Ce mod est compatible avec les mods CoursePlay et FollowMe.
 Ainsi, en mode FollowMe par exemple, un perso sera le Leader et un autre perso le Follower.
 
 
-Le nom et et le nombre de perso peut être modifié dans le fichier ContractorMod.xml pour les nouvelles parties.
-Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..)
+Le nom et et le nombre de perso peut ï¿½tre modifiï¿½ dans le fichier ContractorMod.xml pour les nouvelles parties.
+Une fois la partie sauvegardï¿½e, les modifications se font dans le fichier ContractorMod.xml du rï¿½pertoire de sauvegarde habituel (savegame..)
 
-==== Problèmes connus ====
--Quand enableSeveralDrivers est valué à true, le conducteur d'un véhicule n'est plus affiché lorsqu'on quitte un vehicule encore occupé par un autre perso.
--Sur FS15, le conducteur apparait debout à l'intérieur d'un vehicule juste après le chargement d'une partie. Il apparait bien assis après sa première activation.
--Les perso à pied ne sont pas visible
+==== Problï¿½mes connus ====
+-Quand enableSeveralDrivers est valuï¿½ ï¿½ true, le conducteur d'un vï¿½hicule n'est plus affichï¿½ lorsqu'on quitte un vehicule encore occupï¿½ par un autre perso.
+-Sur FS15, le conducteur apparait debout ï¿½ l'intï¿½rieur d'un vehicule juste aprï¿½s le chargement d'une partie. Il apparait bien assis aprï¿½s sa premiï¿½re activation.
+-Les perso ï¿½ pied ne sont pas visible

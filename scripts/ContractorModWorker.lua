@@ -7,8 +7,6 @@
 -- free for noncommercial-usage
 --
 
-source(Utils.getFilename("scripts/Passenger.lua", g_currentModDirectory))
-
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
@@ -27,11 +25,10 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   self.nickname = g_settingsNickname
   g_settingsNickname = name
   self.currentVehicle = nil
-  self.isPassenger = false
+  self.isPassenger = false    -- to be removed when all code clean
   self.isNewPassenger = false -- to replace isPassenger waiting code cleaning
-  self.passengerPlace = nil
   self.playerIndex = 2
-  self.gender=gender
+  self.gender = gender
   if self.gender == "female" then
     self.xmlFile = "dataS2/character/player/player02.xml"
   else
@@ -64,8 +61,8 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
       print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) -- shows me an id
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
-      setTranslation(self.graphicsRootNode , self.x, self.y+0.2, self.z)
-      setRotation(self.graphicsRootNode , 0,self.rotY, 0)
+      setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
+      setRotation(self.graphicsRootNode , 0, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
       print("this is the skeletonThirdPerson: nil") -- shows me nil
@@ -104,29 +101,12 @@ end
 function ContractorModWorker:beforeSwitch(noEventSend)
   if debug then print("ContractorModWorker:beforeSwitch()") end
   self.currentVehicle = g_currentMission.controlledVehicle
-  --g_settingsNickname = self.nickname
 
   if self.currentVehicle == nil then
-    --print("currentVehicle is nil")
+    -- Old passenger condition
     local passengerHoldingVehicle = g_currentMission.passengerHoldingVehicle;
     if passengerHoldingVehicle ~= nil then
       -- source worker is passenger in a vehicle
-      self.isPassenger = true
-      self.currentVehicle = passengerHoldingVehicle
-      self.passengerPlace = g_currentMission.passengerPlace
-      --print("self.isPassenger = true " .. passengerHoldingVehicle.name)
-      --print("passengerPlace " .. tostring(self.passengerPlace))
-      self.x, self.y, self.z = getWorldTranslation(passengerHoldingVehicle.rootNode);
-      self.y = self.y + 2 --to avoid being under the ground
-      self.dx, self.dy, self.dz = localDirectionToWorld(passengerHoldingVehicle.rootNode, 0, 0, 1);
-      if noEventSend == nil or noEventSend == false then
-        --print("sendEvent(LeaveAsPassengerEvent")
-        g_client:getServerConnection():sendEvent(LeaveAsPassengerEvent:new(passengerHoldingVehicle, g_currentMission.player, self.passengerPlace));
-      end
-      if passengerHoldingVehicle.places[self.passengerPlace].passengerNode ~= nil then
-        -- keep passenger visible
-        setVisibility(passengerHoldingVehicle.places[self.passengerPlace].passengerNode, true)
-      end
     else
       -- source worker is not in a vehicle
       self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
@@ -136,14 +116,12 @@ function ContractorModWorker:beforeSwitch(noEventSend)
           setVisibility(self.meshThirdPerson, true)
           setVisibility(self.animRootThirdPerson, true)
         end
-        setTranslation(self.graphicsRootNode, self.x, self.y+0.2, self.z)
-        setRotation(self.graphicsRootNode, 0,self.rotY, 0)
+        setTranslation(self.graphicsRootNode, self.x, self.y + 0.2, self.z)
+        setRotation(self.graphicsRootNode, 0, self.rotY, 0)
       end
     end
   else
     -- source worker is in a vehicle
-    --print("currentVehicle " .. self.currentVehicle.name)
-    --print(networkGetObjectId(self.currentVehicle))
     self.x, self.y, self.z = getWorldTranslation(self.currentVehicle.rootNode);
     self.y = self.y + 2 --to avoid being under the ground
     self.dx, self.dy, self.dz = localDirectionToWorld(self.currentVehicle.rootNode, 0, 0, 1);
@@ -157,23 +135,17 @@ end
 
 function ContractorModWorker:afterSwitch(noEventSend)
   if debug then print("ContractorModWorker:afterSwitch()") end
-  --g_settingsNickname = self.name
   
   if self.currentVehicle == nil then
     -- target worker is not in a vehicle
-    --print("x:" .. tostring(self.x) .. " y:" .. tostring(self.y) .. " z:" .. tostring(self.z));
-    --print("dx:" .. tostring(self.dx) .. " dy:" .. tostring(self.dy) .. " dz:" .. tostring(self.dz));
-
-    --print(g_currentMission.controlPlayer)
-    --print(g_currentMission.player)
     if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
       if debug then print("ContractorModWorker: moveToAbsolute"); end
-      setTranslation(g_currentMission.player.rootNode, self.x,self.y+0.2,self.z);
-      g_currentMission.player:moveToAbsolute(self.x,self.y,self.z);
+      setTranslation(g_currentMission.player.rootNode, self.x, self.y + 0.2, self.z);
+      g_currentMission.player:moveToAbsolute(self.x, self.y, self.z);
       if noEventSend == nil or noEventSend == false then
-        g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x,self.y+0.2,self.z));
+        g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y + 0.2, self.z));
       end
-      g_currentMission.player.rotY = self.rotY--Utils.getYRotationFromDirection(self.dx, self.dz) + math.pi;
+      g_currentMission.player.rotY = self.rotY
       if self.displayOnFoot then
         setVisibility(self.meshThirdPerson, false)
         setVisibility(self.animRootThirdPerson, false)
@@ -181,22 +153,16 @@ function ContractorModWorker:afterSwitch(noEventSend)
     end
 
   else
-    if self.isPassenger then
+    -- if self.isPassenger then
       -- target worker is passenger
-      if noEventSend == nil or noEventSend == false then
-        --print("sendEvent(EnterAsPassengerEvent")
-        g_client:getServerConnection():sendEvent(EnterAsPassengerEvent:new(self.currentVehicle, g_currentMission.player, self.passengerPlace));
-      end
-    else
+    -- else
       -- target worker is in a vehicle
       if noEventSend == nil or noEventSend == false then      
-        if debug then 
-          print("ContractorModWorker: sendEvent(VehicleEnterRequestEvent:" ) end
+        if debug then print("ContractorModWorker: sendEvent(VehicleEnterRequestEvent:" ) end
         g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(self.currentVehicle, g_settingsNickname, self.playerIndex, self.playerColorIndex));
-        if debug then
-          print("ContractorModWorker: playerColorIndex "..tostring(self.playerColorIndex)) end
+        if debug then print("ContractorModWorker: playerColorIndex "..tostring(self.playerColorIndex)) end
       end
-    end
+    -- end
   end
 end
 
