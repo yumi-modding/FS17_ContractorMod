@@ -21,7 +21,6 @@
   <extraSourceFiles>
     <sourceFile filename="scripts/ContractorMod.lua" />
     <sourceFile filename="scripts/ContractorModWorker.lua" />
-    <sourceFile filename="scripts/Passenger.lua" />
   </extraSourceFiles>
   
   <inputBindings>
