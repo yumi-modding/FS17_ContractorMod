@@ -129,6 +129,7 @@ function ContractorMod:initFromSave()
               worker.z = z
               worker.dx = xRot
               worker.dy = yRot
+              worker.rotY = yRot
               worker.dz = zRot
               local vehicleID = getXMLFloat(xmlFile, key.."#vehicleID");
               if vehicleID > 0 then
