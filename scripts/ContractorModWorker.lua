@@ -72,8 +72,6 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   return self
 end
 
-
-
 function ContractorModWorker:displayName()
   setTextBold(true);
   setTextAlignment(RenderText.ALIGN_RIGHT);
