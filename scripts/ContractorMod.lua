@@ -449,7 +449,7 @@ end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
 
 function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
-    if debug then print("ContractorMod.placeVisualWorkerInVehicle") end
+    if debug then print("ContractorMod:placeVisualWorkerInVehicle") end
     -- TODO: analyze situation where these variables are nil: belt system
     if vehicle.vehicleCharacter == nil and debug then print("ContractorMod: vehicle.vehicleCharacter == nil" ) end          
     if vehicle.passengers == nil then print("ContractorMod: vehicle.passengers == nil" ) end          
@@ -465,10 +465,13 @@ function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
         vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerColorIndex)
         IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
       else
-        -- no more passenger allowed
-        if debug then print("ContractorMod: Passenger will leave " ) end
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_NO_MORE_PASSENGER"))
-        ContractorMod.shouldExit = true
+        if vehicle.vehicleCharacter ~= nil then
+          -- no more passenger allowed
+          if debug then print("ContractorMod: Passenger will leave " ) end
+          g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_NO_MORE_PASSENGER"))
+          ContractorMod.shouldExit = true
+        end
+        -- if vehicle.vehicleCharacter == nil ==> belt system without visible character
       end
     end
   end
