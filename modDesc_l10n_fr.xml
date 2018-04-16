@@ -3,7 +3,8 @@
     <texts>
         <text name="ContractorMod_NEXTWORKER" text="Activer le personnage suivant" />
         <text name="ContractorMod_PREVWORKER" text="Activer le personnage précédent" />
-        <text name="ContractorMod_VEHICLE_NOT_FREE" text="Le vehicule est deja occupe par un autre personnage" />
-        <text name="ContractorMod_WORKER__STOP" text="Le vehicule va s'arreter si le personnage le quitte" />
+        <text name="ContractorMod_VEHICLE_NOT_FREE" text="Le véhicule est deja occupe par un autre personnage" />
+        <text name="ContractorMod_WORKER__STOP" text="Le véhicule va s'arreter si le personnage le quitte" />
+        <text name="ContractorMod_NO_MORE_PASSENGER" text="Il n'y a plus de place passager dans ce véhicule" />
     </texts>
 </l10n>

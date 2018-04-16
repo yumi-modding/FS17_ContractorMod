@@ -5,5 +5,6 @@
         <text name="ContractorMod_PREVWORKER" text="Switch to previous worker" />
         <text name="ContractorMod_VEHICLE_NOT_FREE" text="Vehicle is already controlled by another worker" />
         <text name="ContractorMod_WORKER__STOP" text="The vehicle will stop when leaving it" />
+        <text name="ContractorMod_NO_MORE_PASSENGER" text="No more space for a passenger in this vehicle" />
     </texts>
 </l10n>
