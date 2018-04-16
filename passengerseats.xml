@@ -18,8 +18,8 @@
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIH1660.xml" seatIndex="1" x="0.76" y="2.686" z="2.241" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIH130Series.xml" seatIndex="1" x="0.555" y="2.555" z="2.351" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIH230Series.xml" seatIndex="1" x="0.544" y="2.798" z="2.313" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF9380Delta.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7347Activa.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF9380Delta.xml" seatIndex="1" x="0.47" y="2.88" z="3.64" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7347Activa.xml" seatIndex="1" x="0.5" y="2.64" z="2.96" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandTC590.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandCR1090.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsmAcros595.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
@@ -34,13 +34,13 @@
     <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT700E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT800E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT900E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzAgroStar661.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries9.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries7.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt300.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt700.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt900.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannH488.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzAgroStar661.xml" seatIndex="1" x="0.37" y="1.85" z="-1.1" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries7.xml" seatIndex="1" x="0.588" y="1.976" z="-0.706" rx="0" ry="-0.24" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries9.xml" seatIndex="1" x="0.52" y="2.276" z="-0.63" rx="0" ry="-0.17" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt300.xml" seatIndex="1" x="0.5" y="1.77" z="-0.994" rx="0" ry="-0.31" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt700.xml" seatIndex="1" x="0.52" y="1.983" z="-0.838" rx="0" ry="-0.19" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt900.xml" seatIndex="1" x="0.5" y="2.13" z="-0.743" rx="0" ry="-0.19" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannH488.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannXM4Ti.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcb260.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcb325T.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
@@ -49,9 +49,9 @@
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcbFastrac8000.xml" seatIndex="1" x="0.611" y="2.127" z="-0.8" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/lamborghini/Mach230VRT.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/lindner/lintrac90.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF5600.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7700.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF8700.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF5600.xml" seatIndex="1" x="0.495" y="1.79" z="-0.589" rx="0" ry="-0.12" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7700.xml" seatIndex="1" x="0.495" y="2.179" z="-0.753" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF8700.xml" seatIndex="1" x="0.495" y="2.269" z="-0.753" rx="0" ry="-0.21" rz="0" />
 <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT6.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
 <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT7.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
 <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT8.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
@@ -98,4 +98,10 @@
     <Passenger vehiclesName="data/vehicles/steerable/siloking/siloKingSelfLineCompact1612.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <!-- mods -->
     <Passenger vehiclesName="$moddir$FS17_Case_Optum_CVX/caseIHOptumCVX.xml" seatIndex="1" x="0.524" y="2.254" z="-0.595" rx="0" ry="-0.28" rz="0" />
+    <Passenger vehiclesName="$moddir$FS17_CaseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="$moddir$mrInternational_1255_1455_V2/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="$moddir$FS17_Case_Magnum_7250/CaseMagnum7250.xml" seatIndex="1" x="0.48" y="2.104" z="-1.212" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="$moddir$FS17_CaseIHMaxxum/caseIHPumaCVX.xml" seatIndex="1" x="0.521" y="2.012" z="-0.672" rx="0" ry="-0.25" rz="0" />
+    <Passenger vehiclesName="$moddir$FS17_caseIH7130/caseIH130Series.xml" seatIndex="1" x="0.555" y="2.555" z="2.351" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="$moddir$FS17_cMAN_TGS_HKL_68_V6/manTGS68HKL.xml" seatIndex="1" x="-0.633" y="1.972" z="1.818" rx="0" ry="0" rz="0" />
 </passengerSeats>
