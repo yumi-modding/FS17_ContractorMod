@@ -854,11 +854,24 @@ function ContractorMod:draw()
         end
         --Display workers on the minimap
         -- TODO: Display worker colorIndex instead of worker image
+        local _, textSize = getNormalizedScreenValues(0, 6);
+        local _, textOffsetY = getNormalizedScreenValues(0, 14);
+	      local width, height = getNormalizedScreenValues(8, 8);
         if worker.currentVehicle == nil then
-          worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, 0);
+          --worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, 0);
+          worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name),
+          nil, getNormalizedUVs({768, 768, 256, 256}), {worker.color[1], worker.color[2], worker.color[3], 1.0},
+          worker.x, worker.z, width, height, false, false, true, 0, true,
+          MapHotspot.CATEGORY_DEFAULT, textSize, textOffsetY, {worker.color[1], worker.color[2], worker.color[3], 1.0},
+          nil, getNormalizedUVs({768, 768, 256, 256}), Overlay.ALIGN_VERTICAL_MIDDLE, 0.7);
         else
           if worker.currentVehicle.components ~= nil then
-            worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, worker.currentVehicle.components[1].node, true);
+            --worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name), ContractorMod.myCurrentModDirectory .. "images/worker" .. tostring(i) .. ".dds", nil, nil, worker.x, worker.z, g_currentMission.ingameMap.mapArrowWidth / 3, g_currentMission.ingameMap.mapArrowHeight / 3, false, false, false, worker.currentVehicle.components[1].node, true);
+            worker.mapHotSpot = g_currentMission.ingameMap:createMapHotspot(tostring(worker.name), tostring(worker.name),
+            nil, getNormalizedUVs({768, 768, 256, 256}), {worker.color[1], worker.color[2], worker.color[3], 1.0},
+            worker.x, worker.z, width, height, false, false, true, worker.currentVehicle.components[1].node, true,
+            MapHotspot.CATEGORY_DEFAULT, textSize, textOffsetY, {worker.color[1], worker.color[2], worker.color[3], 1.0},
+            nil, getNormalizedUVs({768, 768, 256, 256}), Overlay.ALIGN_VERTICAL_MIDDLE, 0.7);
           else
             -- TODO: Analyze in which situation this happens
             if debug then print("ContractorMod: worker.currentVehicle.components == nil" ) end          
