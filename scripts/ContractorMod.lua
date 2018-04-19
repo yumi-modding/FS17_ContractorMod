@@ -450,7 +450,6 @@ Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMo
 
 function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
     if debug then print("ContractorMod:placeVisualWorkerInVehicle") end
-    -- TODO: analyze situation where these variables are nil: belt system
     if vehicle.vehicleCharacter == nil and debug then print("ContractorMod: vehicle.vehicleCharacter == nil" ) end          
     if vehicle.passengers == nil then print("ContractorMod: vehicle.passengers == nil" ) end          
 
@@ -649,6 +648,22 @@ function ContractorMod:ReplaceOnStartFollowMe(superFunc, followObj, helperIndex,
   self.vehicleCharacter = nil -- Keep it from beeing modified
   superFunc(self, followObj, helperIndex, noEventSend)
   self.vehicleCharacter = tmpVehicleCharacter
+end
+
+function ContractorMod:ReplaceStartCoursePlay(superFunc, vehicle)
+  if debug then print("ContractorMod:ReplaceStartCoursePlay") end
+  local tmpVehicleCharacter = vehicle.vehicleCharacter
+  vehicle.vehicleCharacter = nil -- Keep it from beeing modified
+  superFunc(self, vehicle)
+  vehicle.vehicleCharacter = tmpVehicleCharacter
+end
+
+function ContractorMod:ReplaceStopCoursePlay(superFunc, vehicle)
+  if debug then print("ContractorMod:ReplaceStopCoursePlay") end
+  local tmpVehicleCharacter = vehicle.vehicleCharacter
+  vehicle.vehicleCharacter = nil -- Keep it from beeing modified
+  superFunc(self, vehicle)
+  vehicle.vehicleCharacter = tmpVehicleCharacter
 end
 
 function ContractorMod:ManageLeaveVehicle(controlledVehicle)
@@ -853,7 +868,6 @@ function ContractorMod:draw()
           worker.mapHotSpot = nil
         end
         --Display workers on the minimap
-        -- TODO: Display worker colorIndex instead of worker image
         local _, textSize = getNormalizedScreenValues(0, 6);
         local _, textOffsetY = getNormalizedScreenValues(0, 14);
 	      local width, height = getNormalizedScreenValues(8, 8);
@@ -1082,7 +1096,7 @@ end
 
 function ContractorMod:manageModsConflicts()
 	--***********************************************************************************
-	--** taking care of FollowMe Mod (thanks Dural for this code sample)
+	--** taking care of FollowMe & CoursePlay Mods (thanks Dural for this code sample)
 	--***********************************************************************************		
   if g_modIsLoaded["FS17_DCK_FollowMe"] then		
 		local mod1 = getfenv(0)["FS17_DCK_FollowMe"]		
@@ -1091,6 +1105,15 @@ function ContractorMod:manageModsConflicts()
       if debug then print("We have found FollowMe mod and will encapsulate some functions") end
       mod1.FollowMe.onStopFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStopFollowMe, ContractorMod.ReplaceOnStopFollowMe)
       mod1.FollowMe.onStartFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStartFollowMe, ContractorMod.ReplaceOnStartFollowMe)
+		end
+  end
+  if g_modIsLoaded["FS17_Courseplay"] then		
+		local mod2 = getfenv(0)["FS17_Courseplay"]		
+		if mod2 ~= nil and mod2.courseplay ~= nil then
+      ContractorMod.mod2 = mod2
+      if debug then print("We have found Courseplay mod and will encapsulate some functions") end
+      mod2.courseplay.start = Utils.overwrittenFunction(mod2.courseplay.start, ContractorMod.ReplaceStartCoursePlay)
+      mod2.courseplay.stop = Utils.overwrittenFunction(mod2.courseplay.stop, ContractorMod.ReplaceStopCoursePlay)
 		end
 	end
 	--***********************************************************************************
