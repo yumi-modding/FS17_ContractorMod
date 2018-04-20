@@ -441,7 +441,7 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
           i = i + 1
       end
       if foundConfig == false then
-        print("[ContractorMod]No passenger seat configured for vehicle "..xmlVehicleName)
+        print("[ContractorMod]No passenger seat configured for vehicle "..self.configFileName)
         print("[ContractorMod]Please edit passengerseats.xml to set passenger position")
       end
     end
