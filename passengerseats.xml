@@ -20,11 +20,11 @@
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIH230Series.xml" seatIndex="1" x="0.544" y="2.798" z="2.313" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF9380Delta.xml" seatIndex="1" x="0.47" y="2.88" z="3.64" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7347Activa.xml" seatIndex="1" x="0.5" y="2.64" z="2.96" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandTC590.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandCR1090.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsmAcros595.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsmTorum760.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/sampoRosenlew/sampoRosenlewC6.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandTC590.xml" seatIndex="1" x="0.545" y="2.672" z="2.243" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandCR1090.xml" seatIndex="1" x="0.532" y="2.75" z="2.925" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsmAcros595.xml" seatIndex="1" x="0.493" y="2.555" z="2.663" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsmTorum760.xml" seatIndex="1" x="0.477" y="2.608" z="3.706" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/sampoRosenlew/sampoRosenlewC6.xml" seatIndex="1" x="0.431" y="2.5" z="2.374" rx="0" ry="0" rz="0" />
      <!-- tractors -->
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIHMagnum380.xml" seatIndex="1" x="0.521" y="2.337" z="-0.913" rx="0" ry="0" rz="0" />
@@ -52,10 +52,10 @@
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF5600.xml" seatIndex="1" x="0.495" y="1.79" z="-0.589" rx="0" ry="-0.12" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7700.xml" seatIndex="1" x="0.495" y="2.179" z="-0.753" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF8700.xml" seatIndex="1" x="0.495" y="2.269" z="-0.753" rx="0" ry="-0.21" rz="0" />
-<Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT6.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-<Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT7.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-<Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT8.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-<Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT9.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT6.xml" seatIndex="1" x="0.5" y="1.844" z="-0.983" rx="0" ry="-0.22" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT7.xml" seatIndex="1" x="0.52" y="2.235" z="-0.612" rx="0" ry="-0.28" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT8.xml" seatIndex="1" x="0.5" y="2.33" z="-0.863" rx="0" ry="-0.7" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT9.xml" seatIndex="1" x="0.48" y="2.689" z="-0.08" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHolland8340.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT5.xml" seatIndex="1" x="0.539" y="1.655" z="-0.928" rx="0" ry="-0.366" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/same/sameFortis.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
@@ -68,18 +68,18 @@
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorMajor.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorProximaPower.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <!-- trucks -->
-    <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckOneAxle.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckDualAxle.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/man/manTGS18480.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/tatra/tatraPhoenix.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckOneAxle.xml" seatIndex="1" x="-0.56'" y="1.827" z="0.44" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckDualAxle.xml" seatIndex="1" x="-0.477'" y="1.864" z="1.773" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/man/manTGS18480.xml" seatIndex="1" x="-0.633" y="1.972" z="1.818" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/tatra/tatraPhoenix.xml" seatIndex="1" x="-0.694" y="1.965" z="2.302" rx="0" ry="0" rz="0" />
     <!-- sprayer -->
-    <Passenger vehiclesName="data/vehicles/steerable/newHolland/SP400F.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/SP400F.xml" seatIndex="1" x="0.473" y="2.853" z="1.668" rx="0" ry="0" rz="0" />
     <!-- harvester -->
-    <Passenger vehiclesName="data/vehicles/steerable/grimme/grimmeTectron415.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/holmer/holmerTerraDosT4_40.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/krone/kroneBiGX580.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandFR850.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsm1403.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/grimme/grimmeTectron415.xml" seatIndex="1" x="0.483" y="2.75" z="0.814" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/holmer/holmerTerraDosT4_40.xml" seatIndex="1" x="0.537" y="2.719" z="5.35" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/krone/kroneBiGX580.xml" seatIndex="1" x="0.485" y="2.839" z="1.717" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandFR850.xml" seatIndex="1" x="0.507" y="2.75" z="1.7" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/rostselmash/rsm1403.xml" seatIndex="1" x="0.448" y="2.623" z="1.381" rx="0" ry="0" rz="0" />
     <!-- telehandler -->
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcbTM320s.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/kramer/kramer308T.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
