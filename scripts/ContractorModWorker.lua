@@ -58,14 +58,14 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
     Player.loadVisuals(self, self.xmlFile, self.playerColorIndex, nil, true, self.ikChains, self.getParentComponent, self, nil)
 
     if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
-      print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) -- shows me an id
+      if debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
       setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
       setRotation(self.graphicsRootNode , 0, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
-      print("this is the skeletonThirdPerson: nil") -- shows me nil
+      if debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
     end
   end
     
