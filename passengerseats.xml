@@ -31,24 +31,24 @@
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIHOptumCVX.xml" seatIndex="1" x="0.524" y="2.254" z="-0.595" rx="0" ry="-0.28" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIHQuadtrac620.xml" seatIndex="1" x="0.45" y="2.652" z="-0.164" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/caseIH/caseIHPumaCVX.xml" seatIndex="1" x="0.521" y="2.012" z="-0.672" rx="0" ry="-0.28" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT700E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT800E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT900E.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT700E.xml" seatIndex="1" x="0.497" y="2.3" z="-0.845" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT800E.xml" seatIndex="1" x="0.497" y="2.3" z="-0.845" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/challenger/challengerMT900E.xml" seatIndex="1" x="0.497" y="2.77" z="-0.18" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzAgroStar661.xml" seatIndex="1" x="0.37" y="1.85" z="-1.1" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries7.xml" seatIndex="1" x="0.588" y="1.976" z="-0.706" rx="0" ry="-0.24" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/deutz/deutzFahrSeries9.xml" seatIndex="1" x="0.52" y="2.276" z="-0.63" rx="0" ry="-0.17" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt300.xml" seatIndex="1" x="0.5" y="1.77" z="-0.994" rx="0" ry="-0.31" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt700.xml" seatIndex="1" x="0.52" y="1.983" z="-0.838" rx="0" ry="-0.19" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/fendt/fendt900.xml" seatIndex="1" x="0.5" y="2.13" z="-0.743" rx="0" ry="-0.19" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannH488.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannXM4Ti.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannH488.xml" seatIndex="1" x="0.45" y="1.62" z="-0.898" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/huerlimann/huerlimannXM4Ti.xml" seatIndex="1" x="0.417" y="1.662" z="-0.569" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcb260.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcb325T.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcbFastrac3000.xml" seatIndex="1" x="0.555" y="1.968" z="-0.123" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcb435s.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/jcb/jcbFastrac8000.xml" seatIndex="1" x="0.611" y="2.127" z="-0.8" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/lamborghini/Mach230VRT.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/lindner/lintrac90.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/lamborghini/Mach230VRT.xml" seatIndex="1" x="0.431" y="2.0" z="-0.548" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/lindner/lintrac90.xml" seatIndex="1" x="0.364" y="1.255" z="-0.755" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF5600.xml" seatIndex="1" x="0.495" y="1.79" z="-0.589" rx="0" ry="-0.12" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF7700.xml" seatIndex="1" x="0.495" y="2.179" z="-0.753" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/masseyFerguson/MF8700.xml" seatIndex="1" x="0.495" y="2.269" z="-0.753" rx="0" ry="-0.21" rz="0" />
@@ -61,9 +61,9 @@
     <Passenger vehiclesName="data/vehicles/steerable/same/sameFortis.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrMulti.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrTerrusCVT.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraNSeries.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraSSeries.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraTSeries.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraNSeries.xml" seatIndex="1" x="0.515" y="1.812" z="-0.57" rx="0" ry="-0.185" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraSSeries.xml" seatIndex="1" x="0.531" y="2.205" z="-0.772" rx="0" ry="-0.317" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraTSeries.xml" seatIndex="1" x="0.496" y="1.967" z="-0.779" rx="0" ry="-0.155" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorForterraHD.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorMajor.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorProximaPower.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
