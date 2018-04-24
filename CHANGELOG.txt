@@ -1,3 +1,9 @@
+=== = New in v1.2 version ====
+-Show animated pedestrians characters like when playing in MP (thanks to mrbear)
+-Enable to see passengers in vehicles (thanks to mrbear)
+-Several issues fixed with CoursePlay & FollowMe
+-Characters are now always the same (same gender/clothes)
+-cf. https://github.com/yumi-modding/FS17_ContractorMod/issues for details
 ==== New in v1.1beta1 version ====
 -Show pedestrians characters
 -Fix call stack after ending a mission leading to break savegame
@@ -9,8 +15,7 @@
 -Display pedestrians characters under variable in ContractorMod.xml displayOnFootWorker="true"
 -Fix issues related to pedestrians characters
 -Fix driver invisible when switching vehicle with incab camera active
-==== Known issues ====
--When enableSeveralDrivers is set to true, leaving a vehicle with several drivers will hide the vehicle driver even if another driver is remaining inside the vehicle
--characters clothes color changes when activating a worker
--Driver disappear when using FollowMe if FollowMe is stopped due to follower too far from the leader vehicle
 
+==== Known issues ====
+-When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+-Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
