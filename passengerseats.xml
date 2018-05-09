@@ -58,15 +58,15 @@
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT9.xml" seatIndex="1" x="0.48" y="2.689" z="-0.08" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHolland8340.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/newHolland/newHollandT5.xml" seatIndex="1" x="0.539" y="1.655" z="-0.928" rx="0" ry="-0.366" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/same/sameFortis.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrMulti.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrTerrusCVT.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/same/sameFortis.xml" seatIndex="1" x="0.488" y="1.875" z="-0.716" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrMulti.xml" seatIndex="1" x="0.427" y="1.621" z="-0.52" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/steyr/steyrTerrusCVT.xml" seatIndex="1" x="0.478" y="2.22" z="-0.522" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraNSeries.xml" seatIndex="1" x="0.515" y="1.812" z="-0.57" rx="0" ry="-0.185" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraSSeries.xml" seatIndex="1" x="0.531" y="2.205" z="-0.772" rx="0" ry="-0.317" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/valtra/valtraTSeries.xml" seatIndex="1" x="0.496" y="1.967" z="-0.779" rx="0" ry="-0.155" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorForterraHD.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorForterraHD.xml" seatIndex="1" x="0.467" y="1.76" z="-0.93" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorMajor.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-    <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorProximaPower.xml" seatIndex="1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    <Passenger vehiclesName="data/vehicles/steerable/zetor/zetorProximaPower.xml" seatIndex="1" x="0.466" y="1.621" z="-0.5" rx="0" ry="0" rz="0" />
     <!-- trucks -->
     <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckOneAxle.xml" seatIndex="1" x="-0.56'" y="1.827" z="0.44" rx="0" ry="0" rz="0" />
     <Passenger vehiclesName="data/vehicles/steerable/americanTruck/americanTruckDualAxle.xml" seatIndex="1" x="-0.477'" y="1.864" z="1.773" rx="0" ry="0" rz="0" />
