@@ -10,14 +10,14 @@
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
-debug = false --true --
+ContractorModWorker.debug = false --true --
 
 function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;
 end;
 
 function ContractorModWorker:new(name, index, gender, playerColorIndex, displayOnFoot)
-  if debug then print("ContractorModWorker:new()") end
+  if ContractorModWorker.debug then print("ContractorModWorker:new()") end
   local self = {};
   setmetatable(self, ContractorModWorker_mt);
 
@@ -58,14 +58,14 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
     Player.loadVisuals(self, self.xmlFile, self.playerColorIndex, nil, true, self.ikChains, self.getParentComponent, self, nil)
 
     if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
-      if debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
+      if ContractorModWorker.debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
       setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
       setRotation(self.graphicsRootNode , 0, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
-      if debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
+      if ContractorModWorker.debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
     end
   end
     
@@ -79,7 +79,7 @@ function ContractorModWorker:displayName()
   setTextColor(self.color[1], self.color[2], self.color[3], 1.0);
   renderText(0.9828, 0.45, 0.024, self.name);
   
-  if debug then
+  if ContractorModWorker.debug then
     renderText(0.9828, 0.43, 0.012, g_settingsNickname);
     if self.currentVehicle ~= nil then
       local vehicleName = ""
@@ -97,7 +97,7 @@ function ContractorModWorker:displayName()
 end
 
 function ContractorModWorker:beforeSwitch(noEventSend)
-  if debug then print("ContractorModWorker:beforeSwitch()") end
+  if ContractorModWorker.debug then print("ContractorModWorker:beforeSwitch()") end
   self.currentVehicle = g_currentMission.controlledVehicle
 
   if self.currentVehicle == nil then
@@ -125,19 +125,19 @@ function ContractorModWorker:beforeSwitch(noEventSend)
     self.dx, self.dy, self.dz = localDirectionToWorld(self.currentVehicle.rootNode, 0, 0, 1);
 
     if noEventSend == nil or noEventSend == false then
-      if debug then print("ContractorModWorker: sendEvent(onLeaveVehicle") end
+      if ContractorModWorker.debug then print("ContractorModWorker: sendEvent(onLeaveVehicle") end
       g_currentMission:onLeaveVehicle()
     end
   end
 end
 
 function ContractorModWorker:afterSwitch(noEventSend)
-  if debug then print("ContractorModWorker:afterSwitch()") end
+  if ContractorModWorker.debug then print("ContractorModWorker:afterSwitch()") end
   
   if self.currentVehicle == nil then
     -- target worker is not in a vehicle
     if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
-      if debug then print("ContractorModWorker: moveToAbsolute"); end
+      if ContractorModWorker.debug then print("ContractorModWorker: moveToAbsolute"); end
       setTranslation(g_currentMission.player.rootNode, self.x, self.y + 0.2, self.z);
       g_currentMission.player:moveToAbsolute(self.x, self.y, self.z);
       if noEventSend == nil or noEventSend == false then
@@ -156,9 +156,9 @@ function ContractorModWorker:afterSwitch(noEventSend)
     -- else
       -- target worker is in a vehicle
       if noEventSend == nil or noEventSend == false then      
-        if debug then print("ContractorModWorker: sendEvent(VehicleEnterRequestEvent:" ) end
+        if ContractorModWorker.debug then print("ContractorModWorker: sendEvent(VehicleEnterRequestEvent:" ) end
         g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(self.currentVehicle, g_settingsNickname, self.playerIndex, self.playerColorIndex));
-        if debug then print("ContractorModWorker: playerColorIndex "..tostring(self.playerColorIndex)) end
+        if ContractorModWorker.debug then print("ContractorModWorker: playerColorIndex "..tostring(self.playerColorIndex)) end
       end
     -- end
   end
