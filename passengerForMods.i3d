@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="huerlimannH488" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="7.1.0"/>
+  </Asset>
+
+  <Files>
+    <File fileId="1" filename="images/farmer_diffuse.png" relativePath="true"/>
+    <File fileId="2" filename="images/farmer_normal.png" relativePath="true"/>
+    <File fileId="3" filename="images/farmer_specular.png" relativePath="true"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="braccio" materialId="290" ambientColor="1 1 1">
+      <Texture fileId="1"/>
+    </Material>
+    <Material name="CAZZIMIEI" materialId="305" ambientColor="1 1 1" cosPower="20" specularColor="1 1 1">
+      <Texture fileId="1"/>
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="passengerForMods.i3d.shapes">
+  </Shapes>
+
+
+  <Dynamics>
+  </Dynamics>
+
+  <Scene>
+    <TransformGroup name="passengerRoot" translation="0.451482 1.62133 -0.898" nodeId="243">
+      <TransformGroup name="PASSENGER" translation="0.380368 -0.924896 -0.648822" nodeId="1291">
+        <Shape shapeId="1" name="Farmer" translation="-0.375143 1.19187 0.871619" rotation="-2.30964 -10 3.51979" nodeId="1292" materialIds="305" castsShadows="true" receiveShadows="true">
+          <TransformGroup name="R1" translation="-0.297447 0.348417 -0.24646" rotation="88.8501 -7.02122 31.089" nodeId="1293">
+            <TransformGroup name="R2" nodeId="1294">
+              <TransformGroup name="R3" translation="0 0 0.34614" nodeId="1295"/>
+            </TransformGroup>
+            <Shape shapeId="2" name="RP" translation="0.0470884 0 0" rotation="-92.6955 -14.2118 0.66223" nodeId="1296" materialIds="290" castsShadows="true" receiveShadows="true"/>
+            <TransformGroup name="R1_1" translation="-0.0745611 -0.0294452 0.311306" rotation="41.6728 2.73676 -176.436" nodeId="1297">
+              <TransformGroup name="R2_1" nodeId="1298">
+                <TransformGroup name="R3_1" translation="0 0 0.366153" nodeId="1299"/>
+              </TransformGroup>
+              <Shape shapeId="3" name="RPP" rotation="-0.561915 -8.55665e-12 -180" nodeId="1300" materialIds="305" castsShadows="true" receiveShadows="true"/>
+            </TransformGroup>
+          </TransformGroup>
+          <TransformGroup name="L1" translation="0.242212 0.386602 -0.265762" rotation="72.8839 -26.0128 -14.1238" nodeId="1301">
+            <TransformGroup name="L2" rotation="2.50706e-09 18.1042 -6.59055e-06" nodeId="1302">
+              <TransformGroup name="L3" translation="0 0 0.324942" rotation="0 0 1.41724e-06" nodeId="1303"/>
+              <Shape shapeId="4" name="LP" translation="-0.0859876 0 0" rotation="-93.7933 -0 0" nodeId="1304" materialIds="290" castsShadows="true" receiveShadows="true"/>
+            </TransformGroup>
+            <TransformGroup name="L1_1" translation="0.0973794 0.00251313 0.288442" rotation="7.04584 19.5827 -170.593" nodeId="1305">
+              <TransformGroup name="L2_1" nodeId="1306">
+                <TransformGroup name="L3_1" translation="0.00781652 0 0.393665" nodeId="1307"/>
+                <Shape shapeId="5" name="LPP" rotation="-4.37923 1.14683e-07 -180" nodeId="1308" materialIds="305" castsShadows="true" receiveShadows="true"/>
+                <TransformGroup name="fix" translation="0.0184753 -0.00930064 -0.00766297" rotation="61.6087 -6.40838 -176.548" nodeId="1309"/>
+              </TransformGroup>
+            </TransformGroup>
+            <TransformGroup name="referencePoint" translation="-0.065 0.006 0" rotation="-24 2 -3" nodeId="1310"/>
+          </TransformGroup>
+          <TransformGroup name="RNoga" translation="-0.323344 -0.13206 -0.19648" rotation="15.8866 -3.10545 -1.21938" nodeId="1311">
+            <Shape shapeId="6" name="PravNoga" translation="0.174052 0 0" rotation="-13.5197 -0 0" nodeId="1312" materialIds="305" castsShadows="true" receiveShadows="true"/>
+            <TransformGroup name="FPRN" nodeId="1313">
+              <TransformGroup name="FPRN1" translation="0 0 0.185705" nodeId="1314"/>
+            </TransformGroup>
+            <TransformGroup name="RNoga1" translation="0.00673306 -0.046307 0.323616" rotation="65.262 9.37263 19.4662" nodeId="1315">
+              <Shape shapeId="7" name="PravNoga01" translation="0.143858 0 0" rotation="-69.8121 -0 0" nodeId="1316" materialIds="305" castsShadows="true" receiveShadows="true"/>
+              <TransformGroup name="FPRN" nodeId="1317">
+                <TransformGroup name="FPRN1" translation="0 0 0.511513" nodeId="1318"/>
+              </TransformGroup>
+              <TransformGroup name="PS" translation="-0.00434409 0.0108204 0.60026" rotation="97.0513 -2.64136e-06 -180" nodeId="1319">
+                <Shape shapeId="8" name="PravBot" translation="-0.0572982 -0.0779162 0.0732416" rotation="29.6455 -1.12608 178.024" nodeId="1320" materialIds="305" castsShadows="true" receiveShadows="true"/>
+                <TransformGroup name="PSv" nodeId="1321">
+                  <TransformGroup name="PSv1" translation="0 0 0.128831" nodeId="1322"/>
+                </TransformGroup>
+              </TransformGroup>
+            </TransformGroup>
+          </TransformGroup>
+          <TransformGroup name="LNoga" translation="0.07313 -0.12774 -0.175761" rotation="5.4801 -11.8177 -2.67495" nodeId="1323">
+            <Shape shapeId="9" name="LevNoga" nodeId="1324" materialIds="305" castsShadows="true" receiveShadows="true"/>
+            <TransformGroup name="FPLN" nodeId="1325">
+              <TransformGroup name="FPRN1" translation="0 0 0.147649" nodeId="1326"/>
+            </TransformGroup>
+            <TransformGroup name="LNoga1" translation="0.07313 -0.0695546 0.290147" rotation="76.1414 -0 0" nodeId="1327">
+              <Shape shapeId="10" name="LevNoga01" translation="0.047233 0 0" rotation="-81.3178 -0 0" nodeId="1328" materialIds="305" castsShadows="true" receiveShadows="true"/>
+              <TransformGroup name="FPLN" nodeId="1329">
+                <TransformGroup name="FPLN1" translation="0 0 0.484995" nodeId="1330"/>
+              </TransformGroup>
+              <TransformGroup name="LS" translation="0 -0.0117385 0.574252" rotation="-82.7816 -0 0" nodeId="1331">
+                <Shape shapeId="11" name="LevBot" translation="0.0865289 0.0919793 0.00864999" rotation="-1.8347 0 0" nodeId="1332" materialIds="305" castsShadows="true" receiveShadows="true"/>
+                <TransformGroup name="LSv" nodeId="1333">
+                  <TransformGroup name="LSv1" nodeId="1334"/>
+                </TransformGroup>
+              </TransformGroup>
+            </TransformGroup>
+          </TransformGroup>
+        </Shape>
+        <TransformGroup name="BeifahrerNickname" translation="-0.35 2.8 0.7" rotation="0 3 0" nodeId="1335"/>
+        <Camera name=" BeifahrerKamera" translation="-0.423461 1.73898 0.670996" rotation="-20 170 0" clipDistance="300" nodeId="1336" fov="60" nearClip="0.1" farClip="10000" orthographicHeight="1"/>
+      </TransformGroup>
+    </TransformGroup>
+  </Scene>
+
+</i3D>
