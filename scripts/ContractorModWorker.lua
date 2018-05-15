@@ -52,6 +52,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   if g_currentMission.controlPlayer and g_currentMission.player ~= nil then  
     self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
     self.dx, self.dy, self.dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, 1);
+    self.rotX = 0.;
     self.rotY = 0.73;
     self.x = self.x + (1 * index)
 
@@ -62,7 +63,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
       setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
-      setRotation(self.graphicsRootNode , 0, self.rotY, 0)
+      setRotation(self.graphicsRootNode , self.rotX, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
       if ContractorModWorker.debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
@@ -108,6 +109,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
     else
       -- source worker is not in a vehicle
       self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
+      self.rotX = g_currentMission.player.rotX;
       self.rotY = g_currentMission.player.rotY;
       if self.meshThirdPerson ~= nil and self.displayOnFoot then
         if noEventSend == nil or noEventSend == false then
@@ -115,7 +117,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
           setVisibility(self.animRootThirdPerson, true)
         end
         setTranslation(self.graphicsRootNode, self.x, self.y + 0.2, self.z)
-        setRotation(self.graphicsRootNode, 0, self.rotY, 0)
+        setRotation(self.graphicsRootNode, self.rotX, self.rotY, 0)
       end
     end
   else
@@ -143,6 +145,7 @@ function ContractorModWorker:afterSwitch(noEventSend)
       if noEventSend == nil or noEventSend == false then
         g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y + 0.2, self.z));
       end
+      g_currentMission.player.rotX = self.rotX
       g_currentMission.player.rotY = self.rotY
       if self.displayOnFoot then
         setVisibility(self.meshThirdPerson, false)
