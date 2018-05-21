@@ -13,7 +13,7 @@ At first loading of a map, they are located at the Career starting point.
 When saving the game, characters location and vehicle is saved so they will be restored when loading the game.
 
 
-Dafault key to swtich between characters are:
+Default key to switch between characters are:
  - NEXT    : Tab
  - PREVIOUS: Shift + Tab
 They can be changed but by default replaced the standard switch between vehicle since it's disable.
