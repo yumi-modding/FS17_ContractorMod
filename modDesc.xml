@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="31">
+<modDesc descVersion="39">
   <author>yumi</author>
   <version>1.2</version>
   <contributors>yumi</contributors>
@@ -8,10 +8,93 @@
     <de>ContractorMod</de>
     <fr>Mod ETA</fr>
   </title>
+  <changeLog><![CDATA[
+==== New in v1.2 version ====
+-Show animated pedestrians characters like when playing in MP (thanks to mrbear)
+-Enable to see passengers in vehicles (thanks to mrbear)
+-Several issues fixed with CoursePlay & FollowMe
+-Characters are now always the same (same gender/clothes)
+-cf. https://github.com/yumi-modding/FS17_ContractorMod/issues for details
+-Please use https://github.com/yumi-modding/FS17_ContractorMod/pulls to send pull requests for example to add passengers config
+==== New in v1.1beta1 version ====
+-Show pedestrians characters
+-Fix call stack after ending a mission leading to break savegame
+==== Fixed in v1.1rc1 version ====
+-First public version for testing
+-FS17 portage with a lot of changes in code to manage characters visibility in vehicles
+-Basic compatibility tested with FollowMe and Courseplay mods
+==== New in v1.1rc2 version ====
+-Display pedestrians characters under variable in ContractorMod.xml displayOnFootWorker="true"
+-Fix issues related to pedestrians characters
+-Fix driver invisible when switching vehicle with incab camera active
+==== Known issues ====
+-When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+-Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
+]]></changeLog>
   <description>
-    <en><![CDATA[ContractorMod]]></en>
-    <de><![CDATA[ContractorMod]]></de>
-    <fr><![CDATA[ContractorMod]]></fr>
+    <en><![CDATA[
+    This mod enable simulating a defined number of characters you control one by one during a solo game.
+
+    By default, 4 characters are available Alex, Barbara, Chris and David.
+    At first loading of a map, they are located at the Career starting point.
+    When saving the game, characters location and vehicle is saved so they will be restored when next loading the game.
+    So you will be able to continue your game exactly as you left it.
+
+    Default keys to switch between characters are:
+    - NEXT    : Tab
+    - PREVIOUS: Shift + Tab
+    They can be changed but by default they replaced the standard switch between vehicles since it's disable.
+
+    This mod is compatible with CoursePlay and FollowMe mods.
+    So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
+    Characters can be seen on the minimap when activating default category (the last one represented by a house) in the map overview screen.
+
+    Name, gender, color and number of characters can be changed in ContractorMod.xml file for new games.
+    Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
+    ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
+    ]]></en>
+    <de><![CDATA[
+    This mod enable simulating a defined number of characters you control one by one during a solo game.
+
+    By default, 4 characters are available Alex, Barbara, Chris and David.
+    At first loading of a map, they are located at the Career starting point.
+    When saving the game, characters location and vehicle is saved so they will be restored when next loading the game.
+    So you will be able to continue your game exactly as you left it.
+
+    Default keys to switch between characters are:
+    - NEXT    : Tab
+    - PREVIOUS: Shift + Tab
+    They can be changed but by default they replaced the standard switch between vehicles since it's disable.
+
+    This mod is compatible with CoursePlay and FollowMe mods.
+    So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
+    Characters can be seen on the minimap when activating default category (the last one represented by a house) in the map overview screen.
+
+    Name, gender, color and number of characters can be changed in ContractorMod.xml file for new games.
+    Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
+    ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
+    ]]></de>
+    <fr><![CDATA[
+    Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
+
+    Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
+    Au premier chargement d'une map ils sont positionnés au point de départ de la map.
+    Dès la première sauvegarde, les positions/véhicules des perso sont sauvegardés et seront rechargés au prochain chargement.
+    Vous pouvez ainsi reprendre la partie exactement là où vous l'avez laissé.
+
+    Les touches par défaut pour passer d'un perso à l'autre sont:
+    - SUIVANT   : Tab
+    - PRECEDENT : Shift + Tab
+    Ces touches peuvent être personnalisées et remplacent le switch standard de véhicules qui est désactivé dans le mod.
+
+    Ce mod est compatible avec les mods CoursePlay et FollowMe.
+    Ainsi, en mode FollowMe par exemple, un perso sera le Leader et un autre perso le Follower.
+    Les perso sont visibles sur la minimap lorsque la catégorie par défaut (la dernière représentée par une maison) est activée dans la vue Aperçu de la carte.
+
+    Le nom, le genre, la couleur et le nombre de perso peuvent être modifiés dans le fichier ContractorMod.xml pour les nouvelles parties.
+    Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
+    Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
+    ]]></fr>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>
 

@@ -1,4 +1,4 @@
-=== = New in v1.2 version ====
+==== New in v1.2 version ====
 -Show animated pedestrians characters like when playing in MP (thanks to mrbear)
 -Enable to see passengers in vehicles (thanks to mrbear)
 -Several issues fixed with CoursePlay & FollowMe
