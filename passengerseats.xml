@@ -97,6 +97,21 @@
         <Passenger vehiclesName="data/vehicles/steerable/ponsse/ponsseBuffalo.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <!-- mixerWagon -->
         <Passenger vehiclesName="data/vehicles/steerable/siloking/siloKingSelfLineCompact1612.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <!-- BigBud DLC -->
+        <Passenger vehiclesName="$pdlcdir$bigBudPack/vehicles/steerable/bigBud/bigBud747.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$bigBudPack/vehicles/steerable/bigBud/bigBud450.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+    	<!-- Horsch Vehicle Pack -->
+        <Passenger vehiclesName="$moddir$FS17_horschAgrovationVehicles/vehicles/steerable/horsch/horschLeebPT350.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <!-- Platinum DLC -->
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/bizon/bizonZ056.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/caseIH/CaseIHA8800MR.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/lizard/convertible.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/masseyFerguson/MF4700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/stara/staraImperador3.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/stara/staraSTMax105.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$platinumEdition/vehicles/steerable/stara/staraSTMax150.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <!-- modernClassics DLC -->
+        <Passenger vehiclesName="$pdlcdir$modernClassicsDLC/caseMaxxum5150/caseMaxxum5150.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <!-- mods -->
         <!-- Mods are now set in ContractorMod.xml in mods folder so they won't be overwritten when mod is updated -->
     </passengerSeats>
