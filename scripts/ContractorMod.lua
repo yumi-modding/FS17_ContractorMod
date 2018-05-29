@@ -14,10 +14,8 @@ ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
 ContractorMod.debug = false --true --
 -- TODO:
--- Passenger exit: if indoor camera => driver -> invisible  FIXED
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
--- Check save for driver & passengers
 
 function ContractorMod:loadMap(name)
   if ContractorMod.debug then print("ContractorMod:loadMap(name)") end
@@ -67,13 +65,13 @@ function ContractorMod:init()
     if not self:initFromParam() or #self.workers <= 0 then
       -- default values
       if ContractorMod.debug then print("ContractorMod: No savegame: set default values") end
-      local worker = ContractorModWorker:new("Alex", 1, false, "male", 1)
+      local worker = ContractorModWorker:new("Alex", 1, "male", 1, true)
       table.insert(self.workers, worker)
-      worker = ContractorModWorker:new("Barbara", 2, false, "female", 2)
+      worker = ContractorModWorker:new("Barbara", 2, "female", 2, true)
       table.insert(self.workers, worker)
-      worker = ContractorModWorker:new("Chris", 3, false, "male", 3)
+      worker = ContractorModWorker:new("Chris", 3, "male", 3, true)
       table.insert(self.workers, worker)
-      worker = ContractorModWorker:new("David", 4, false, "male", 4)
+      worker = ContractorModWorker:new("David", 4, "male", 4, true)
       table.insert(self.workers, worker)
     end
   end
@@ -244,7 +242,7 @@ function ContractorMod:CopyContractorModXML()
       local xmlFile;
       if not fileExists(xmlFilePath) then
         if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_2") end
-        local xmlSourceFilePath = ContractorMod.myCurrentModDirectory .. "/ContractorMod.xml"
+        local xmlSourceFilePath = ContractorMod.myCurrentModDirectory .. "ContractorMod.xml"
         local xmlSourceFile;
         if fileExists(xmlSourceFilePath) then
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_3") end
@@ -280,7 +278,9 @@ function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
             worker.dx, worker.dy, worker.dz = localDirectionToWorld(worker.currentVehicle.rootNode, 0, 0, 1);
           end
           worker.currentVehicle = nil
-          break
+          g_currentMission.ingameMap:deleteMapHotspot(worker.mapHotSpot)
+          worker.mapHotSpot = nil
+          --break
         end
       end
     end
