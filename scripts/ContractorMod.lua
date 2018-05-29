@@ -277,7 +277,14 @@ function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
             end
             worker.dx, worker.dy, worker.dz = localDirectionToWorld(worker.currentVehicle.rootNode, 0, 0, 1);
           end
+          -- Remove passengers
+          for p = 1, #worker.currentVehicle.passengers do
+            if worker.currentVehicle.passengers[p] ~= nil then
+              worker.currentVehicle.passengers[p]:delete()
+            end
+          end
           worker.currentVehicle = nil
+          -- Remove mapHotSpot
           g_currentMission.ingameMap:deleteMapHotspot(worker.mapHotSpot)
           worker.mapHotSpot = nil
           --break
