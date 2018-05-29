@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <l10n>
     <texts>
-        <text name="ContractorMod_NEXTWORKER" text="Switch to next worker" />
-        <text name="ContractorMod_PREVWORKER" text="Switch to previous worker" />
+        <text name="input_ContractorMod_NEXTWORKER" text="Switch to next worker" />
+        <text name="input_ContractorMod_PREVWORKER" text="Switch to previous worker" />
         <text name="ContractorMod_VEHICLE_NOT_FREE" text="Vehicle is already controlled by another worker" />
         <text name="ContractorMod_WORKER__STOP" text="The vehicle will stop when leaving it" />
         <text name="ContractorMod_NO_MORE_PASSENGER" text="No more space for a passenger in this vehicle" />
