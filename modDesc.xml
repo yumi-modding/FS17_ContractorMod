@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="39">
   <author>yumi</author>
-  <version>1.2.0.1</version>
+  <version>1.2.0.2</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -9,6 +9,8 @@
     <fr>Mod ETA</fr>
   </title>
   <changeLog><![CDATA[
+==== Fixed in v1.2.0.2 version ====
+-onFoot character is inclinated when looking up or down
 ==== New in v1.2 version ====
 -Show animated pedestrians characters like when playing in MP (thanks to mrbear)
 -Enable to see passengers in vehicles (thanks to mrbear)
