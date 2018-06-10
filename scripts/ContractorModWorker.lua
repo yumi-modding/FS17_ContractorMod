@@ -63,7 +63,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
       setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
-      setRotation(self.graphicsRootNode , self.rotX, self.rotY, 0)
+      setRotation(self.graphicsRootNode , 0, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
       if ContractorModWorker.debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
@@ -117,7 +117,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
           setVisibility(self.animRootThirdPerson, true)
         end
         setTranslation(self.graphicsRootNode, self.x, self.y + 0.2, self.z)
-        setRotation(self.graphicsRootNode, self.rotX, self.rotY, 0)
+        setRotation(self.graphicsRootNode, 0, self.rotY, 0)
       end
     end
   else
