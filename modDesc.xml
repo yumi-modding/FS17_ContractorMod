@@ -8,31 +8,6 @@
     <de>ContractorMod</de>
     <fr>Mod ETA</fr>
   </title>
-  <changeLog><![CDATA[
-==== Fixed in v1.2.0.2 version ====
--onFoot character is inclinated when looking up or down
-==== New in v1.2 version ====
--Show animated pedestrians characters like when playing in MP (thanks to mrbear)
--Enable to see passengers in vehicles (thanks to mrbear)
--Several issues fixed with CoursePlay & FollowMe
--Characters are now always the same (same gender/clothes)
--cf. https://github.com/yumi-modding/FS17_ContractorMod/issues for details
--Please use https://github.com/yumi-modding/FS17_ContractorMod/pulls to send pull requests for example to add passengers config
-==== New in v1.1beta1 version ====
--Show pedestrians characters
--Fix call stack after ending a mission leading to break savegame
-==== Fixed in v1.1rc1 version ====
--First public version for testing
--FS17 portage with a lot of changes in code to manage characters visibility in vehicles
--Basic compatibility tested with FollowMe and Courseplay mods
-==== New in v1.1rc2 version ====
--Display pedestrians characters under variable in ContractorMod.xml displayOnFootWorker="true"
--Fix issues related to pedestrians characters
--Fix driver invisible when switching vehicle with incab camera active
-==== Known issues ====
--When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
--Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
-]]></changeLog>
   <description>
     <en><![CDATA[
     This mod enable simulating a defined number of characters you control one by one during a solo game.
@@ -55,10 +30,12 @@
     Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
     ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
 
-    CHANGELOG:
-
-    ==== Fixed in v1.2.0.2 version ====
-    -onFoot character is inclinated when looking up or down
+    ==== CHANGELOG ====
+    Fixed in v1.2.0.2
+     - onFoot character is inclined when looking up or down
+    ==== KNOWN ISSUES ====
+     - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></en>
     <de><![CDATA[
     This mod enable simulating a defined number of characters you control one by one during a solo game.
@@ -81,10 +58,12 @@
     Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
     ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
 
-    CHANGELOG:
-
-    ==== Fixed in v1.2.0.2 version ====
-    -onFoot character is inclinated when looking up or down
+    ==== CHANGELOG ====
+    Fixed in v1.2.0.2
+     - onFoot character is inclined when looking up or down
+    ==== KNOWN ISSUES ====
+     - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></de>
     <fr><![CDATA[
     Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
@@ -107,10 +86,12 @@
     Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
     Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
 
-    CHANGELOG:
-
-    ==== Correction v1.2.0.2 ====
-    -Le personnage à pied est incliné quand il regarde en bas ou en haut
+    ==== CHANGELOG ====
+    Corrections v1.2.0.2
+     - Le personnage à pied est incliné quand il regarde en bas ou en haut
+    ==== PROBLEMES CONNUS ====
+     - Lorsqu'un passager est dans un véhicule, l'ouvrier ne s'arrete pas quand le conducteur quitte le véhicule => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+     - La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></fr>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>
