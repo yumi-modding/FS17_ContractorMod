@@ -442,13 +442,17 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     if SpecializationUtil.hasSpecialization(Steerable, self.specializations) then
       self.passengers = {}
       local foundConfig = false
+      -- Don't display warning by default in log, only if displayWarning = true
+      local xmlPath = "ContractorMod.passengerSeats"
+      local xmlFile = loadXMLFile('ContractorMod', ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml");
+      local displayWarning = Utils.getNoNil(getXMLBool(xmlFile, xmlPath.."#displayWarning"), false);
       -- xml file in zip containing mainly base game vehicles
       foundConfig = ContractorMod:loadPassengersFromXML(self, ContractorMod.myCurrentModDirectory.."passengerseats.xml");
       if foundConfig == false then
         -- Try xml file in mods dir containing user mods
         foundConfig = ContractorMod:loadPassengersFromXML(self, ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml");
       end
-      if foundConfig == false then
+      if foundConfig == false and displayWarning == true then
         print("[ContractorMod]No passenger seat configured for vehicle "..self.configFileName)
         print("[ContractorMod]Please edit ContractorMod.xml to set passenger position")
       end
