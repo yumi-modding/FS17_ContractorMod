@@ -33,7 +33,7 @@
         <worker name="Gary" gender="male" colorIndex="7"/>
         <worker name="Henry" gender="male" colorIndex="8"/>
     </workers>
-    <passengerSeats>
+    <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
         <Passenger vehiclesName="$moddir$FS17_Case_Optum_CVX/caseIHOptumCVX.xml" seatIndex="1" x="0.524" y="2.254" z="-0.595" rx="0" ry="-0.28" rz="0" />
         <Passenger vehiclesName="$moddir$FS17_CaseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0"/>
