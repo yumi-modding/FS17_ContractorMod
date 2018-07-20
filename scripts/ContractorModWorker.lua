@@ -95,6 +95,8 @@ function ContractorModWorker:displayName()
     renderText(0.9828, 0.40, 0.012, "x:" .. tostring(self.x) .. " y:" .. tostring(self.y) .. " z:" .. tostring(self.z));
     renderText(0.9828, 0.39, 0.012, "dx:" .. tostring(self.dx) .. " dy:" .. tostring(self.dy) .. " dz:" .. tostring(self.dz));
   end
+  -- Restore default alignment (to avoid impacting other mods like FarmingTablet)
+  setTextAlignment(RenderText.ALIGN_LEFT);
 end
 
 function ContractorModWorker:beforeSwitch(noEventSend)
