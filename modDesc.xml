@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="39">
   <author>yumi</author>
-  <version>1.2.0.2</version>
+  <version>1.2.0.3</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -31,6 +31,10 @@
     ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.3
+     - Conflict with Farming Tablet (leading to Tablet notification text out of box)
+     - Disable warning by default in log when no passenger seat configured
+     - Adding german translation
     Fixed in v1.2.0.2
      - onFoot character is inclined when looking up or down
     ==== KNOWN ISSUES ====
@@ -38,27 +42,31 @@
      - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></en>
     <de><![CDATA[
-    This mod enable simulating a defined number of characters you control one by one during a solo game.
+    Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
-    By default, 4 characters are available Alex, Barbara, Chris and David.
-    At first loading of a map, they are located at the Career starting point.
-    When saving the game, characters location and vehicle is saved so they will be restored when next loading the game.
-    So you will be able to continue your game exactly as you left it.
+    Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
+    Beim ersten Laden einer Karte befinden sie sich am Karrierestartpunkt.
+    Beim Speichern des Spiels werden der Standort des Charakters und das Fahrzeug gespeichert, damit sie beim nächsten Laden des Spiels wiederhergestellt werden.
+    So können Sie Ihr Spiel genauso fortsetzen, wie Sie es verlassen haben.
 
-    Default keys to switch between characters are:
-    - NEXT    : Tab
-    - PREVIOUS: Shift + Tab
-    They can be changed but by default they replaced the standard switch between vehicles since it's disable.
+    Standardschlüssel zum Umschalten zwischen Zeichen sind:
+    - NÄCHSTER: Tab
+    - ZURÜCK: Umschalt + Tab
+    Sie können geändert werden, aber standardmäßig ersetzen sie den Standard-Switch zwischen Fahrzeugen, da er deaktiviert ist.
 
-    This mod is compatible with CoursePlay and FollowMe mods.
-    So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
-    Characters can be seen on the minimap when activating default category (the last one represented by a house) in the map overview screen.
-
-    Name, gender, color and number of characters can be changed in ContractorMod.xml file for new games.
-    Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
-    ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
+    Dieser Mod ist kompatibel mit CoursePlay und FollowMe Mods.
+    So wird zum Beispiel bei der Verwendung von FollowMe ein Charakter der Leader und ein weiterer der Follower sein.
+    Charaktere können auf der Minikarte gesehen werden, wenn die Standardkategorie (die letzte durch ein Haus repräsentiert) im Kartenübersichtsbildschirm aktiviert wird.
+    
+    Name, Geschlecht, Farbe und Anzahl der Zeichen können in der ContractorMod.xml Datei für neue Spiele geändert werden.
+    Sobald ein Spiel gespeichert wurde, kann es in der Datei "ContractorMod.xml" geändert werden, die im zugehörigen Spielstandordner vorhanden ist.
+    ContractorMod.xml Datei enthält auch die Konfiguration für Passagiere für Mods Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.3
+     - Conflict with Farming Tablet (leading to Tablet notification text out of box)
+     - Disable warning by default in log when no passenger seat configured
+     - Adding german translation
     Fixed in v1.2.0.2
      - onFoot character is inclined when looking up or down
     ==== KNOWN ISSUES ====
@@ -87,6 +95,10 @@
     Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
 
     ==== CHANGELOG ====
+    Corrections v1.2.0.3
+     - Conflit avec Farming Tablet (texte des notifications de Tablet hors du cadre)
+     - Warning désactivé par defaut dans le log quand il n'y a pas de siege passager configuré pour un vehicule
+     - Ajout de traduction en allemand
     Corrections v1.2.0.2
      - Le personnage à pied est incliné quand il regarde en bas ou en haut
     ==== PROBLEMES CONNUS ====
