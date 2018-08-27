@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="39">
   <author>yumi</author>
-  <version>1.2.0.3</version>
+  <version>1.2.0.4</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -11,6 +11,19 @@
   <description>
     <en><![CDATA[
     This mod enable simulating a defined number of characters you control one by one during a solo game.
+
+    ==== CHANGELOG ====
+    Fixed in v1.2.0.4
+     - Game crashes when entering Train
+    Fixed in v1.2.0.3
+     - Conflict with Farming Tablet (leading to Tablet notification text out of box)
+     - Disable warning by default in log when no passenger seat configured
+     - Adding german translation
+    Fixed in v1.2.0.2
+     - onFoot character is inclined when looking up or down
+    ==== KNOWN ISSUES ====
+     - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
 
     By default, 4 characters are available Alex, Barbara, Chris and David.
     At first loading of a map, they are located at the Career starting point.
@@ -29,8 +42,13 @@
     Name, gender, color and number of characters can be changed in ContractorMod.xml file for new games.
     Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
     ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
+    ]]></en>
+    <de><![CDATA[
+    Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.4
+     - Game crashes when entering Train
     Fixed in v1.2.0.3
      - Conflict with Farming Tablet (leading to Tablet notification text out of box)
      - Disable warning by default in log when no passenger seat configured
@@ -40,9 +58,6 @@
     ==== KNOWN ISSUES ====
      - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
      - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
-    ]]></en>
-    <de><![CDATA[
-    Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
     Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
     Beim ersten Laden einer Karte befinden sie sich am Karrierestartpunkt.
@@ -61,20 +76,22 @@
     Name, Geschlecht, Farbe und Anzahl der Zeichen können in der ContractorMod.xml Datei für neue Spiele geändert werden.
     Sobald ein Spiel gespeichert wurde, kann es in der Datei "ContractorMod.xml" geändert werden, die im zugehörigen Spielstandordner vorhanden ist.
     ContractorMod.xml Datei enthält auch die Konfiguration für Passagiere für Mods Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
-
-    ==== CHANGELOG ====
-    Fixed in v1.2.0.3
-     - Conflict with Farming Tablet (leading to Tablet notification text out of box)
-     - Disable warning by default in log when no passenger seat configured
-     - Adding german translation
-    Fixed in v1.2.0.2
-     - onFoot character is inclined when looking up or down
-    ==== KNOWN ISSUES ====
-     - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
-     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></de>
     <fr><![CDATA[
     Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
+
+    ==== CHANGELOG ====
+    Fixed in v1.2.0.4
+     - Crash de la partie lorsqu'on utilise le Train
+    Corrections v1.2.0.3
+     - Conflit avec Farming Tablet (texte des notifications de Tablet hors du cadre)
+     - Warning désactivé par defaut dans le log quand il n'y a pas de siege passager configuré pour un vehicule
+     - Ajout de traduction en allemand
+    Corrections v1.2.0.2
+     - Le personnage à pied est incliné quand il regarde en bas ou en haut
+    ==== PROBLEMES CONNUS ====
+     - Lorsqu'un passager est dans un véhicule, l'ouvrier ne s'arrete pas quand le conducteur quitte le véhicule => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
+     - La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
 
     Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
     Au premier chargement d'une map ils sont positionnés au point de départ de la map.
@@ -93,17 +110,6 @@
     Le nom, le genre, la couleur et le nombre de perso peuvent être modifiés dans le fichier ContractorMod.xml pour les nouvelles parties.
     Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
     Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
-
-    ==== CHANGELOG ====
-    Corrections v1.2.0.3
-     - Conflit avec Farming Tablet (texte des notifications de Tablet hors du cadre)
-     - Warning désactivé par defaut dans le log quand il n'y a pas de siege passager configuré pour un vehicule
-     - Ajout de traduction en allemand
-    Corrections v1.2.0.2
-     - Le personnage à pied est incliné quand il regarde en bas ou en haut
-    ==== PROBLEMES CONNUS ====
-     - Lorsqu'un passager est dans un véhicule, l'ouvrier ne s'arrete pas quand le conducteur quitte le véhicule => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
-     - La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
     ]]></fr>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>

@@ -47,6 +47,7 @@ function ContractorMod:init()
   self.switching = false
 
   self:manageModsConflicts()
+  self:manageTrain()
 
   local savegameDir;
   if g_currentMission.missionInfo.savegameDirectory then
@@ -459,6 +460,19 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     end
 end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
+
+function ContractorMod:manageTrain()
+  if ContractorMod.debug then print("ContractorMod:manageTrain") end
+  for k, v in pairs(g_currentMission.nodeToVehicle) do
+    if v ~= nil then
+      local loco = v.motorType
+      if loco ~= nil and loco == "locomotive" then
+        -- no passengers for train
+        v.passengers = {}
+      end
+    end
+  end
+end
 
 function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   if ContractorMod.debug then print("ContractorMod:loadPassengersFromXML") end
