@@ -1141,6 +1141,38 @@ function ContractorMod:update(dt)
       prevID = self.numWorkers
     end    
     self:setCurrentContractorModWorker(prevID)
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER1) then
+    if self.numWorkers >= 1 then
+      self:setCurrentContractorModWorker(1)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER2) then
+    if self.numWorkers >= 2 then
+      self:setCurrentContractorModWorker(2)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER3) then
+    if self.numWorkers >= 3 then
+      self:setCurrentContractorModWorker(3)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER4) then
+    if self.numWorkers >= 4 then
+      self:setCurrentContractorModWorker(4)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER5) then
+    if self.numWorkers >= 5 then
+      self:setCurrentContractorModWorker(5)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER6) then
+    if self.numWorkers >= 6 then
+      self:setCurrentContractorModWorker(6)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER7) then
+    if self.numWorkers >= 7 then
+      self:setCurrentContractorModWorker(7)
+    end
+  elseif InputBinding.hasEvent(InputBinding.ContractorMod_WORKER8) then
+    if self.numWorkers >= 8 then
+      self:setCurrentContractorModWorker(8)
+    end
   end
 end
 

@@ -3,6 +3,14 @@
     <texts>
         <text name="input_ContractorMod_NEXTWORKER" text="Wechseln to nächste Arbeiter" />
         <text name="input_ContractorMod_PREVWORKER" text="Wechseln to vorherige Arbeiter" />
+        <text name="input_ContractorMod_WORKER1" text="Wechseln to Arbeiter 1" />
+        <text name="input_ContractorMod_WORKER2" text="Wechseln to Arbeiter 2" />
+        <text name="input_ContractorMod_WORKER3" text="Wechseln to Arbeiter 3" />
+        <text name="input_ContractorMod_WORKER4" text="Wechseln to Arbeiter 4" />
+        <text name="input_ContractorMod_WORKER5" text="Wechseln to Arbeiter 5" />
+        <text name="input_ContractorMod_WORKER6" text="Wechseln to Arbeiter 6" />
+        <text name="input_ContractorMod_WORKER7" text="Wechseln to Arbeiter 7" />
+        <text name="input_ContractorMod_WORKER8" text="Wechseln to Arbeiter 8" />
         <text name="ContractorMod_VEHICLE_NOT_FREE" text="Das Fahrzeug wird bereits von einem anderen Arbeiter kontrolliert" />
         <text name="ContractorMod_WORKER__STOP" text="Das Fahrzeug stoppt beim Verlassen" />
         <text name="ContractorMod_NO_MORE_PASSENGER" text="Kein Platz mehr für einen Passagier in diesem Fahrzeug" />
