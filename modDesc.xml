@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="39">
   <author>yumi</author>
-  <version>1.2.0.4</version>
+  <version>1.2.0.5</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -13,6 +13,8 @@
     This mod enable simulating a defined number of characters you control one by one during a solo game.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.5
+     - Capability to switch direclty to any worker (default L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
     Fixed in v1.2.0.4
      - Game crashes when entering Train
     Fixed in v1.2.0.3
@@ -47,6 +49,8 @@
     Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.5
+     - Capability to switch direclty to any worker (default L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
     Fixed in v1.2.0.4
      - Game crashes when entering Train
     Fixed in v1.2.0.3
@@ -81,6 +85,8 @@
     Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
 
     ==== CHANGELOG ====
+    Fixed in v1.2.0.5
+     - Possibilité de passer directement à un autre personnage (par défault L-Ctrl + 1 => Perso 1, L-Ctrl + 2 => Perso 2...)
     Fixed in v1.2.0.4
      - Crash de la partie lorsqu'on utilise le Train
     Corrections v1.2.0.3
@@ -124,5 +130,13 @@
   <inputBindings>
     <input name="ContractorMod_NEXTWORKER" category="ONFOOT VEHICLE" key1="KEY_tab" key2="" button="" device="0" mouse="" />
     <input name="ContractorMod_PREVWORKER" category="ONFOOT VEHICLE" key1="KEY_lshift KEY_tab" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER1" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_1" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER2" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_2" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER3" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_3" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER4" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_4" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER5" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_5" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER6" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_6" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER7" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_7" key2="" button="" device="0" mouse="" />
+    <input name="ContractorMod_WORKER8" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_8" key2="" button="" device="0" mouse="" />
    </inputBindings>  
 </modDesc>
