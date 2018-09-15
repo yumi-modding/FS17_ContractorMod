@@ -14,7 +14,7 @@
 
     ==== CHANGELOG ====
     Fixed in v1.2.0.5
-     - Capability to switch direclty to any worker (default L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
+     - Capability to switch directly to any worker (default key L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
     Fixed in v1.2.0.4
      - Game crashes when entering Train
     Fixed in v1.2.0.3
@@ -50,7 +50,7 @@
 
     ==== CHANGELOG ====
     Fixed in v1.2.0.5
-     - Capability to switch direclty to any worker (default L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
+     - Capability to switch directly to any worker (default key L-Ctrl + 1 => Worker 1, L-Ctrl + 2 => Worker 2...)
     Fixed in v1.2.0.4
      - Game crashes when entering Train
     Fixed in v1.2.0.3
@@ -86,7 +86,7 @@
 
     ==== CHANGELOG ====
     Fixed in v1.2.0.5
-     - Possibilité de passer directement à un autre personnage (par défault L-Ctrl + 1 => Perso 1, L-Ctrl + 2 => Perso 2...)
+     - Possibilité de passer directement à un autre personnage (touche par défault L-Ctrl + 1 => Perso 1, L-Ctrl + 2 => Perso 2...)
     Fixed in v1.2.0.4
      - Crash de la partie lorsqu'on utilise le Train
     Corrections v1.2.0.3
