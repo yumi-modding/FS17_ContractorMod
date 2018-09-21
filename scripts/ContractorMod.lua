@@ -47,7 +47,7 @@ function ContractorMod:init()
   self.switching = false
 
   self:manageModsConflicts()
-  self:manageTrain()
+  self:manageSpecialVehicles()
 
   local savegameDir;
   if g_currentMission.missionInfo.savegameDirectory then
@@ -81,6 +81,8 @@ end
 function ContractorMod:initFromSave()
   if ContractorMod.debug then print("ContractorMod:initFromSave") end
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
+    -- Copy ContractorMod.xml from zip to mods dir
+    ContractorMod:CopyContractorModXML()
     if self.savegameFolderPath and self.ContractorModXmlFilePath then
       createFolder(self.savegameFolderPath);
       local xmlFile;
@@ -445,13 +447,17 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
       local foundConfig = false
       -- Don't display warning by default in log, only if displayWarning = true
       local xmlPath = "ContractorMod.passengerSeats"
-      local xmlFile = loadXMLFile('ContractorMod', ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml");
-      local displayWarning = Utils.getNoNil(getXMLBool(xmlFile, xmlPath.."#displayWarning"), false);
+      local modDirectoryXMLFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
+      local displayWarning = false
+      if fileExists(modDirectoryXMLFilePath) then
+        local xmlFile = loadXMLFile('ContractorMod', modDirectoryXMLFilePath);
+        displayWarning = Utils.getNoNil(getXMLBool(xmlFile, xmlPath.."#displayWarning"), false);
+      end
       -- xml file in zip containing mainly base game vehicles
       foundConfig = ContractorMod:loadPassengersFromXML(self, ContractorMod.myCurrentModDirectory.."passengerseats.xml");
       if foundConfig == false then
         -- Try xml file in mods dir containing user mods
-        foundConfig = ContractorMod:loadPassengersFromXML(self, ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml");
+        foundConfig = ContractorMod:loadPassengersFromXML(self, modDirectoryXMLFilePath);
       end
       if foundConfig == false and displayWarning == true then
         print("[ContractorMod]No passenger seat configured for vehicle "..self.configFileName)
@@ -461,14 +467,19 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
 end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
 
-function ContractorMod:manageTrain()
-  if ContractorMod.debug then print("ContractorMod:manageTrain") end
+function ContractorMod:manageSpecialVehicles()
+  if ContractorMod.debug then print("ContractorMod:manageSpecialVehicles") end
   for k, v in pairs(g_currentMission.nodeToVehicle) do
     if v ~= nil then
       local loco = v.motorType
       if loco ~= nil and loco == "locomotive" then
         -- no passengers for train
         v.passengers = {}
+      else
+        if v.stationCraneId ~= nil then
+          -- no passengers for Station Crane
+          v.passengers = {}
+        end
       end
     end
   end
@@ -476,41 +487,43 @@ end
 
 function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   if ContractorMod.debug then print("ContractorMod:loadPassengersFromXML") end
-  local xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
-  local i = 0
   local foundConfig = false
-  local xmlVehicleName = ''
-  while hasXMLProperty(xmlFile, "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)) do
-      xmlPath = "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)
-      xmlVehicleName = getXMLString(xmlFile, xmlPath.."#vehiclesName")
-      if ContractorMod.debug then print("Trying to add passenger to "..xmlVehicleName) end
-      --> ==Manage DLC & mods thanks to dural==
-      --replace $pdlcdir by the full path
-      if string.sub(xmlVehicleName, 1, 8):lower() == "$pdlcdir" then
-        --xmlVehicleName = getUserProfileAppPath() .. "pdlc/" .. string.sub(xmlVehicleName, 10)
-        --required for steam users
-        xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
-      elseif string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then --20171116 - fix for Horsch CTF vehicle pack
-        xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
-      end
-      --< ======================================
-      if vehicle.configFileName == xmlVehicleName then
-        foundConfig = true
-        local seatIndex = getXMLInt(xmlFile, xmlPath.."#seatIndex")
-        local x = getXMLFloat(xmlFile, xmlPath.."#x")
-        local y = getXMLFloat(xmlFile, xmlPath.."#y")
-        local z = getXMLFloat(xmlFile, xmlPath.."#z")
-        local rx = getXMLFloat(xmlFile, xmlPath.."#rx")
-        local ry = getXMLFloat(xmlFile, xmlPath.."#ry")
-        local rz = getXMLFloat(xmlFile, xmlPath.."#rz")
-        if seatIndex == 1 and x == 0.0 and y == 0.0 and z == 0.0 then
-          print("[ContractorMod]Passenger seat not configured yet for vehicle "..xmlVehicleName)
+  if fileExists(xmlFilePath) then 
+    local xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
+    local i = 0
+    local xmlVehicleName = ''
+    while hasXMLProperty(xmlFile, "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)) do
+        xmlPath = "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)
+        xmlVehicleName = getXMLString(xmlFile, xmlPath.."#vehiclesName")
+        if ContractorMod.debug then print("Trying to add passenger to "..xmlVehicleName) end
+        --> ==Manage DLC & mods thanks to dural==
+        --replace $pdlcdir by the full path
+        if string.sub(xmlVehicleName, 1, 8):lower() == "$pdlcdir" then
+          --xmlVehicleName = getUserProfileAppPath() .. "pdlc/" .. string.sub(xmlVehicleName, 10)
+          --required for steam users
+          xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
+        elseif string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then --20171116 - fix for Horsch CTF vehicle pack
+          xmlVehicleName = Utils.convertFromNetworkFilename(xmlVehicleName)	
         end
-        if seatIndex > 0 then
-          vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+        --< ======================================
+        if vehicle.configFileName == xmlVehicleName then
+          foundConfig = true
+          local seatIndex = getXMLInt(xmlFile, xmlPath.."#seatIndex")
+          local x = getXMLFloat(xmlFile, xmlPath.."#x")
+          local y = getXMLFloat(xmlFile, xmlPath.."#y")
+          local z = getXMLFloat(xmlFile, xmlPath.."#z")
+          local rx = getXMLFloat(xmlFile, xmlPath.."#rx")
+          local ry = getXMLFloat(xmlFile, xmlPath.."#ry")
+          local rz = getXMLFloat(xmlFile, xmlPath.."#rz")
+          if seatIndex == 1 and x == 0.0 and y == 0.0 and z == 0.0 then
+            print("[ContractorMod]Passenger seat not configured yet for vehicle "..xmlVehicleName)
+          end
+          if seatIndex > 0 then
+            vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+          end
         end
-      end
-      i = i + 1
+        i = i + 1
+    end
   end
   return foundConfig
 end
@@ -753,7 +766,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
       if occupants == 1 then -- Last driver leaving
         --Leaving vehicle
         if ContractorMod.debug then print("controlled vehicle " .. controlledVehicle.typeName) end
-       if not controlledVehicle.steeringEnabled then
+       if not controlledVehicle.steeringEnabled and controlledVehicle.stationCraneId == nil then
           --Leaving and AI activated
           g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_WORKER__STOP"))
           --Manage CoursePlay vehicles
