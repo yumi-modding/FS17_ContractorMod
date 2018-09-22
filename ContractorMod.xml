@@ -58,5 +58,37 @@
         <Passenger vehiclesName="$moddir$FS17_JD7R_69L_2011EU_V1003_AGO.zip/JD7R6L.xml" seatIndex="1" x="0.398" y="1.926" z="-0.864" rx="0" ry="0" rz="0"/>
         <Passenger vehiclesName="$moddir$FS17_JD7R_69L_2011EU_V1003_AGO.zip/JD7R9L.xml" seatIndex="1" x="0.398" y="1.926" z="-0.864" rx="0" ry="0" rz="0"/>
         <Passenger vehiclesName="$moddir$FS17_ScaniaR/ScaniaR.xml" seatIndex="1" x="-0.655" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
+		<Passenger rz="0" ry="0" rx="0" z="0.5" y="0.9" x="-0.4" seatIndex="1" vehiclesName="$moddir$FS17_Toyota_Hilux_TMT/ToyotaHilux2016.xml"/>
+		
+		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		
+		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+
+		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
+		
+        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="1" x="-0.401" y="0.811" z="0.433" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="2" x="-0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
+        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="3" x="0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
+		
+		<Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="1" x="-0.401" y="0.811" z="0.433" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="2" x="-0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
+        <Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="3" x="0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
+		
+		<Passenger vehiclesName="$moddir$FBM17_Case_Puma/xml/FBMcaseIHPumaCVX.xml" seatIndex="1" x="0.521" y="2.012" z="-0.672" rx="0" ry="-0.28" rz="0" />
+		
+		<Passenger vehiclesName="$moddir$FBM17_Fastrac3000_BC6/data/jcbFastrac3000.xml" seatIndex="1" x="0.555" y="1.968" z="-0.123" rx="0" ry="0" rz="0" />
+		
+		<Passenger vehiclesName="$moddir$FS17_Volvo_FH16_SWB/Volvo_FH16_750_SWB.xml" seatIndex="1" x="-0.688391" y="1.92749" z="1.40848" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$moddir$FS17_Volvo_FH16_SWB/Volvo_FH16_750_SWB.xml" seatIndex="2" x="-0.041" y="2.16118" z="0.640058" rx="0" ry="0" rz="0" />
+
     </passengerSeats>
 </ContractorMod>
