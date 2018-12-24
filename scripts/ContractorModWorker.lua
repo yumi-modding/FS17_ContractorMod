@@ -10,13 +10,13 @@
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
-ContractorModWorker.debug = false --true --
+ContractorModWorker.debug = true --false --
 
 function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;
 end;
 
-function ContractorModWorker:new(name, index, gender, playerColorIndex, displayOnFoot)
+function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displayOnFoot)
   if ContractorModWorker.debug then print("ContractorModWorker:new()") end
   local self = {};
   setmetatable(self, ContractorModWorker_mt);
@@ -30,12 +30,28 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   self.playerIndex = 2
   self.gender = gender
   if self.gender == "female" then
-    self.xmlFile = "dataS2/character/player/player02.xml"
+    workerStyle.playerModelIndex = 2
   else
-    self.xmlFile = "dataS2/character/player/player01.xml"
+    workerStyle.playerModelIndex = 1
   end
+  self.xmlFile = "dataS/character/humans/player/player0"..tostring(workerStyle.playerModelIndex)..".xml"
 
-  self.playerColorIndex = playerColorIndex
+  -- if ContractorModWorker.debug then print("ContractorMod: playerStyle "..tostring(playerStyle.selectedColorIndex)) end
+  -- playerStyle:setColor(index + 1)
+  -- if ContractorModWorker.debug then print("ContractorMod: playerStyle "..tostring(playerStyle.selectedColorIndex)) end
+  local playerStyle = PlayerStyle:new()
+  playerStyle:copySelection(g_currentMission.missionInfo.playerStyle)
+  -- playerStyle.selectedModelIndex = workerStyle.playerModelIndex -- = gender
+  playerStyle.selectedColorIndex = workerStyle.playerColorIndex
+  playerStyle.selectedBodyIndex = workerStyle.playerBodyIndex
+  playerStyle.selectedHatIndex = workerStyle.playerHatIndex
+  playerStyle.selectedAccessoryIndex = workerStyle.playerAccessoryIndex
+  playerStyle.selectedHairIndex = workerStyle.playerHairIndex
+  playerStyle.selectedJacketIndex = workerStyle.playerJacketIndex
+
+  self.playerStyle = PlayerStyle:new()
+  self.playerStyle:copySelection(playerStyle)
+  self.farmId = farmId
   self.followMeIsStarted = false
   self.displayOnFoot = displayOnFoot
   -- Bellow needed to load player character to make character visible with displayOnFoot.
@@ -44,25 +60,93 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
   self.walkWeight = 0;
   self.runWeight = 0;
   self.cuttingWeight = 0;
+  self.baseInformation = {};
+  self.animationInformation = {};
+  self.animationInformation.parameters = {};
+  self.animationInformation.parameters = {};
+  self.networkInformation = {};
+  self.soundInformation = {}
+  self.soundInformation.samples = {}
+  self.soundInformation.samples.swim = {}
+  self.soundInformation.samples.plunge = {}
+  self.soundInformation.samples.horseBrush = {}
+  self.soundInformation.distancePerFootstep = {}
+  self.soundInformation.distancePerFootstep.crouch = 0.5
+  self.soundInformation.distancePerFootstep.walk = 0.75
+  self.soundInformation.distancePerFootstep.run = 1.5
+  self.soundInformation.distanceSinceLastFootstep = 0.0
+  self.soundInformation.isSampleSwinPlaying = false
+  self.particleSystemsInformation = {}
+  self.particleSystemsInformation.systems = {}
+  self.particleSystemsInformation.systems.swim = {}
+  self.particleSystemsInformation.systems.plunge = {}
+  self.particleSystemsInformation.swimNode = 0
+  self.particleSystemsInformation.plungeNode = 0
+  self.animationInformation = {}
+  self.animationInformation.player = nil
+  self.animationInformation.parameters = {}
+  self.animationInformation.parameters.forwardVelocity = {id=1, value=0.0, type=1}
+  self.animationInformation.parameters.verticalVelocity = {id=2, value=0.0, type=1}
+  self.animationInformation.parameters.yawVelocity = {id=3, value=0.0, type=1}
+  self.animationInformation.parameters.onGround = {id=4, value=false, type=0}
+  self.animationInformation.parameters.inWater = {id=5, value=false, type=0}
+  self.animationInformation.parameters.isCrouched = {id=6, value=false, type=0}
+  self.animationInformation.parameters.absForwardVelocity = {id=7, value=0.0, type=1}
+  self.animationInformation.parameters.isCloseToGround = {id=8, value=false, type=0}
+  self.animationInformation.parameters.isUsingChainsawHorizontal = {id=9, value=false, type=0}
+  self.animationInformation.parameters.isUsingChainsawVertical = {id=10, value=false, type=0}
+  -- @see Player.loadCustomization for the content of this struct
+  --self.visualInformation = nil
+  -- cached info
+  self.animationInformation.oldYaw = 0.0                               -- in rad
+  self.animationInformation.newYaw = 0.0                               -- in rad
+  self.animationInformation.estimatedYawVelocity = 0.0                 -- in rad/s
+  self.inputInformation = {};
+  self.rootNode = createTransformGroup("PlayerCCT")
+  link(getRootNode(), self.rootNode)
 
   self.mapHotSpot = nil
-  self.color = g_availableMpColorsTable[self.playerColorIndex].value
+  --self.color = {1, 1, 1}--@FS19g_availableMpColorsTable[self.playerColorIndex].value -- g_availableMpColorsTable is nil
+  self.color = g_playerColors[(workerStyle.playerColorIndex + 1)].value
 
   -- start now with default one + offset
-  if g_currentMission.controlPlayer and g_currentMission.player ~= nil then  
+  if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
     self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
     self.dx, self.dy, self.dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, 1);
     self.rotX = 0.;
     self.rotY = 0.73;
     self.x = self.x + (1 * index)
+    
+    print("g_currentMission.player")
+    -- DebugUtil.printTableRecursively(g_currentMission.player, " ", 1, 2);
 
-    Player.loadVisuals(self, self.xmlFile, self.playerColorIndex, nil, true, self.ikChains, self.getParentComponent, self, nil)
+    Player.loadVisuals(self, self.xmlFile, self.playerStyle, nil, true, self.ikChains, self.getParentComponent, self, nil)
+    self.playerStateMachine = PlayerStateMachine:new(self)
+    self.playerStateMachine:load()
+    self.playerStateMachine:activateState("idle")
 
+    --self:moveToAbsolute()
+
+    -- a:dataS/character/humans/player/player02.xml
+    -- b:table: 0x02455d96d3f8
+    -- c:82463 = characterNode
+    -- d:false
+    -- e:table: 0x02451dc40d58 = ikChains
+    -- f:nil
+    -- g:nil
+    -- h:82463 = characterNode
+    -- i:nil
+    -- j:nil
+    -- k:nil
+    print("self")
+    -- DebugUtil.printTableRecursively(self, " ", 1, 2);
+    
     if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
       if ContractorModWorker.debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
       setVisibility(self.meshThirdPerson, true);
       setVisibility(self.animRootThirdPerson, true);
-      setTranslation(self.graphicsRootNode , self.x, self.y + 0.2, self.z)
+      local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
+      setTranslation(self.graphicsRootNode, self.x, self.y - playerOffSet, self.z)
       setRotation(self.graphicsRootNode , 0, self.rotY, 0)
       --setScale(meshThirdPerson, 5, 5, 5)
     else
@@ -74,6 +158,7 @@ function ContractorModWorker:new(name, index, gender, playerColorIndex, displayO
 end
 
 function ContractorModWorker:displayName()
+  --if ContractorModWorker.debug then print("ContractorModWorker:displayName()") end
   if self.name == "PLAYER" then return end
   setTextBold(true);
   setTextAlignment(RenderText.ALIGN_RIGHT);
@@ -100,6 +185,7 @@ function ContractorModWorker:displayName()
   setTextAlignment(RenderText.ALIGN_LEFT);
 end
 
+-- @doc Capture worker position before switching to another one
 function ContractorModWorker:beforeSwitch(noEventSend)
   if ContractorModWorker.debug then print("ContractorModWorker:beforeSwitch()") end
   self.currentVehicle = g_currentMission.controlledVehicle
@@ -119,7 +205,8 @@ function ContractorModWorker:beforeSwitch(noEventSend)
           setVisibility(self.meshThirdPerson, true)
           setVisibility(self.animRootThirdPerson, true)
         end
-        setTranslation(self.graphicsRootNode, self.x, self.y + 0.2, self.z)
+        local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
+        setTranslation(self.graphicsRootNode, self.x, self.y - playerOffSet, self.z)
         setRotation(self.graphicsRootNode, 0, self.rotY, 0)
       end
     end
@@ -136,6 +223,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
   end
 end
 
+-- @doc Teleport to target worker when switching 
 function ContractorModWorker:afterSwitch(noEventSend)
   if ContractorModWorker.debug then print("ContractorModWorker:afterSwitch()") end
   
@@ -143,10 +231,11 @@ function ContractorModWorker:afterSwitch(noEventSend)
     -- target worker is not in a vehicle
     if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
       if ContractorModWorker.debug then print("ContractorModWorker: moveToAbsolute"); end
-      setTranslation(g_currentMission.player.rootNode, self.x, self.y + 0.2, self.z);
+      local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
+      setTranslation(g_currentMission.player.rootNode, self.x, self.y - playerOffSet, self.z);
       g_currentMission.player:moveToAbsolute(self.x, self.y, self.z);
       if noEventSend == nil or noEventSend == false then
-        g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y + 0.2, self.z));
+        g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y - playerOffSet, self.z, true, true));
       end
       g_currentMission.player.rotX = self.rotX
       g_currentMission.player.rotY = self.rotY
@@ -163,8 +252,8 @@ function ContractorModWorker:afterSwitch(noEventSend)
       -- target worker is in a vehicle
       if noEventSend == nil or noEventSend == false then      
         if ContractorModWorker.debug then print("ContractorModWorker: sendEvent(VehicleEnterRequestEvent:" ) end
-        g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(self.currentVehicle, g_settingsNickname, self.playerIndex, self.playerColorIndex));
-        if ContractorModWorker.debug then print("ContractorModWorker: playerColorIndex "..tostring(self.playerColorIndex)) end
+        g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(self.currentVehicle, self.playerStyle, self.farmId));
+        if ContractorModWorker.debug then print("ContractorModWorker: playerStyle "..tostring(self.playerStyle)) end
       end
     -- end
   end

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="40">
+<modDesc descVersion="41">
   <author>yumi</author>
   <version>1.3.0.0</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
@@ -109,7 +109,19 @@
     <sourceFile filename="scripts/ContractorModWorker.lua" />
   </extraSourceFiles>
   
-  <inputBindings>
+  <actions>
+    <action name="ContractorMod_NEXTWORKER" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_PREVWORKER" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER1" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER2" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER3" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER4" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER5" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER6" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER7" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_WORKER8" category="ONFOOT VEHICLE"/>
+  </actions>
+  <!-- <inputBindings>
     <input name="ContractorMod_NEXTWORKER" category="ONFOOT VEHICLE" key1="KEY_tab" key2="" button="" device="0" mouse="" />
     <input name="ContractorMod_PREVWORKER" category="ONFOOT VEHICLE" key1="KEY_lshift KEY_tab" key2="" button="" device="0" mouse="" />
     <input name="ContractorMod_WORKER1" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_1" key2="" button="" device="0" mouse="" />
@@ -120,5 +132,12 @@
     <input name="ContractorMod_WORKER6" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_6" key2="" button="" device="0" mouse="" />
     <input name="ContractorMod_WORKER7" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_7" key2="" button="" device="0" mouse="" />
     <input name="ContractorMod_WORKER8" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_8" key2="" button="" device="0" mouse="" />
-   </inputBindings>  
+   </inputBindings> -->
+  <inputBinding>
+    <actionBinding action="ContractorMod_NEXTWORKER">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_tab" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+  </inputBinding>
+
 </modDesc>
+    

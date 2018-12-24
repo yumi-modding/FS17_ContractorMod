@@ -23,72 +23,18 @@
        -false => only show worker when inside a vehicle
     If you want to modify some element on a savegame, you can edit similar file in corresponding savegame directory
     -->
-    <workers numWorkers="4" enableSeveralDrivers="true" displayOnFootWorker="true">
-        <worker name="Alex" gender="male" colorIndex="1"/>
-        <worker name="Barbara" gender="female" colorIndex="2"/>
-        <worker name="Chris" gender="male" colorIndex="3"/>
-        <worker name="David" gender="male" colorIndex="4"/>
-        <worker name="Ed" gender="male" colorIndex="5"/>
-        <worker name="Frank" gender="male" colorIndex="6"/>
-        <worker name="Gary" gender="male" colorIndex="7"/>
-        <worker name="Henry" gender="male" colorIndex="8"/>
+    <workers numWorkers="8" enableSeveralDrivers="true" displayOnFootWorker="true">
+        <worker name="Alex" gender="male" playerColorIndex="0" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Barbara" gender="female" playerColorIndex="1" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Chris" gender="male" playerColorIndex="2" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="David" gender="male" playerColorIndex="3" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Ed" gender="male" playerColorIndex="4" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Frank" gender="male" playerColorIndex="5" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Gary" gender="male" playerColorIndex="6" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+        <worker name="Henry" gender="male" playerColorIndex="7" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
     </workers>
     <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
-        <Passenger vehiclesName="$moddir$FS17_Case_Optum_CVX/caseIHOptumCVX.xml" seatIndex="1" x="0.524" y="2.254" z="-0.595" rx="0" ry="-0.28" rz="0" />
-        <Passenger vehiclesName="$moddir$FS17_CaseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$mrInternational_1255_1455_V2/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_Case_Magnum_7250/CaseMagnum7250.xml" seatIndex="1" x="0.48" y="2.104" z="-1.212" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_CaseIHMaxxum/caseIHPumaCVX.xml" seatIndex="1" x="0.521" y="2.012" z="-0.672" rx="0" ry="-0.25" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_caseIH7130/caseIH130Series.xml" seatIndex="1" x="0.555" y="2.555" z="2.351" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_cMAN_TGS_HKL_68_V6/manTGS68HKL.xml" seatIndex="1" x="-0.633" y="1.972" z="1.818" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_CAT_D6N_LGP/D6N LGP.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_LIEBHERR_902_Pack/Liebherrc.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_JohnDeere_3x50_Series/JohnDeere_3x50_Series.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_FENDT_800_VARIOS4_V1003_AGO_/FENDTVARIO800.xml" seatIndex="1" x="0.362" y="2.12" z="-0.898" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17Contest_fordTWPack/fordTWsmall.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17Contest_fordTWPack/fordTWlarge.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_manTGSagroTruck/XML/manTGSagroTruck1.xml" seatIndex="1" x="-0.659" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_manTGSagroTruck/XML/manTGSagroTruck2.xml" seatIndex="1" x="-0.659" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_manTGSagroTruck/XML/manTGSagroTruck3.xml" seatIndex="1" x="-0.659" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_manTGSagroTruck/XML/manTGSagroTruck4.xml" seatIndex="1" x="-0.659" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$IHC_CaseIH_CFamilie/xml/C_Familie_81_85.xml" seatIndex="1" x="0.249" y="1.793" z="-1.358" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$IHC_CaseIH_CFamilie/xml/C_Familie_85_86.xml" seatIndex="1" x="0.249" y="1.793" z="-1.358" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$IHC_CaseIH_CFamilie/xml/C_Familie_86_92.xml" seatIndex="1" x="0.249" y="1.793" z="-1.358" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_JD7R_69L_2011EU_V1003_AGO.zip/JD7R6L.xml" seatIndex="1" x="0.398" y="1.926" z="-0.864" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_JD7R_69L_2011EU_V1003_AGO.zip/JD7R9L.xml" seatIndex="1" x="0.398" y="1.926" z="-0.864" rx="0" ry="0" rz="0"/>
-        <Passenger vehiclesName="$moddir$FS17_ScaniaR/ScaniaR.xml" seatIndex="1" x="-0.655" y="1.994" z="1.932" rx="0" ry="0" rz="0"/>
-		<Passenger rz="0" ry="0" rx="0" z="0.5" y="0.9" x="-0.4" seatIndex="1" vehiclesName="$moddir$FS17_Toyota_Hilux_TMT/ToyotaHilux2016.xml"/>
-		
-		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FS17_ServicePickup/pickup.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		
-		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$FBM17_LizardTT/lizardPickupTT.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-
-		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="1" x="-0.44" y="0.941" z="0.62" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="2" x="-0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="3" x="0.44" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		<Passenger vehiclesName="$moddir$Pickup_TT_HD/lizardPickupTTHD.xml" seatIndex="4" x="0" y="0.941" z="-0.25" rx="0" ry="0" rz="0"/>
-		
-        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="1" x="-0.401" y="0.811" z="0.433" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="2" x="-0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
-        <Passenger vehiclesName="$moddir$FBM17_LizardRodeo/lizardPickupRodeo.xml" seatIndex="3" x="0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
-		
-		<Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="1" x="-0.401" y="0.811" z="0.433" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="2" x="-0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
-        <Passenger vehiclesName="$moddir$FBM17_Ford_F100/FordF150.xml" seatIndex="3" x="0.401" y="1.231" z="-0.1" rx="0" ry="3.141592" rz="0" />
-		
-		<Passenger vehiclesName="$moddir$FBM17_Case_Puma/xml/FBMcaseIHPumaCVX.xml" seatIndex="1" x="0.521" y="2.012" z="-0.672" rx="0" ry="-0.28" rz="0" />
-		
-		<Passenger vehiclesName="$moddir$FBM17_Fastrac3000_BC6/data/jcbFastrac3000.xml" seatIndex="1" x="0.555" y="1.968" z="-0.123" rx="0" ry="0" rz="0" />
-		
-		<Passenger vehiclesName="$moddir$FS17_Volvo_FH16_SWB/Volvo_FH16_750_SWB.xml" seatIndex="1" x="-0.688391" y="1.92749" z="1.40848" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="$moddir$FS17_Volvo_FH16_SWB/Volvo_FH16_750_SWB.xml" seatIndex="2" x="-0.041" y="2.16118" z="0.640058" rx="0" ry="0" rz="0" />
 
     </passengerSeats>
 </ContractorMod>
