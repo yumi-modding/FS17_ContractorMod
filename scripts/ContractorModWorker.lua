@@ -29,12 +29,11 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   self.isNewPassenger = false -- to replace isPassenger waiting code cleaning
   self.playerIndex = 2
   self.gender = gender
+  local playerModelIndex = 1
   if self.gender == "female" then
-    workerStyle.playerModelIndex = 2
-  else
-    workerStyle.playerModelIndex = 1
+    playerModelIndex = 2
   end
-  self.xmlFile = "dataS/character/humans/player/player0"..tostring(workerStyle.playerModelIndex)..".xml"
+  self.xmlFile = "dataS/character/humans/player/player0"..tostring(playerModelIndex)..".xml"
 
   -- if ContractorModWorker.debug then print("ContractorMod: playerStyle "..tostring(playerStyle.selectedColorIndex)) end
   -- playerStyle:setColor(index + 1)
@@ -42,6 +41,7 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   local playerStyle = PlayerStyle:new()
   playerStyle:copySelection(g_currentMission.missionInfo.playerStyle)
   -- playerStyle.selectedModelIndex = workerStyle.playerModelIndex -- = gender
+  playerStyle.selectedModelIndex = playerModelIndex
   playerStyle.selectedColorIndex = workerStyle.playerColorIndex
   playerStyle.selectedBodyIndex = workerStyle.playerBodyIndex
   playerStyle.selectedHatIndex = workerStyle.playerHatIndex
@@ -144,6 +144,7 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
     if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
       if ContractorModWorker.debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
       setVisibility(self.meshThirdPerson, true);
+      -- self.visualInformation:setVisibility(true)
       setVisibility(self.animRootThirdPerson, true);
       local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
       setTranslation(self.graphicsRootNode, self.x, self.y - playerOffSet, self.z)
