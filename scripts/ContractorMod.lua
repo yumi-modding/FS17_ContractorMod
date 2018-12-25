@@ -12,7 +12,7 @@ source(Utils.getFilename("scripts/ContractorModWorker.lua", g_currentModDirector
 ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
-ContractorMod.debug = true --false --
+ContractorMod.debug = false --true --
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
@@ -131,11 +131,11 @@ function ContractorMod:init()
 end
 
 
-function ContractorMod:onSwitchVehicle(direction)
+function ContractorMod:onSwitchVehicle(action)
 	print("-- ContractorMod:onSwitchVehicle");
-
-  if direction > 0 then
-    print('ContractorMod_NEXTWORKER presseed')
+  self.switching = true
+  if action == "SWITCH_VEHICLE" then
+    print('ContractorMod_NEXTWORKER pressed')
     local nextID = 0
     if ContractorMod.debug then print("ContractorMod: self.currentID " .. tostring(self.currentID)) end
     if ContractorMod.debug then print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers)) end
@@ -146,8 +146,8 @@ function ContractorMod:onSwitchVehicle(direction)
     end
     if ContractorMod.debug then print("ContractorMod: nextID " .. tostring(nextID)) end
     self:setCurrentContractorModWorker(nextID)
-  else
-    print('ContractorMod_PREVWORKER presseed')
+  elseif action == "SWITCH_VEHICLE_BACK" then
+    print('ContractorMod_PREVWORKER pressed')
     if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_PREVWORKER") end
     local prevID = 0
     if self.currentID > 1 then
@@ -160,7 +160,7 @@ function ContractorMod:onSwitchVehicle(direction)
 end
 
 function ContractorMod:replaceOnSwitchVehicle(superfunc, action, direction)
-  ContractorMod:onSwitchVehicle(direction)
+  ContractorMod:onSwitchVehicle(action)
 end
 BaseMission.onSwitchVehicle = Utils.overwrittenFunction(BaseMission.onSwitchVehicle, ContractorMod.replaceOnSwitchVehicle);
 
@@ -200,7 +200,7 @@ function ContractorMod:actionCallback(actionName, keyStatus)
         self:setCurrentContractorModWorker(workerIndex)
       end
 		end
-	end
+	-- end
 end
 
 -- @doc Load ContractorMod parameters from savegame
@@ -596,6 +596,7 @@ function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
         "
         local xmlFile = loadXMLFileFromMemory("passengerConfig", xmltext)
         local passenger = VehicleCharacter:new(vehicle)
+        --@FS19: How to load passenger ? should so like vehicleSetCharacter
         passenger:load(xmlFile, "vehicle.enterable.characterNode")
 
         --[[ Trying to add camera like passenger
@@ -1028,6 +1029,23 @@ function ContractorMod:ReplaceStopCoursePlay(superFunc, vehicle)
   vehicle.spec_enterable.vehicleCharacter = tmpVehicleCharacter
 end
 
+-- @doc Prevent from removing driver character
+function ContractorMod:replaceGetDisableVehicleCharacterOnLeave(superfunc)
+  if ContractorMod.debug then print("ContractorMod:replaceGetDisableVehicleCharacterOnLeave ") end
+  if ContractorMod.switching then
+    ContractorMod.switching = false
+    print("return false")
+    return false
+  end
+  if ContractorMod.passengerLeaving then
+    ContractorMod.passengerLeaving = false
+    print("return false")
+    return false
+  end
+  return true
+end
+Enterable.getDisableVehicleCharacterOnLeave = Utils.overwrittenFunction(Enterable.getDisableVehicleCharacterOnLeave, ContractorMod.replaceGetDisableVehicleCharacterOnLeave);
+
 -- @doc Make some checks before leaving a vehicle to manage passengers and hired worker
 function ContractorMod:ManageLeaveVehicle(controlledVehicle)
   if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle >>") end
@@ -1050,7 +1068,8 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
         --Leaving vehicle
         if ContractorMod.debug then print("controlled vehicle " .. controlledVehicle.typeName) end
         if ContractorMod.debug then print("controlledVehicle.spec_enterable.isControlled " .. tostring(controlledVehicle.spec_enterable.isControlled)) end
-        if not controlledVehicle.spec_enterable.isControlled then
+        --if not controlledVehicle.spec_enterable.isControlled then
+        if controlledVehicle:getIsAIActive() then
         --@FS19 if not controlledVehicle.steeringEnabled and controlledVehicle.stationCraneId == nil then
           --Leaving and AI activated
           g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_WORKER__STOP"))
@@ -1075,6 +1094,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
         controlledVehicle.disableCharacterOnLeave = false;
       end
       if ContractorMod.workers[ContractorMod.currentID].currentSeat == 0 then
+        if ContractorMod.debug then print("ContractorMod: driver leaving") end
         if controlledVehicle.vehicleCharacter ~= nil then
           -- to manage vehicles without character like belt system
           controlledVehicle.vehicleCharacter:delete()
@@ -1084,6 +1104,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
           controlledVehicle.passengers[ContractorMod.workers[ContractorMod.currentID].currentSeat]:delete()
           ContractorMod.workers[ContractorMod.currentID].isNewPassenger = false
           if ContractorMod.debug then print("passenger leaving") end
+          self.passengerLeaving = true
           if controlledVehicle.vehicleCharacter ~= nil then
             if controlledVehicle.isEntered then
               -- Seems new issue after patch 1.5: character not visible when exiting passenger with inCab camera
