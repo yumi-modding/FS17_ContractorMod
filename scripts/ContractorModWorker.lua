@@ -56,10 +56,10 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   self.displayOnFoot = displayOnFoot
   -- Bellow needed to load player character to make character visible with displayOnFoot.
   self.ikChains = {}
-  self.idleWeight = 1;
-  self.walkWeight = 0;
-  self.runWeight = 0;
-  self.cuttingWeight = 0;
+  -- self.idleWeight = 1;
+  -- self.walkWeight = 0;
+  -- self.runWeight = 0;
+  -- self.cuttingWeight = 0;
   self.baseInformation = {};
   self.animationInformation = {};
   self.animationInformation.parameters = {};
@@ -67,15 +67,15 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   self.networkInformation = {};
   self.soundInformation = {}
   self.soundInformation.samples = {}
-  self.soundInformation.samples.swim = {}
-  self.soundInformation.samples.plunge = {}
-  self.soundInformation.samples.horseBrush = {}
+  -- self.soundInformation.samples.swim = {}
+  -- self.soundInformation.samples.plunge = {}
+  -- self.soundInformation.samples.horseBrush = {}
   self.soundInformation.distancePerFootstep = {}
-  self.soundInformation.distancePerFootstep.crouch = 0.5
-  self.soundInformation.distancePerFootstep.walk = 0.75
-  self.soundInformation.distancePerFootstep.run = 1.5
-  self.soundInformation.distanceSinceLastFootstep = 0.0
-  self.soundInformation.isSampleSwinPlaying = false
+  -- self.soundInformation.distancePerFootstep.crouch = 0.5
+  -- self.soundInformation.distancePerFootstep.walk = 0.75
+  -- self.soundInformation.distancePerFootstep.run = 1.5
+  -- self.soundInformation.distanceSinceLastFootstep = 0.0
+  -- self.soundInformation.isSampleSwinPlaying = false
   self.particleSystemsInformation = {}
   self.particleSystemsInformation.systems = {}
   self.particleSystemsInformation.systems.swim = {}
@@ -85,22 +85,22 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   self.animationInformation = {}
   self.animationInformation.player = nil
   self.animationInformation.parameters = {}
-  self.animationInformation.parameters.forwardVelocity = {id=1, value=0.0, type=1}
-  self.animationInformation.parameters.verticalVelocity = {id=2, value=0.0, type=1}
+  -- self.animationInformation.parameters.forwardVelocity = {id=1, value=0.0, type=1}
+  -- self.animationInformation.parameters.verticalVelocity = {id=2, value=0.0, type=1}
   self.animationInformation.parameters.yawVelocity = {id=3, value=0.0, type=1}
-  self.animationInformation.parameters.onGround = {id=4, value=false, type=0}
-  self.animationInformation.parameters.inWater = {id=5, value=false, type=0}
-  self.animationInformation.parameters.isCrouched = {id=6, value=false, type=0}
+  -- self.animationInformation.parameters.onGround = {id=4, value=false, type=0}
+  -- self.animationInformation.parameters.inWater = {id=5, value=false, type=0}
+  -- self.animationInformation.parameters.isCrouched = {id=6, value=false, type=0}
   self.animationInformation.parameters.absForwardVelocity = {id=7, value=0.0, type=1}
-  self.animationInformation.parameters.isCloseToGround = {id=8, value=false, type=0}
-  self.animationInformation.parameters.isUsingChainsawHorizontal = {id=9, value=false, type=0}
-  self.animationInformation.parameters.isUsingChainsawVertical = {id=10, value=false, type=0}
-  -- @see Player.loadCustomization for the content of this struct
+  -- self.animationInformation.parameters.isCloseToGround = {id=8, value=false, type=0}
+  -- self.animationInformation.parameters.isUsingChainsawHorizontal = {id=9, value=false, type=0}
+  -- self.animationInformation.parameters.isUsingChainsawVertical = {id=10, value=false, type=0}
+  -- -- @see Player.loadCustomization for the content of this struct
   --self.visualInformation = nil
   -- cached info
-  self.animationInformation.oldYaw = 0.0                               -- in rad
-  self.animationInformation.newYaw = 0.0                               -- in rad
-  self.animationInformation.estimatedYawVelocity = 0.0                 -- in rad/s
+  -- self.animationInformation.oldYaw = 0.0                               -- in rad
+  -- self.animationInformation.newYaw = 0.0                               -- in rad
+  -- self.animationInformation.estimatedYawVelocity = 0.0                 -- in rad/s
   self.inputInformation = {};
   self.rootNode = createTransformGroup("PlayerCCT")
   link(getRootNode(), self.rootNode)
@@ -117,7 +117,7 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
     self.rotY = 0.73;
     self.x = self.x + (1 * index)
     
-    print("g_currentMission.player")
+    -- print("g_currentMission.player")
     -- DebugUtil.printTableRecursively(g_currentMission.player, " ", 1, 2);
 
     Player.loadVisuals(self, self.xmlFile, self.playerStyle, nil, true, self.ikChains, self.getParentComponent, self, nil)
@@ -138,7 +138,7 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
     -- i:nil
     -- j:nil
     -- k:nil
-    print("self")
+    -- print("self")
     -- DebugUtil.printTableRecursively(self, " ", 1, 2);
     
     if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
@@ -199,6 +199,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
     else
       -- source worker is not in a vehicle
       self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
+      if ContractorModWorker.debug then print("ContractorModWorker: "..tostring(self.x)..", "..tostring(self.y)..", "..tostring(self.z)) end
       self.rotX = g_currentMission.player.rotX;
       self.rotY = g_currentMission.player.rotY;
       if self.meshThirdPerson ~= nil and self.displayOnFoot then

@@ -12,7 +12,7 @@ source(Utils.getFilename("scripts/ContractorModWorker.lua", g_currentModDirector
 ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
-ContractorMod.debug = false --true --
+ContractorMod.debug = true --false --
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
@@ -36,10 +36,7 @@ end;
 -- @doc register InputBindings
 function ContractorMod:registerActionEvents()
   if ContractorMod.debug then print("ContractorMod:registerActionEvents()") end
-  --@FS19 Should we overwrite SwitchVehicle() instead of adding our key here ? 
-  for _,actionName in pairs({ "ContractorMod_NEXTWORKER",  
-                              "ContractorMod_PREVWORKER",
-                              "ContractorMod_WORKER1",
+  for _,actionName in pairs({ "ContractorMod_WORKER1",
                               "ContractorMod_WORKER2",
                               "ContractorMod_WORKER3",
                               "ContractorMod_WORKER4",
@@ -48,16 +45,16 @@ function ContractorMod:registerActionEvents()
                               "ContractorMod_WORKER7",
                               "ContractorMod_WORKER8" }) do
     -- print("actionName "..actionName)
-    local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.actionCallback ,false ,true ,false ,true)
+    local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.activateWorker ,false ,true ,false ,true)
     -- print("__ "..tostring(__))
-    print("eventName "..eventName)
+    -- print("eventName "..eventName)
     -- print("event "..tostring(event))
     -- print("action "..tostring(action))
     if __ then
       g_inputBinding.events[eventName].displayIsVisible = false
     end
     -- DebugUtil.printTableRecursively(actionName, " ", 1, 2);
-    --__, eventName = self:addActionEvent(self.actionEvents, actionName, self, ContractorMod.actionCallback, false, true, false, true)
+    --__, eventName = self:addActionEvent(self.actionEvents, actionName, self, ContractorMod.activateWorker, false, true, false, true)
   end
 end
 
@@ -84,6 +81,7 @@ function ContractorMod:init()
   self.enableSeveralDrivers = false --Should be always true when passenger works correctly
   self.displayOnFootWorker = false
   self.switching = false
+  self.passengerLeaving = false
 
   self:manageModsConflicts()
   --@FS19self:manageSpecialVehicles() --g_currentMission.nodeToVehicle is nil
@@ -164,43 +162,16 @@ function ContractorMod:replaceOnSwitchVehicle(superfunc, action, direction)
 end
 BaseMission.onSwitchVehicle = Utils.overwrittenFunction(BaseMission.onSwitchVehicle, ContractorMod.replaceOnSwitchVehicle);
 
-
-function ContractorMod:actionCallback(actionName, keyStatus)
-	print("-- ContractorMod:actionCallback");
-  print("actionName "..tostring(actionName));
-  print("keyStatus "..tostring(keyStatus));
-  -- if keyStatus > 0 then
-  --   -- DebugUtil.printTableRecursively(self, " ", 1, 2);
-	-- 	if actionName == "ContractorMod_NEXTWORKER" then
-	-- 		print('ContractorMod_NEXTWORKER presseed')
-  --     local nextID = 0
-  --     if ContractorMod.debug then print("ContractorMod: self.currentID " .. tostring(self.currentID)) end
-  --     if ContractorMod.debug then print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers)) end
-  --     if self.currentID < self.numWorkers then
-  --       nextID = self.currentID + 1
-  --     else
-  --       nextID = 1
-  --     end
-  --     if ContractorMod.debug then print("ContractorMod: nextID " .. tostring(nextID)) end
-  --     self:setCurrentContractorModWorker(nextID)
-	-- 	elseif actionName == "ContractorMod_PREVWORKER" then
-	-- 		print('ContractorMod_PREVWORKER presseed')
-  --     if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_PREVWORKER") end
-  --     local prevID = 0
-  --     if self.currentID > 1 then
-  --       prevID = self.currentID - 1
-  --     else
-  --       prevID = self.numWorkers
-  --     end    
-  --     self:setCurrentContractorModWorker(prevID)
-  --   else
-    if string.sub(actionName, 1, 20) == "ContractorMod_WORKER" then
-      local workerIndex = tonumber(string.sub(actionName, -1))
-      if self.numWorkers >= workerIndex then
-        self:setCurrentContractorModWorker(workerIndex)
-      end
-		end
-	-- end
+-- @doc Switch directly to another worker
+function ContractorMod:activateWorker(actionName, keyStatus)
+	if ContractorMod.debug then print("ContractorMod:activateWorker") end
+  if ContractorMod.debug then print("actionName "..tostring(actionName)) end
+  if string.sub(actionName, 1, 20) == "ContractorMod_WORKER" then
+    local workerIndex = tonumber(string.sub(actionName, -1))
+    if self.numWorkers >= workerIndex and workerIndex ~= self.currentID then
+      self:setCurrentContractorModWorker(workerIndex)
+    end
+  end
 end
 
 -- @doc Load ContractorMod parameters from savegame
@@ -1431,7 +1402,7 @@ function ContractorMod:update(dt)
     end
   end
   
---[[ MOVED to actionCallback
+--[[ MOVED to activateWorker
   if Input.isKeyPressed(Input.KEY_tab) then
     if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_NEXTWORKER") end
     local nextID = 0

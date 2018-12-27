@@ -110,8 +110,6 @@
   </extraSourceFiles>
   
   <actions>
-    <action name="ContractorMod_NEXTWORKER" category="ONFOOT VEHICLE"/>
-    <action name="ContractorMod_PREVWORKER" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER1" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER2" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER3" category="ONFOOT VEHICLE"/>
