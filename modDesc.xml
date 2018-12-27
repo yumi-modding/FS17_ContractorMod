@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="41">
   <author>yumi</author>
-  <version>1.3.0.0</version>
+  <version>1.3.0.beta1</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -13,10 +13,8 @@
     This mod enable simulating a defined number of characters you control one by one during a solo game.
 
     ==== CHANGELOG ====
-    Fixed in v1.3.0.x
-     - onFoot character is inclined when looking up or down
-    New in v1.3.0.0
-     - Porting mod to FS19
+    New in v1.3.0.beta
+     - Porting mod to FS19 in progress
     ==== KNOWN ISSUES ====
      - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
      - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
@@ -43,10 +41,8 @@
     Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
     ==== CHANGELOG ====
-    Fixed in v1.3.0.x
-     - onFoot character is inclined when looking up or down
-    New in v1.3.0.0
-     - Porting mod to FS19
+    New in v1.3.0.beta
+     - Porting mod to FS19 in progress
     ==== KNOWN ISSUES ====
      - When passengers in a vehicle, worker is not stopped when driver exits => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
      - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
@@ -73,10 +69,8 @@
     Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
 
     ==== CHANGELOG ====
-    Fixed in v1.3.0.x
-     - onFoot character is inclined when looking up or down
-    New in v1.3.0.0
-     - Porting mod to FS19
+    New in v1.3.0.beta
+     - Porting mod to FS19 in progress
     ==== PROBLEMES CONNUS ====
      - Lorsqu'un passager est dans un véhicule, l'ouvrier ne s'arrete pas quand le conducteur quitte le véhicule => https://github.com/yumi-modding/FS17_ContractorMod/issues/15
      - La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
