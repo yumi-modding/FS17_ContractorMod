@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="41">
   <author>yumi</author>
-  <version>1.3.0.beta1</version>
+  <version>1.3.0.beta4</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
   <title>
     <en>ContractorMod</en>
@@ -112,23 +112,66 @@
     <action name="ContractorMod_WORKER6" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER7" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER8" category="ONFOOT VEHICLE"/>
+    <!-- Remove comment to activate debug commands -->
+    <!--  -->
+    <action name="ContractorMod_DEBUG_MOVE_PASS_LEFT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_RIGHT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_TOP" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_BOTTOM" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_FRONT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_BACK" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_DUMP_PASS" category="VEHICLE"/>
+    <!--      -->
   </actions>
-  <!-- <inputBindings>
-    <input name="ContractorMod_NEXTWORKER" category="ONFOOT VEHICLE" key1="KEY_tab" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_PREVWORKER" category="ONFOOT VEHICLE" key1="KEY_lshift KEY_tab" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER1" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_1" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER2" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_2" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER3" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_3" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER4" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_4" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER5" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_5" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER6" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_6" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER7" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_7" key2="" button="" device="0" mouse="" />
-    <input name="ContractorMod_WORKER8" category="ONFOOT VEHICLE" key1="KEY_lctrl KEY_8" key2="" button="" device="0" mouse="" />
-   </inputBindings> -->
   <inputBinding>
-    <actionBinding action="ContractorMod_NEXTWORKER">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_tab" axisComponent="+" inputComponent="+" index="1"/>
+    <actionBinding action="ContractorMod_WORKER1">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_1" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
+    <actionBinding action="ContractorMod_WORKER2">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_2" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER3">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_3" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER4">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_4" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER5">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_5" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER6">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_6" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER7">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_7" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_WORKER8">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_8" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <!-- Remove comment to activate debug commands -->
+    <!-- -->
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_LEFT">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_a" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_RIGHT">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_d" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_TOP">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_q" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_BOTTOM">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_z" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_FRONT">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_w" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_BACK">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_s" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <actionBinding action="ContractorMod_DEBUG_DUMP_PASS">
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_e" axisComponent="+" inputComponent="+" index="1"/>
+    </actionBinding>
+    <!--      -->
   </inputBinding>
 
 </modDesc>
