@@ -16,28 +16,17 @@ function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;
 end;
 
+
 function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displayOnFoot)
   if ContractorModWorker.debug then print("ContractorModWorker:new()") end
   local self = {};
   setmetatable(self, ContractorModWorker_mt);
 
-  self.name = name
-  self.nickname = g_settingsNickname
-  g_settingsNickname = name
-  self.currentVehicle = nil
-  self.isPassenger = false    -- to be removed when all code clean
-  self.isNewPassenger = false -- to replace isPassenger waiting code cleaning
-  self.playerIndex = 2
-  self.gender = gender
   local playerModelIndex = 1
-  if self.gender == "female" then
+  if gender == "female" then
     playerModelIndex = 2
   end
-  self.xmlFile = "dataS/character/humans/player/player0"..tostring(playerModelIndex)..".xml"
 
-  -- if ContractorModWorker.debug then print("ContractorMod: playerStyle "..tostring(playerStyle.selectedColorIndex)) end
-  -- playerStyle:setColor(index + 1)
-  -- if ContractorModWorker.debug then print("ContractorMod: playerStyle "..tostring(playerStyle.selectedColorIndex)) end
   local playerStyle = PlayerStyle:new()
   playerStyle:copySelection(g_currentMission.missionInfo.playerStyle)
   -- playerStyle.selectedModelIndex = workerStyle.playerModelIndex -- = gender
@@ -48,117 +37,75 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   playerStyle.selectedAccessoryIndex = workerStyle.playerAccessoryIndex
   playerStyle.selectedHairIndex = workerStyle.playerHairIndex
   playerStyle.selectedJacketIndex = workerStyle.playerJacketIndex
+  PlayerStyle.playerName = name
 
   self.playerStyle = PlayerStyle:new()
   self.playerStyle:copySelection(playerStyle)
   self.farmId = farmId
   self.followMeIsStarted = false
   self.displayOnFoot = displayOnFoot
-  -- Bellow needed to load player character to make character visible with displayOnFoot.
-  self.ikChains = {}
-  -- self.idleWeight = 1;
-  -- self.walkWeight = 0;
-  -- self.runWeight = 0;
-  -- self.cuttingWeight = 0;
-  self.baseInformation = {};
-  self.animationInformation = {};
-  self.animationInformation.parameters = {};
-  self.animationInformation.parameters = {};
-  self.networkInformation = {};
-  self.soundInformation = {}
-  self.soundInformation.samples = {}
-  -- self.soundInformation.samples.swim = {}
-  -- self.soundInformation.samples.plunge = {}
-  -- self.soundInformation.samples.horseBrush = {}
-  self.soundInformation.distancePerFootstep = {}
-  -- self.soundInformation.distancePerFootstep.crouch = 0.5
-  -- self.soundInformation.distancePerFootstep.walk = 0.75
-  -- self.soundInformation.distancePerFootstep.run = 1.5
-  -- self.soundInformation.distanceSinceLastFootstep = 0.0
-  -- self.soundInformation.isSampleSwinPlaying = false
-  self.particleSystemsInformation = {}
-  self.particleSystemsInformation.systems = {}
-  self.particleSystemsInformation.systems.swim = {}
-  self.particleSystemsInformation.systems.plunge = {}
-  self.particleSystemsInformation.swimNode = 0
-  self.particleSystemsInformation.plungeNode = 0
-  self.animationInformation = {}
-  self.animationInformation.player = nil
-  self.animationInformation.parameters = {}
-  -- self.animationInformation.parameters.forwardVelocity = {id=1, value=0.0, type=1}
-  -- self.animationInformation.parameters.verticalVelocity = {id=2, value=0.0, type=1}
-  self.animationInformation.parameters.yawVelocity = {id=3, value=0.0, type=1}
-  -- self.animationInformation.parameters.onGround = {id=4, value=false, type=0}
-  -- self.animationInformation.parameters.inWater = {id=5, value=false, type=0}
-  -- self.animationInformation.parameters.isCrouched = {id=6, value=false, type=0}
-  self.animationInformation.parameters.absForwardVelocity = {id=7, value=0.0, type=1}
-  -- self.animationInformation.parameters.isCloseToGround = {id=8, value=false, type=0}
-  -- self.animationInformation.parameters.isUsingChainsawHorizontal = {id=9, value=false, type=0}
-  -- self.animationInformation.parameters.isUsingChainsawVertical = {id=10, value=false, type=0}
-  -- -- @see Player.loadCustomization for the content of this struct
-  --self.visualInformation = nil
-  -- cached info
-  -- self.animationInformation.oldYaw = 0.0                               -- in rad
-  -- self.animationInformation.newYaw = 0.0                               -- in rad
-  -- self.animationInformation.estimatedYawVelocity = 0.0                 -- in rad/s
-  self.inputInformation = {};
-  self.rootNode = createTransformGroup("PlayerCCT")
-  link(getRootNode(), self.rootNode)
 
-  self.mapHotSpot = nil
-  --self.color = {1, 1, 1}--@FS19g_availableMpColorsTable[self.playerColorIndex].value -- g_availableMpColorsTable is nil
-  self.color = g_playerColors[(workerStyle.playerColorIndex + 1)].value
+  if index > 0 then
+    print("Create other players for index "..tostring(index))
+    FSBaseMission:createPlayer(g_currentMission.player.networkInformation.creatorConnection, false, playerStyle, farmId, (index+1))
+  end
 
-  -- start now with default one + offset
-  if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
-    self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
-    self.dx, self.dy, self.dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, 1);
-    self.rotX = 0.;
-    self.rotY = 0.73;
-    self.x = self.x + (1 * index)
-    
-    -- print("g_currentMission.player")
-    -- DebugUtil.printTableRecursively(g_currentMission.player, " ", 1, 2);
-
-    Player.loadVisuals(self, self.xmlFile, self.playerStyle, nil, true, self.ikChains, self.getParentComponent, self, nil)
-    self.playerStateMachine = PlayerStateMachine:new(self)
-    self.playerStateMachine:load()
-    self.playerStateMachine:activateState("idle")
-
-    --self:moveToAbsolute()
-
-    -- a:dataS/character/humans/player/player02.xml
-    -- b:table: 0x02455d96d3f8
-    -- c:82463 = characterNode
-    -- d:false
-    -- e:table: 0x02451dc40d58 = ikChains
-    -- f:nil
-    -- g:nil
-    -- h:82463 = characterNode
-    -- i:nil
-    -- j:nil
-    -- k:nil
-    -- print("self")
-    -- DebugUtil.printTableRecursively(self, " ", 1, 2);
-    
-    if self.skeletonThirdPerson ~= nil and index > 1 and self.displayOnFoot then
-      if ContractorModWorker.debug then print("this is the meshThirdPerson: ".. self.skeletonThirdPerson) end-- shows me an id
-      setVisibility(self.meshThirdPerson, true);
-      -- self.visualInformation:setVisibility(true)
-      setVisibility(self.animRootThirdPerson, true);
-      local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-      setTranslation(self.graphicsRootNode, self.x, self.y - playerOffSet, self.z)
-      setRotation(self.graphicsRootNode , 0, self.rotY, 0)
-      --setScale(meshThirdPerson, 5, 5, 5)
+  -- DebugUtil.printTableRecursively(g_currentMission.players, " ", 1, 3)
+  for k, p in pairs(g_currentMission.players) do
+    print("Player "..tostring(k).. "  "..tostring(p))
+    if p ~= nil then
+      print("Player "..tostring(p.userId))
+      if p.userId == (index+1) then
+        print("found p.userId "..tostring(p.userId))
+        self.name = name
+        self.nickname = g_settingsNickname
+        g_settingsNickname = name
+        self.currentVehicle = nil
+        self.isPassenger = false    -- to be removed when all code clean
+        self.isNewPassenger = false -- to replace isPassenger waiting code cleaning
+        self.xmlFile = p.xmlFilename
+        p.isControlled = true
+        if p.visualInformation == nil then
+          p.visualInformation = {}
+        end
+        p.visualInformation.playerName = name
+        self.mapHotSpot = nil
+        self.color = g_playerColors[(workerStyle.playerColorIndex + 1)].value
+        if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
+          self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
+          self.dx, self.dy, self.dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, 1);
+          self.rotX = 0.;
+          self.rotY = 0.73;
+          self.x = self.x + (1 * index)
+        end
+        p:moveTo(self.x, self.y, self.z, true, true)
+        if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(p.visualInformation.playerName)); end
+        if index > 1 then
+          p:setVisibility(true)
+          p.isEntered = false
+          print("set visible 1: "..self.name)
+        else
+          --p:moveToAbsoluteInternal(0, -200, 0);
+          p:setVisibility(false)
+          p.isEntered = true
+          print("set visible 0: "..self.name)
+          setRotation(p.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
+          setRotation(p.cameraNode, self.rotX, self.rotY, 0)
+        end
+        self.player = p
+        print("return self")
+        return self
+      else
+        print("p.userId "..tostring(p.userId))
+      end
     else
-      if ContractorModWorker.debug then print("this is the skeletonThirdPerson: nil") end-- shows me nil
+      print("p is nil")
     end
   end
-    
-  return self
 end
 
-function ContractorModWorker:displayName()
+
+function ContractorModWorker:displayName(contractorMod)
   --if ContractorModWorker.debug then print("ContractorModWorker:displayName()") end
   if self.name == "PLAYER" then return end
   setTextBold(true);
@@ -168,19 +115,23 @@ function ContractorModWorker:displayName()
   renderText(0.9828, 0.45, 0.024, self.name);
   
   if ContractorModWorker.debug then
-    renderText(0.9828, 0.43, 0.012, g_settingsNickname);
     if self.currentVehicle ~= nil then
       local vehicleName = ""
       if self.currentVehicle ~= nil then
-        if self.currentVehicle.name ~= nil then
-          vehicleName = self.currentVehicle.name
-        end
+        vehicleName = self.currentVehicle:getFullName()
       end
       renderText(0.9828, 0.42, 0.012, vehicleName);
     end
     renderText(0.9828, 0.41, 0.012, self.name);
     renderText(0.9828, 0.40, 0.012, "x:" .. tostring(self.x) .. " y:" .. tostring(self.y) .. " z:" .. tostring(self.z));
     renderText(0.9828, 0.39, 0.012, "dx:" .. tostring(self.dx) .. " dy:" .. tostring(self.dy) .. " dz:" .. tostring(self.dz));
+    renderText(0.9828, 0.38, 0.012, "rotX:" .. tostring(self.rotX) .. " rotY:" .. tostring(self.rotY));
+    renderText(0.9828, 0.37, 0.012, "graphicsRotY:" .. tostring(self.player.graphicsRotY));
+    renderText(0.9828, 0.36, 0.012, "targetGraphicsRotY:" .. tostring(self.player.targetGraphicsRotY));
+    renderText(0.9828, 0.35, 0.012, "shouldStopWorker:  " .. tostring(contractorMod.shouldStopWorker));
+    renderText(0.9828, 0.33, 0.012, "switching:         " .. tostring(contractorMod.switching));
+    renderText(0.9828, 0.31, 0.012, "passengerLeaving:  " .. tostring(contractorMod.passengerLeaving));
+    renderText(0.9828, 0.29, 0.012, "passengerEntering: " .. tostring(contractorMod.passengerEntering));
   end
   -- Restore default alignment (to avoid impacting other mods like FarmingTablet)
   setTextAlignment(RenderText.ALIGN_LEFT);
@@ -202,14 +153,32 @@ function ContractorModWorker:beforeSwitch(noEventSend)
       if ContractorModWorker.debug then print("ContractorModWorker: "..tostring(self.x)..", "..tostring(self.y)..", "..tostring(self.z)) end
       self.rotX = g_currentMission.player.rotX;
       self.rotY = g_currentMission.player.rotY;
-      if self.meshThirdPerson ~= nil and self.displayOnFoot then
+      -- self.player.isControlled = true
+      --[[
+      if self.player.skeletonThirdPerson ~= nil and self.displayOnFoot then
         if noEventSend == nil or noEventSend == false then
-          setVisibility(self.meshThirdPerson, true)
-          setVisibility(self.animRootThirdPerson, true)
+          setVisibility(self.player.skeletonThirdPerson, true)
+          setVisibility(self.player.meshThirdPerson, true)
+          setVisibility(self.player.animRootThirdPerson, true)
+          self.player.visualInformation:setVisibility(true)
         end
         local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-        setTranslation(self.graphicsRootNode, self.x, self.y - playerOffSet, self.z)
-        setRotation(self.graphicsRootNode, 0, self.rotY, 0)
+        setTranslation(self.player.graphicsRootNode, self.x, self.y, self.z)
+        setRotation(self.player.graphicsRootNode, 0, self.rotY, 0)
+        setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
+      end]]
+      if self.displayOnFoot then
+        self.player.isEntered = false
+        if noEventSend == nil or noEventSend == false then
+          print("set visible 1: "..self.name)
+          self.player:setVisibility(true)
+        end
+        -- setTranslation(self.player.rootNode, self.x, self.y, self.z);
+        if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(self.player.visualInformation.playerName)); end
+        self.player:moveRootNodeToAbsolute(self.x, self.y, self.z)
+        -- self.player:setRotation(self.rotX, self.rotY)
+        setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
+        setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
       end
     end
   else
@@ -232,19 +201,30 @@ function ContractorModWorker:afterSwitch(noEventSend)
   if self.currentVehicle == nil then
     -- target worker is not in a vehicle
     if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
-      if ContractorModWorker.debug then print("ContractorModWorker: moveToAbsolute"); end
-      local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-      setTranslation(g_currentMission.player.rootNode, self.x, self.y - playerOffSet, self.z);
-      g_currentMission.player:moveToAbsolute(self.x, self.y, self.z);
+      if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(g_currentMission.player.visualInformation.playerName)); end
+      setTranslation(g_currentMission.player.rootNode, self.x, self.y, self.z);
+      -- g_currentMission.player:moveTo(self.x, 0, self.z, false, true);
+      g_currentMission.player:moveRootNodeToAbsolute(self.x, self.y-0.2, self.z);
+      g_currentMission.player:setRotation(self.rotX, self.rotY)
+      -- setRotation(g_currentMission.player.graphicsRootNode, 0, self.rotY, 0)
+      -- setRotation(g_currentMission.player.cameraNode, self.rotX, self.rotY, 0)
       if noEventSend == nil or noEventSend == false then
-        g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y - playerOffSet, self.z, true, true));
+        local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
+        -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, 0, self.z, false, true));
+        -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y - playerOffSet, self.z, true, true));
       end
-      g_currentMission.player.rotX = self.rotX
-      g_currentMission.player.rotY = self.rotY
+      -- g_currentMission.player.rotX = self.rotX
+      -- g_currentMission.player.rotY = self.rotY
       if self.displayOnFoot then
-        setVisibility(self.meshThirdPerson, false)
-        setVisibility(self.animRootThirdPerson, false)
-        end
+        -- setVisibility(self.player.skeletonThirdPerson, false)
+        -- setVisibility(self.player.meshThirdPerson, false)
+        -- setVisibility(self.player.animRootThirdPerson, false)
+        self.player.isEntered = true
+        self.player.isControlled = true
+        self.player:moveToAbsoluteInternal(0, -200, 0); -- to avoid having player at the same location than current player
+        print("set visible 0: "..self.name)
+        -- TODO --self.player:setVisibility(false)
+      end
     end
 
   else
