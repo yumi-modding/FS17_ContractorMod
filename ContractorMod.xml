@@ -23,15 +23,15 @@
        -false => only show worker when inside a vehicle
     If you want to modify some element on a savegame, you can edit similar file in corresponding savegame directory
     -->
-    <workers numWorkers="8" enableSeveralDrivers="true" displayOnFootWorker="true">
-        <worker name="Alex" gender="male" playerColorIndex="0" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Barbara" gender="female" playerColorIndex="1" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Chris" gender="male" playerColorIndex="2" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="David" gender="male" playerColorIndex="3" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Ed" gender="male" playerColorIndex="4" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Frank" gender="male" playerColorIndex="5" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Gary" gender="male" playerColorIndex="6" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
-        <worker name="Henry" gender="male" playerColorIndex="7" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="0" playerJacketIndex="0" />
+    <workers numWorkers="4" enableSeveralDrivers="true" displayOnFootWorker="true">
+        <worker name="Alex" gender="male" playerColorIndex="0" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Barbara" gender="female" playerColorIndex="1" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Chris" gender="male" playerColorIndex="2" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="David" gender="male" playerColorIndex="3" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Ed" gender="male" playerColorIndex="4" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Frank" gender="male" playerColorIndex="5" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Gary" gender="male" playerColorIndex="6" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Henry" gender="male" playerColorIndex="7" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
     </workers>
     <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
