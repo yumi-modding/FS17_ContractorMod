@@ -16,6 +16,16 @@ ContractorMod.debug = true --false --
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
+-- Try to have workers on different farms (farmId)
+
+-- TO FIX:
+-- OnFoot character KO - seems                OK
+-- OnFoot character > 1 has skeleton visible  OK
+-- New game => Alex has hair visible          OK
+-- onFoot character falling /!\               OK
+-- Only passenger in car => driver when switching 
+-- Test new game + save
+-- Wrong rotation of on Foot Characters
 
 -- @doc First code called during map loading (before we can actually interact)
 function ContractorMod:loadMap(name)
@@ -56,6 +66,21 @@ function ContractorMod:registerActionEvents()
     -- DebugUtil.printTableRecursively(actionName, " ", 1, 2);
     --__, eventName = self:addActionEvent(self.actionEvents, actionName, self, ContractorMod.activateWorker, false, true, false, true)
   end
+  
+  -- TODO: replace here ContractorMod.debug by variable in ContractorMod.xml
+  if ContractorMod.debug then
+    print("ContractorMod:registerActionEvents() for DEBUG")
+    for _,actionName in pairs({ "ContractorMod_DEBUG_MOVE_PASS_LEFT",
+                                "ContractorMod_DEBUG_MOVE_PASS_RIGHT",
+                                "ContractorMod_DEBUG_MOVE_PASS_TOP",
+                                "ContractorMod_DEBUG_MOVE_PASS_BOTTOM",
+                                "ContractorMod_DEBUG_MOVE_PASS_FRONT",
+                                "ContractorMod_DEBUG_MOVE_PASS_BACK",
+                                "ContractorMod_DEBUG_DUMP_PASS" }) do
+      -- print("actionName "..actionName)
+      local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.debugCommands ,false ,true ,false ,true)
+    end
+  end
 end
 
 -- @doc registerActionEvents need to be called regularly
@@ -69,22 +94,20 @@ FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.regist
 -- @doc Called by update method only once at the beginning when nothing is initialized yet
 function ContractorMod:init()
   if ContractorMod.debug then print("ContractorMod:init()") end
-  -- Forbid switching between vehicles
-  -- g_currentMission.isToggleVehicleAllowed = false;
 
   self.currentID = 1.
   self.numWorkers = 4.
   self.workers = {}
   self.initializing = true
-  self.shouldExit = false           --Enable to forbid having 2 workers in the same vehicle
   self.shouldStopWorker = true      --Enable to distinguish LeaveVehicle when switchingWorker and when leaving due to player request
   self.enableSeveralDrivers = false --Should be always true when passenger works correctly
   self.displayOnFootWorker = false
   self.switching = false
   self.passengerLeaving = false
+  ContractorMod.passengerEntering = false
 
   self:manageModsConflicts()
-  --@FS19self:manageSpecialVehicles() --g_currentMission.nodeToVehicle is nil
+  self:manageSpecialVehicles() --g_currentMission.nodeToVehicle is nil
 
   local savegameDir;
   if g_currentMission.missionInfo.savegameDirectory then
@@ -98,7 +121,7 @@ function ContractorMod:init()
   end;
   self.savegameFolderPath = savegameDir;
   self.ContractorModXmlFilePath = self.savegameFolderPath .. '/ContractorMod.xml';
-  print(self.ContractorModXmlFilePath)
+
   if not self:initFromSave() or #self.workers <= 0 then
     if not self:initFromParam() or #self.workers <= 0 then
       -- default values
@@ -114,6 +137,7 @@ function ContractorMod:init()
       local worker = ContractorModWorker:new("Alex", 1, "male", workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 1;
+      workerStyle.playerHairIndex = 1;
       worker = ContractorModWorker:new("Barbara", 2, "female", workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 2;
@@ -126,14 +150,16 @@ function ContractorMod:init()
       self.enableSeveralDrivers = true
     end
   end
+  -- DebugUtil.printTableRecursively(g_currentMission.players, " ", 1, 3)
+  if ContractorMod.debug then print("ContractorMod:init()------------") end
 end
 
 
 function ContractorMod:onSwitchVehicle(action)
-	print("-- ContractorMod:onSwitchVehicle");
+	if ContractorMod.debug then print("ContractorMod:onSwitchVehicle()") end
   self.switching = true
   if action == "SWITCH_VEHICLE" then
-    print('ContractorMod_NEXTWORKER pressed')
+    if ContractorMod.debug then print('ContractorMod_NEXTWORKER pressed') end
     local nextID = 0
     if ContractorMod.debug then print("ContractorMod: self.currentID " .. tostring(self.currentID)) end
     if ContractorMod.debug then print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers)) end
@@ -145,8 +171,7 @@ function ContractorMod:onSwitchVehicle(action)
     if ContractorMod.debug then print("ContractorMod: nextID " .. tostring(nextID)) end
     self:setCurrentContractorModWorker(nextID)
   elseif action == "SWITCH_VEHICLE_BACK" then
-    print('ContractorMod_PREVWORKER pressed')
-    if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_PREVWORKER") end
+    if ContractorMod.debug then print('ContractorMod_PREVWORKER pressed') end
     local prevID = 0
     if self.currentID > 1 then
       prevID = self.currentID - 1
@@ -157,6 +182,7 @@ function ContractorMod:onSwitchVehicle(action)
   end
 end
 
+-- @doc Replace switch vehicle by switch worker
 function ContractorMod:replaceOnSwitchVehicle(superfunc, action, direction)
   ContractorMod:onSwitchVehicle(action)
 end
@@ -171,6 +197,42 @@ function ContractorMod:activateWorker(actionName, keyStatus)
     if self.numWorkers >= workerIndex and workerIndex ~= self.currentID then
       self:setCurrentContractorModWorker(workerIndex)
     end
+  end
+end
+
+-- @doc Debug commands to set passenger location
+function ContractorMod:debugCommands(actionName, keyStatus)
+	if ContractorMod.debug then print("ContractorMod:debugCommands") end
+  if ContractorMod.debug then print("actionName "..tostring(actionName)) end
+  local x1, y1, z1 = getTranslation(g_currentMission.controlledVehicle.passengers[1].characterNode)
+  if string.sub(actionName, 1, 30) == "ContractorMod_DEBUG_MOVE_PASS_" then
+    if actionName == "ContractorMod_DEBUG_MOVE_PASS_LEFT" then
+      -- print("+x")
+      x1 = x1 + 0.05
+    elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_RIGHT" then
+      -- print("-x")
+      x1 = x1 - 0.05
+    elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_TOP" then
+      -- print("+z")
+      z1 = z1 + 0.05
+    elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_BOTTOM" then
+      -- print("-z")
+      z1 = z1 - 0.05
+    elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_FRONT" then
+      -- print("+y")
+      y1 = y1 + 0.05
+    elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_BACK" then
+      -- print("-y")
+      y1 = y1 - 0.05
+    end
+    setTranslation(g_currentMission.controlledVehicle.passengers[1].characterNode, x1, y1, z1)
+    print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+    DebugUtil.drawDebugReferenceAxisFromNode(g_currentMission.controlledVehicle.passengers[1].characterNode)
+  end
+  if actionName == "ContractorMod_DEBUG_DUMP_PASS" then
+    print("passenger location")
+    local configFileName = g_currentMission.controlledVehicle.configFileName
+    print("<Passenger vehiclesName=\""..configFileName.."\" seatIndex=\"1\" x=\""..string.format("%2.4f", x1).."\" y=\""..string.format("%2.4f", y1).."\" z=\""..string.format("%2.4f", z1).."\" rx=\"0\" ry=\"0\" rz=\"0\" />")
   end
 end
 
@@ -245,7 +307,8 @@ function ContractorMod:initFromSave()
             workerStyle.playerAccessoryIndex = playerAccessoryIndex;
             workerStyle.playerHairIndex = playerHairIndex;
             workerStyle.playerJacketIndex = playerJacketIndex;
-            local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, self.displayOnFootWorker)
+            local farmId = 1
+            local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, farmId, self.displayOnFootWorker)
             if ContractorMod.debug then print(getXMLString(xmlFile, key.."#position")) end
             local x, y, z = StringUtil.getVectorFromString(getXMLString(xmlFile, key.."#position"));
             if ContractorMod.debug then print("x "..tostring(x)) end
@@ -360,7 +423,8 @@ function ContractorMod:initFromParam()
             workerStyle.playerHairIndex = playerHairIndex;
             workerStyle.playerJacketIndex = playerJacketIndex;
             if ContractorMod.debug then print(workerName) end
-            local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, self.displayOnFootWorker)
+            local farmId = 1
+            local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, farmId,  self.displayOnFootWorker)
             if ContractorMod.debug then print(getXMLString(xmlFile, key.."#position")) end
             local x, y, z = StringUtil.getVectorFromString(getXMLString(xmlFile, key.."#position"));
             if ContractorMod.debug then print("x "..tostring(x)) end
@@ -413,7 +477,7 @@ function ContractorMod:CopyContractorModXML()
   end
 end
 
--- Remove characters (driver & passengers) from vehicle when sold or when exiting game
+-- @doc Remove characters (driver & passengers) from vehicle when sold or when exiting game
 function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
   local vehicleName = ""
   if vehicle ~= nil then
@@ -443,7 +507,6 @@ function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
           end
           worker.currentVehicle = nil
           -- Remove mapHotSpot
-          --@FS19: g_currentMission.ingameMap:deleteMapHotspot(worker.mapHotSpot) g_currentMission.ingameMap is nil
           g_currentMission:removeMapHotspot(worker.mapHotSpot)
           worker.mapHotSpot:delete()
           worker.mapHotSpot = nil
@@ -457,93 +520,6 @@ function ContractorMod:removeVehicle(vehicle, callDelete)
   ContractorMod:ManageSoldVehicle(vehicle, callDelete)
 end
 BaseMission.removeVehicle = Utils.prependedFunction(BaseMission.removeVehicle, ContractorMod.removeVehicle);
-
--- @doc Called after entering a vehicle to avoid 2 drivers in the same vehicle
-function ContractorMod:ManageEnterVehicle(vehicle, playerStyle)
-  local vehicleName = ""
-  if vehicle ~= nil then
-    if vehicle.name ~= nil then
-      vehicleName = vehicle.name
-    end
-  end
-  if ContractorMod.debug then print("ContractorMod:appendedEnterVehicle >>" .. vehicleName) end
-
-  local doExit = false
-  if self.workers ~= nil then
-    if #self.workers > 0 and not self.initializing and not self.enableSeveralDrivers then
-      for i = 1, self.numWorkers do
-        local worker = self.workers[i]
-        if worker.currentVehicle == vehicle then
-          if worker.name ~= self.workers[self.currentID].name then
-            if ContractorMod.debug then print("ContractorMod: "..worker.name .. " already in ") end
-            if worker.isPassenger == false then
-              if ContractorMod.debug then print("as driver") end
-              doExit = true
-            else
-              if ContractorMod.debug then print("as passenger") end
-              doExit = false
-            end
-          else
-            doExit = false
-          end
-        end
-      end
-    end
-  end
-  if doExit then
-    if ContractorMod.debug then print("ContractorMod: Player will leave " ) end
-    g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_VEHICLE_NOT_FREE"))
-    self.shouldExit = true
-  end
-  -- @FS19 Do we still this code ??
-  if self.switching and vehicle.steeringEnabled then  -- true and false
-    -- Switching and no AI
-    if SpecializationUtil.hasSpecialization(AIVehicle, vehicle.specializations) then
-      -- Stop AI if vehicle can be hired (else will crash on cars)
-      vehicle:stopAIVehicle();
-    end
-    vehicle.isHired = false
-    --HelperUtil.releaseHelper(vehicle.currentHelper)
-    if ContractorMod.debug then print("ContractorMod: switching-noAI " .. tostring(vehicle.isHired)) end
-    if ContractorMod.debug then print("ContractorMod: switching-noAI " .. tostring(vehicle.spec_enterable.vehicleCharacter)) end
-  else
-    if ContractorMod.debug then print("ContractorMod: 253 " .. tostring(vehicle.isHired)) end
-  end
-
-  --[[
-  if self.workers ~= nil then
-    local currentWorker = self.workers[self.currentID]
-    if currentWorker.isNewPassenger then
-      local activeCam = getCamera()
-      if (activeCam ~= nil) then
-        -- Change camera here
-        -- get current camera position
-        local x, y, z = getTranslation(activeCam)
-        print("x:"..tostring(x).." y:"..tostring(y).." z:"..tostring(z))
-        -- local passengerNode = vehicle.passengers[currentWorker.seatIndex]
-        -- print(tostring(passengerNode))
-        -- local characterNode = vehicle.vehicleCharacter
-        -- print(tostring(characterNode))
-        -- local transformCam = localToLocal(passengerNode, characterNode)
-        -- print(tostring(transformCam))
-        -- move it for passenger
-        -- setTranslation(vehicle.activeCamera.cameraPositionNode, (x - 1), y, z)
-        -- vehicle.activeCamera:resetCamera()
-      end
-    end
-  end ]]
-
-  if ContractorMod.debug then print("ContractorMod: 251 " .. tostring(self.switching) .. " : " .. tostring(vehicle.steeringEnabled)) end
-  if ContractorMod.debug then print("ContractorMod:appendedEnterVehicle <<" .. vehicleName) end
-  if vehicle ~= nil then
-    if ContractorMod.debug then print("isHired " .. tostring(vehicle.isHired) .. " disableChar " .. tostring(vehicle.disableCharacterOnLeave) .. " steering " .. tostring(vehicle.steeringEnabled)) end
-  end
-end
-function ContractorMod:onEnterVehicle(vehicle, playerStyle)
-  --print("ContractorMod:onEnterVehicle " .. vehicle.name)
-  ContractorMod:ManageEnterVehicle(vehicle, playerStyle)
-end
-BaseMission.onEnterVehicle = Utils.appendedFunction(BaseMission.onEnterVehicle, ContractorMod.onEnterVehicle);
 
 -- @doc Load VehicleCharacter for a passenger and put it at the given location
 function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
@@ -601,7 +577,7 @@ print("child "..cameraChildIndex)
         return passenger
 end
 
--- @doc Called when loading a vehicle (load game or buy new vehicle) to retrive and add passengers info
+-- @doc Called when loading a vehicle (load game or buy new vehicle) to retrieve and add passengers info
 function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     if ContractorMod.debug then print("ContractorMod.ManageNewVehicle") end
 
@@ -668,13 +644,15 @@ Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMo
 -- @doc Define empty passenger for special vehicles like trains, crane
 function ContractorMod:manageSpecialVehicles()
   if ContractorMod.debug then print("ContractorMod:manageSpecialVehicles") end
-  for k, v in pairs(g_currentMission.nodeToVehicle) do --@FS19: to check nodeToObject
+  for k, v in pairs(g_currentMission.nodeToObject) do
     if v ~= nil then
-      local loco = v.motorType
+      --DebugUtil.printTableRecursively(v, " ", 1, 2);
+      local loco = v.typeName
       if loco ~= nil and loco == "locomotive" then
         -- no passengers for train
         v.passengers = {}
       else
+        -- @FS19: to identify crane
         if v.stationCraneId ~= nil then
           -- no passengers for Station Crane
           v.passengers = {}
@@ -684,7 +662,7 @@ function ContractorMod:manageSpecialVehicles()
   end
 end
 
--- @doc Retrive passengers info from xml files for standard and mods enterable vehicles
+-- @doc Retrieve passengers info from xml files for standard and mods enterable vehicles
 function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   if ContractorMod.debug then print("ContractorMod:loadPassengersFromXML") end
   local foundConfig = false
@@ -715,12 +693,36 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
           local rx = getXMLFloat(xmlFile, xmlPath.."#rx")
           local ry = getXMLFloat(xmlFile, xmlPath.."#ry")
           local rz = getXMLFloat(xmlFile, xmlPath.."#rz")
-          if seatIndex == 1 and x == 0.0 and y == 0.0 and z == 0.0 then
+          if seatIndex == -1 and x == 0.0 and y == 0.0 and z == 0.0 then
             print("[ContractorMod]Passenger seat not configured yet for vehicle "..xmlVehicleName)
+            local characterNode = vehicle.spec_enterable.defaultCharacterNode
+            -- print("Driver position node is: "..tostring(characterNode))
+            -- local x1, y1, z1 = getTranslation(characterNode)
+            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+            local dx,dy,dz = localToLocal(vehicle.rootNode, characterNode, 0,0,0);
+            -- print("x=\""..tostring(dx).."\" y=\""..tostring(dy).."\" z=\""..tostring(dz))
+            -- To replace by variable in ContractorMod.xml
+            if ContractorMod.debug then
+              x = -dx
+              y = -dy
+              z = -dz
+              seatIndex = 1
+            end
           end
           if seatIndex > 0 then
             print('Adding seat for '..xmlVehicleName)
             vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+            
+            -- DebugUtil.printTableRecursively(vehicle.passengers[seatIndex], " ", 1, 2);
+            -- local x1, y1, z1 = getTranslation(vehicle.passengers[seatIndex].characterNode)
+            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+            
+            -- local characterNode = vehicle.spec_enterable.defaultCharacterNode
+            -- print(tostring(characterNode))
+            -- local x1, y1, z1 = getTranslation(characterNode)
+            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+            -- local dx,dy,dz = localToLocal(characterNode, vehicle.rootNode, 0, 0, 0);
+            -- print("dx: "..tostring(dx).." dy: "..tostring(dy).." dz: "..tostring(dz))
           end
         end
         i = i + 1
@@ -729,15 +731,47 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   return foundConfig
 end
 
--- function ContractorMod:loadCharacter(a, b)
---   print("ContractorMod:loadCharacter")
---   print("a:"..tostring(a))
---   print("b:"..tostring(b))
---   print("ContractorMod: b")
---   printCallstack()
---   --DebugUtil.printTableRecursively(b, " ", 1, 4);
--- end
--- VehicleCharacter.loadCharacter = Utils.appendedFunction(VehicleCharacter.loadCharacter, ContractorMod.loadCharacter)
+function ContractorMod:loadCharacter(xmlFilename, playerStyle)
+  print("ContractorMod:loadCharacter")
+  print("a:"..tostring(xmlFilename))
+  print("b:"..tostring(playerStyle))
+  --print("b:"..tostring(b.player.name))
+  printCallstack()
+--------------------------  DebugUtil.printTableRecursively(playerStyle, " ", 1, 3);
+end
+VehicleCharacter.loadCharacter = Utils.appendedFunction(VehicleCharacter.loadCharacter, ContractorMod.loadCharacter)
+
+function ContractorMod:setRotation(rotX, rotY)
+  print("ContractorMod:setRotation")
+  print("rotX:"..tostring(rotX))
+  print("rotY:"..tostring(rotY))
+  printCallstack()
+end
+Player.setRotation = Utils.appendedFunction(Player.setRotation, ContractorMod.setRotation)
+
+function ContractorMod:playerLoad(xml, playerStyle, creatorConnection, isOwner)
+  print("ContractorMod:playerLoad")
+  print("xml:"..tostring(xml))
+  print("playerStyle:"..tostring(playerStyle))
+  print("creatorConnection:"..tostring(creatorConnection))
+  print("isOwner:"..tostring(isOwner))
+  --print("b:"..tostring(b.player.name))
+  printCallstack()
+ --------------------------  DebugUtil.printTableRecursively(creatorConnection, " ", 1, 3);
+end
+Player.load = Utils.appendedFunction(Player.load, ContractorMod.playerLoad)
+
+function ContractorMod:createPlayer(a, b, c, d, e, f)
+  print("ContractorMod:createPlayer")
+  --------------------------  DebugUtil.printTableRecursively(a, " ", 1, 3);  --connection
+  print("b:"..tostring(b))                        --isOwner ?
+  --------------------------  DebugUtil.printTableRecursively(c, " ", 1, 3);  --playerStyle
+  print("d:"..tostring(d))                        -- ?
+  print("e:"..tostring(e))                        -- ?
+  print("f:"..tostring(f))
+  printCallstack()
+end
+FSBaseMission.createPlayer = Utils.appendedFunction(FSBaseMission.createPlayer, ContractorMod.createPlayer)
 
 -- function ContractorMod:addSpecialization(a, b, c, d, e)
 --   print("ContractorMod:addSpecialization")
@@ -763,13 +797,13 @@ end
 
 -- @doc Load and display characters in vehicle for drivers & passengers instead of default methods
 function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
-    if ContractorMod.debug then print("ContractorMod:placeVisualWorkerInVehicle") end
-    if vehicle.spec_enterable.vehicleCharacter == nil and ContractorMod.debug then print("ContractorMod: vehicle.spec_enterable.vehicleCharacter == nil" ) end          
-    if vehicle.passengers == nil then print("ContractorMod: vehicle.passengers == nil" ) end          
+  if ContractorMod.debug then print("ContractorMod:placeVisualWorkerInVehicle") end
+  if vehicle.spec_enterable.vehicleCharacter == nil and ContractorMod.debug then print("ContractorMod: vehicle.spec_enterable.vehicleCharacter == nil" ) end          
+  if vehicle.passengers == nil then print("ContractorMod: vehicle.passengers == nil" ) end          
 
-    if ContractorMod.debug then print("ContractorMod: playerStyle "..tostring(worker.playerStyle.selectedColorIndex)) end
+  if ContractorMod.debug then print("ContractorMod: playerStyle "..tostring(worker.playerStyle.selectedColorIndex)) end
 
-    local character = vehicle:getVehicleCharacter()
+  local character = vehicle:getVehicleCharacter()
   if seat == 0 and character ~= nil then
     -- Driver
     print("setVehicleCharacter as driver")
@@ -783,24 +817,16 @@ function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
     if vehicle.passengers ~= nil then
       if vehicle.passengers[seat] ~= nil then
         print("setVehicleCharacter as passenger")
-        character = vehicle:setVehicleCharacter(worker.xmlFile, worker.playerStyle)
-        -- vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerStyle)
-        --IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
-      else
-        if vehicle.spec_enterable.vehicleCharacter ~= nil then
-          -- no more passenger allowed
-          if ContractorMod.debug then print("ContractorMod: Passenger will leave " ) end
-          g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_NO_MORE_PASSENGER"))
-          ContractorMod.shouldExit = true
-        end
-        -- if vehicle.vehicleCharacter == nil ==> belt system without visible character
+        vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerStyle)
+        IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
       end
     end
   end
 end
 
-
+-- @doc Decide to load driver or passenger character when entering a vehicle
 function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle, farmId)
+  if ContractorMod.debug then print("ContractorMod:ReplaceEnterVehicle") end
 
   -- @FS19
     -- local tmpXmlFilename = PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename
@@ -813,8 +839,18 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
       local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
       for seat = 0, 4 do
         local seatUsed = false
+        print("loop on workers")
         for i = 1, ContractorMod.numWorkers do
           local worker = ContractorMod.workers[i]
+          print(worker.name)
+          print("currentSeat "..tostring(worker.currentSeat))
+          print("seat        "..tostring(seat))
+          if worker.currentVehicle ~= nil then
+            print("currentVehicle "..worker.currentVehicle:getFullName())
+          end
+          if self ~= nil then
+            print("self           "..self:getFullName())
+          end
           if worker.currentSeat == seat and worker.currentVehicle == self then
             seatUsed = true
             break
@@ -822,27 +858,41 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
         end
         if seatUsed == false and ( self.passengers[1] ~= nil or seat == 0 ) then
           firstFreepassengerSeat = seat
+          print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat))
           break
         end
       end
 
-      local tmpVehicleCharacter = self.vehicleCharacter
-      local tmpPlayerStyle = self.playerStyle
+      if self.typeName == "horse" then
+        print("horse: "..self:getFullName())
+        superFunc(self, isControlling, ContractorMod.workers[ContractorMod.currentID].playerStyle, farmId)
+        return
+      end
+      if firstFreepassengerSeat > 0 then
+        if ContractorMod.debug then print("passenger entering "..tostring(firstFreepassengerSeat)) end
+        -- We should set true if no more driver but passenger still in the vehicle
+        ContractorMod.passengerEntering = true
+        if ContractorMod.debug then print("ContractorMod.passengerEntering "..tostring(ContractorMod.passengerEntering)) end
+      end
+      -- local tmpVehicleCharacter = self.spec_enterable.vehicleCharacter
+      local tmpPlayerStyle = self.spec_enterable.playerStyle
+      self.spec_enterable.playerStyle = nil
       local tmpFarmId = self.farmId
-      self.vehicleCharacter = nil -- Keep it from beeing modified
+      -- self.spec_enterable.vehicleCharacter = nil -- Keep it from beeing modified
       superFunc(self, isControlling, ContractorMod.workers[ContractorMod.currentID].playerStyle, farmId)
-      self.vehicleCharacter = tmpVehicleCharacter
-      self.playerStyle = tmpPlayerStyle
+      -- self.spec_enterable.vehicleCharacter = tmpVehicleCharacter
+      self.spec_enterable.playerStyle = tmpPlayerStyle
       self.farmId = tmpFarmId
-      
+
       -- When Initializing we are called when ContractorMod.currentID is not set.
       -- When switching vehicle we are called for drivers already entered but then currentSeat ~= nil.
       if ContractorMod.workers[ContractorMod.currentID].currentSeat == nil and not ContractorMod.initializing  then 
         ContractorMod.workers[ContractorMod.currentID].currentSeat = firstFreepassengerSeat
         ContractorMod:placeVisualWorkerInVehicle(ContractorMod.workers[ContractorMod.currentID], self, firstFreepassengerSeat)
+        --if firstFreepassengerSeat > 0 and ContractorMod.workers[ContractorMod.currentID].currentSeat == nil and not ContractorMod.initializing then
         if firstFreepassengerSeat > 0 then
           if ContractorMod.debug then print("passenger entering") end
-          ContractorMod.workers[ContractorMod.currentID].isNewPassenger = true
+            ContractorMod.workers[ContractorMod.currentID].isNewPassenger = true          
           -- TODO: Test somewhere if current worker is passenger/driver => update camera position
           -- get playerRoot vehicle
           -- compute seat - playerRoot transfo
@@ -853,14 +903,34 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
   -- @FS19
     -- PlayerUtil.playerIndexToDesc[playerIndex].xmlFilename = tmpXmlFilename
     g_currentMission.player.xmlFilename = tmpXmlFilename
+    ContractorMod.passengerEntering = false
 end
 Enterable.enterVehicle = Utils.overwrittenFunction(Enterable.enterVehicle, ContractorMod.ReplaceEnterVehicle)
 
+-- @doc Prevent to replace driver character when activating a worker
 function ContractorMod:ReplaceSetRandomVehicleCharacter()
   print("ContractorMod:ReplaceSetRandomVehicleCharacter")
 end
 Enterable.setRandomVehicleCharacter = Utils.overwrittenFunction(Enterable.setRandomVehicleCharacter, ContractorMod.ReplaceSetRandomVehicleCharacter)
 
+-- @doc Prevent to replace driver character when stopping a worker
+function ContractorMod:ReplaceRestoreVehicleCharacter()
+  print("ContractorMod:ReplaceRestoreVehicleCharacter")
+end
+Enterable.restoreVehicleCharacter = Utils.overwrittenFunction(Enterable.restoreVehicleCharacter, ContractorMod.ReplaceRestoreVehicleCharacter)
+
+-- @doc Prevent to replace driver character when entering as passenger
+function ContractorMod:ReplaceSetVehicleCharacter(superFunc, xmlFilename, playerStyle)
+  print("ContractorMod:ReplaceSetVehicleCharacter")
+  if not ContractorMod.passengerEntering then
+    print("ContractorMod: not passengerEntering")
+    superFunc(self, xmlFilename, playerStyle)
+  end
+  print("ContractorMod: passengerEntering return")
+  ContractorMod.passengerEntering = false
+  return
+end
+Enterable.setVehicleCharacter = Utils.overwrittenFunction(Enterable.setVehicleCharacter, ContractorMod.ReplaceSetVehicleCharacter)
 
 -- function ContractorMod:ReplaceOnStartAiVehicle(superFunc, isControlling, playerIndex, playerStyle)
 --     if ContractorMod.debug then print("ContractorMod:ReplaceOnStartAiVehicle") end
@@ -890,6 +960,7 @@ function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
     end
   end
   if ContractorMod.debug then print("ContractorMod:prependedEnterVehicle >>" .. vehicleName) end
+  -- if ContractorMod.debug then DebugUtil.printTableRecursively(vehicle, " ", 1, 1) end
   
   local doExit = false
   if self.workers ~= nil then
@@ -938,15 +1009,15 @@ function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
   vehicle.disableCharacterOnLeave = true;
   -- end
   
-  if ContractorMod.debug then print("ContractorMod:prependedEnterVehicle <<" .. vehicle.typeName) end
+  if ContractorMod.debug then print("ContractorMod:prependedEnterVehicle <<" .. vehicle:getFullName()) end
   if vehicle ~= nil then
     if ContractorMod.debug then print("isHired " .. tostring(vehicle.isHired) .. " disableChar " .. tostring(vehicle.disableCharacterOnLeave) .. " steering " .. tostring(vehicle.steeringEnabled)) end
   end
 end
 function ContractorMod:beforeEnterVehicle(vehicle, playerStyle)
-  if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle.typeName) end
+  if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle:getFullName()) end
   --print("arg1 "..tostring(playerStyle))
-  DebugUtil.printTableRecursively(playerStyle, " ", 1, 1)
+  -- DebugUtil.printTableRecursively(playerStyle, " ", 1, 1)
   ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
 end
 BaseMission.onEnterVehicle = Utils.prependedFunction(BaseMission.onEnterVehicle, ContractorMod.beforeEnterVehicle);
@@ -1005,18 +1076,66 @@ function ContractorMod:replaceGetDisableVehicleCharacterOnLeave(superfunc)
   if ContractorMod.debug then print("ContractorMod:replaceGetDisableVehicleCharacterOnLeave ") end
   if ContractorMod.switching then
     ContractorMod.switching = false
-    print("return false")
+    if ContractorMod.debug then print("switching return false") end
     return false
   end
   if ContractorMod.passengerLeaving then
     ContractorMod.passengerLeaving = false
-    print("return false")
+    if ContractorMod.debug then print("passengerLeaving return false") end
     return false
   end
   return true
 end
 Enterable.getDisableVehicleCharacterOnLeave = Utils.overwrittenFunction(Enterable.getDisableVehicleCharacterOnLeave, ContractorMod.replaceGetDisableVehicleCharacterOnLeave);
 
+-- @doc Prevent to enter a vehicle when no more space
+function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
+  if ContractorMod.debug then print("ContractorMod:replaceVehicleEnterRequestEventRun ") end
+  -- TODO: Manage forestry truck
+  local canEnterWhenSwitching = false
+  -- 0 is drivers seat
+  local seat
+  local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
+  for seat = 0, 4 do
+    local seatUsed = false
+    print("loop on workers")
+    for i = 1, ContractorMod.numWorkers do
+      local worker = ContractorMod.workers[i]
+      print(worker.name)
+      print("currentSeat "..tostring(worker.currentSeat))
+      print("seat        "..tostring(seat))
+      if worker.currentVehicle ~= nil then
+        print("currentVehicle "..worker.currentVehicle:getFullName())
+      end
+      if self.object ~= nil then
+        print("self           "..self.object:getFullName())
+      end
+      if worker.currentSeat == seat and worker.currentVehicle == self.object and worker == ContractorMod.workers[ContractorMod.currentID] then
+        canEnterWhenSwitching = true
+      end
+      if worker.currentSeat == seat and worker.currentVehicle == self.object then
+        seatUsed = true
+        break
+      end
+    end
+    if seatUsed == false and ( self.object.passengers[1] ~= nil or seat == 0 ) then
+      firstFreepassengerSeat = seat
+      break
+    end
+  end
+  print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat))
+
+  if not canEnterWhenSwitching then
+    if firstFreepassengerSeat < 0 and not ContractorMod.initializing then
+      if ContractorMod.debug then print("ContractorMod:replaceVehicleEnterRequestEventRun ") end
+      g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_NO_MORE_PASSENGER"))
+      return
+    end
+  end
+  return superfunc(self, connection)
+end
+VehicleEnterRequestEvent.run = Utils.overwrittenFunction(VehicleEnterRequestEvent.run, ContractorMod.replaceVehicleEnterRequestEventRun);
+ 
 -- @doc Make some checks before leaving a vehicle to manage passengers and hired worker
 function ContractorMod:ManageLeaveVehicle(controlledVehicle)
   if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle >>") end
@@ -1027,17 +1146,17 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
   if controlledVehicle ~= nil then
     if self.shouldStopWorker then
     
-    local occupants = 0
-    
-    for i = 1, self.numWorkers do
-      local worker = self.workers[i]
-      if worker.currentVehicle == controlledVehicle then
-        occupants = occupants + 1
+      local occupants = 0
+      
+      for i = 1, self.numWorkers do
+        local worker = self.workers[i]
+        if worker.currentVehicle == controlledVehicle then
+          occupants = occupants + 1
+        end
       end
-    end
       if occupants == 1 then -- Last driver leaving
         --Leaving vehicle
-        if ContractorMod.debug then print("controlled vehicle " .. controlledVehicle.typeName) end
+        if ContractorMod.debug then print("controlled vehicle " .. controlledVehicle:getFullName()) end
         if ContractorMod.debug then print("controlledVehicle.spec_enterable.isControlled " .. tostring(controlledVehicle.spec_enterable.isControlled)) end
         --if not controlledVehicle.spec_enterable.isControlled then
         if controlledVehicle:getIsAIActive() then
@@ -1054,7 +1173,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
               controlledVehicle:stopAIVehicle();
             end
           else
-            controlledVehicle:stopAIVehicle();
+            controlledVehicle:stopAIVehicle(AIVehicle.STOP_REASON_UNKNOWN);
           end
           --Leaving and no AI activated
           --Bear
@@ -1066,6 +1185,11 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
       end
       if ContractorMod.workers[ContractorMod.currentID].currentSeat == 0 then
         if ContractorMod.debug then print("ContractorMod: driver leaving") end
+        if controlledVehicle:getIsAIActive() then
+            --Driver Leaving and AI activated
+            g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("ContractorMod_WORKER__STOP"))
+            controlledVehicle:stopAIVehicle(AIVehicle.STOP_REASON_UNKNOWN);
+        end
         if controlledVehicle.vehicleCharacter ~= nil then
           -- to manage vehicles without character like belt system
           controlledVehicle.vehicleCharacter:delete()
@@ -1117,21 +1241,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
     -- else
       -- controlledVehicle.disableCharacterOnLeave = true;
     -- end
-    if self.shouldExit then
-      if ContractorMod.debug then print("ContractorMod: self.shouldExit") end
-        controlledVehicle.disableCharacterOnLeave = false;
-        controlledVehicle.isHirableBlocked = true;
-        controlledVehicle.forceIsActive = true;
-        controlledVehicle.stopMotorOnLeave = false;
-        if controlledVehicle.vehicleCharacter ~= nil then
-          if controlledVehicle.isEntered then
-            -- Seems new issue after patch 1.5: character not visible when switching with inCab camera
-            if ContractorMod.debug then print("ContractorMod:setCharacterVisibility") end
-            controlledVehicle.vehicleCharacter:setCharacterVisibility(true)
-          end
-        end
-    end 
-    if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle <<" .. controlledVehicle.typeName) end
+    if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle <<" .. controlledVehicle:getFullName()) end
   end
   if controlledVehicle ~= nil then
     if ContractorMod.debug then print("isHired " .. tostring(controlledVehicle.isHired) .. " disableChar " .. tostring(controlledVehicle.disableCharacterOnLeave) .. " steering " .. tostring(controlledVehicle.steeringEnabled)) end
@@ -1176,7 +1286,11 @@ function ContractorMod:onSaveCareerSavegame()
         local worker = self.workers[i]
         local key = string.format(rootXmlKey .. ".workers.worker(%d)", i - 1);
         setXMLString(xmlFile, key.."#name", worker.name);
-        setXMLString(xmlFile, key.."#gender", worker.gender);
+        local gender = "male"
+        if worker.playerStyle.selectedModelIndex > 1 then
+          gender = "female"
+        end
+        setXMLString(xmlFile, key.."#gender", gender);
         setXMLInt(xmlFile, key.."#playerColorIndex", worker.playerStyle.selectedColorIndex);
         setXMLInt(xmlFile, key.."#playerBodyIndex", worker.playerStyle.selectedBodyIndex);
         setXMLInt(xmlFile, key.."#playerHatIndex", worker.playerStyle.selectedHatIndex);
@@ -1217,7 +1331,7 @@ function ContractorMod:draw()
       local currentWorker = self.workers[self.currentID]
       if currentWorker ~= nil then
         --Display current worker name
-        currentWorker:displayName()
+        currentWorker:displayName(self)
       end
       for i = 1, self.numWorkers do
         local worker = self.workers[i]
@@ -1284,36 +1398,53 @@ function ContractorMod:update(dt)
       self.shouldStopWorker = false
       -- Activate each vehicle once to show farmer in them
        for i = 2, self.numWorkers do
-         local worker = self.workers[i]
-         if worker.currentVehicle ~= nil then
-           if worker.meshThirdPerson and self.displayOnFootWorker then
-             setVisibility(worker.meshThirdPerson, false)
-             setVisibility(worker.animRootThirdPerson, false)
-           end
+          local worker = self.workers[i]
+          if worker.currentVehicle ~= nil then
+          --  if worker.meshThirdPerson and self.displayOnFootWorker then
+          --    setVisibility(worker.skeletonThirdPerson, false)
+          --    setVisibility(worker.meshThirdPerson, false)
+          --    setVisibility(worker.animRootThirdPerson, false)
+            if self.displayOnFootWorker then
+              worker.player.isEntered = true
+              worker.player.isControlled = true
+              -- TODO --worker.player:moveToAbsoluteInternal(0, -200, 0); -- commented to avoid character falling
+              print("set visible 0: "..worker.name)
+              worker.player:setVisibility(false)
+            end
            --if ContractorMod.debug then print("sendEvent VehicleEnterRequestEvent " .. worker.name .. " : " .. worker.currentVehicle.typeName) end
-           g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(worker.currentVehicle, worker.playerStyle, worker.farmId));
-           g_currentMission:onLeaveVehicle()
-         else
-           if worker.meshThirdPerson and self.displayOnFootWorker then
-             if ContractorMod.debug then print("ContractorMod: setVisibility(worker.meshThirdPerson"); end
-             setVisibility(worker.meshThirdPerson, true)
-             setVisibility(worker.animRootThirdPerson, true)
-             local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-             setTranslation(worker.graphicsRootNode, worker.x, worker.y - playerOffSet, worker.z)
-             setRotation(worker.graphicsRootNode, 0, worker.rotY, 0)
-           end
-         end
-       end
-      self.switching = false
-      self.shouldStopWorker = true
+          --  g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(worker.currentVehicle, worker.playerStyle, worker.farmId));
+          --  g_currentMission:onLeaveVehicle()
+          else
+            if self.displayOnFootWorker then
+            -- if worker.meshThirdPerson and self.displayOnFootWorker then
+              if ContractorMod.debug then print("ContractorMod: setVisibility(worker.meshThirdPerson"); end
+
+                print("set visible 1: "..worker.name)
+                worker.player:setVisibility(true)
+                worker.player:moveRootNodeToAbsolute(worker.x, worker.y, worker.z)
+                -- self.player:setRotation(self.rotX, self.rotY)
+                setRotation(worker.player.graphicsRootNode, 0, worker.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
+                setRotation(worker.player.cameraNode, worker.rotX, worker.rotY, 0)
+                -- setVisibility(worker.skeletonThirdPerson, true)
+                -- setVisibility(worker.meshThirdPerson, true)
+                -- setVisibility(worker.animRootThirdPerson, true)
+                -- local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
+                -- setTranslation(worker.graphicsRootNode, worker.x, worker.y - playerOffSet, worker.z)
+                -- setRotation(worker.graphicsRootNode, 0, worker.rotY, 0)
+              end
+            end
+        end
+        self.switching = false
+        self.shouldStopWorker = true
     end
     local firstWorker = self.workers[self.currentID]
     if g_currentMission.player and g_currentMission.player ~= nil then
       if ContractorMod.debug then print("ContractorMod: moveToAbsolute"); end
-      setTranslation(g_currentMission.player.rootNode, firstWorker.x, firstWorker.y, firstWorker.z);
+      -- setTranslation(g_currentMission.player.rootNode, firstWorker.x, firstWorker.y, firstWorker.z);
       g_currentMission.player:moveToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
-      g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(firstWorker.x, firstWorker.y, firstWorker.z, true, true));
-      g_currentMission.player.rotY = firstWorker.rotY
+      -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(firstWorker.x, firstWorker.y, firstWorker.z, true, true));
+      -- g_currentMission.player.rotY = firstWorker.rotY
+      g_currentMission.player:setRotation(firstWorker.rotX, firstWorker.rotY)
       if firstWorker.currentVehicle ~= nil then
         firstWorker:afterSwitch()
       end
@@ -1335,9 +1466,13 @@ function ContractorMod:update(dt)
           -- else
             -- not in a vehicle
             worker.x, worker.y, worker.z = getWorldTranslation(g_currentMission.player.rootNode);
+            worker.rotX = g_currentMission.player.rotX
+            worker.rotY = g_currentMission.player.rotY
             worker.isPassenger = false
             worker.passengerPlace = 0
             worker.currentVehicle = nil;
+            -- print("Current worker")
+            -- DebugUtil.printTableRecursively(worker.playerStateMachine, " ", 1, 3);
           -- end
         else
           -- in a vehicle
@@ -1390,15 +1525,8 @@ function ContractorMod:update(dt)
               end
             end
           end
-        else
-          worker.playerStateMachine:update(dt)
         end
       end
-    end
-    if self.shouldExit then
-      if ContractorMod.debug then print("ContractorMod: Player leaving the vehicle") end
-      g_currentMission:onLeaveVehicle()
-      self.shouldExit = false
     end
   end
   
@@ -1477,6 +1605,7 @@ function ContractorMod:setCurrentContractorModWorker(setID)
     self.shouldStopWorker = true
     self.switching = false
   end
+  --------------------------  DebugUtil.printTableRecursively(self.workers, " ", 1, 3)
 end
 
 -- @doc Enable to overwrite other mods functions
