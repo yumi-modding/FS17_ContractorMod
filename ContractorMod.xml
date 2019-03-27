@@ -6,15 +6,23 @@
      - You can set from 2 to 8 workers by changing numWorkers value.
      - Worker name can be changed.
      - Worker gender can be male or female
-     - Worker colorIndex can be set from 1 to 8 (being colors available when starting a new game)
-       - white      : 1
-       - grey       : 2
-       - blue       : 3
-       - navy       : 4
-       - green      : 5
-       - dark green : 6
-       - red        : 7
-       - brown      : 8
+     - Worker playerColorIndex can be set from 1 to 20 (being colors available when starting a new game)
+       - white / grey   : 1 - 4
+       - blue / navy    : 5 - 8
+       - green          : 9 - 12
+       - pink / red     : 13 - 16
+       - yellow / brown : 17 - 20
+     - Worker playerBodyIndex can be set from 1 to 4
+       - gender = male and playerBodyIndex 1 - 4 => Character1 to Character4
+       - gender = female and playerBodyIndex 1 - 4 => Character5 to Character8
+     - Worker playerHairIndex can be set from 1 to 4
+     - Worker playerHairIndex can be set from 0 to 109
+     - Worker playerJacketIndex can be set from 0 to 1
+       - None : 0
+       - Vest : 1
+     - Worker playerAccessoryIndex can be set from 0 to 1
+       - None : 0
+       - Sunglasses : 1
      - enableSeveralDrivers: 
        -true  => several characters can drive the same vehicle (was useful when no PassengerMod spec, should not be changed anymore)
        -false => only one character can drive a vehicle
@@ -25,9 +33,9 @@
     -->
     <workers numWorkers="4" enableSeveralDrivers="true" displayOnFootWorker="true">
         <worker name="Alex" gender="male" playerColorIndex="0" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
-        <worker name="Barbara" gender="female" playerColorIndex="1" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
-        <worker name="Chris" gender="male" playerColorIndex="2" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
-        <worker name="David" gender="male" playerColorIndex="3" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
+        <worker name="Barbara" gender="female" playerColorIndex="13" playerBodyIndex="2" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="2" playerJacketIndex="0" />
+        <worker name="Chris" gender="male" playerColorIndex="5" playerBodyIndex="3" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="3" playerJacketIndex="0" />
+        <worker name="David" gender="male" playerColorIndex="9" playerBodyIndex="4" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="4" playerJacketIndex="0" />
         <worker name="Ed" gender="male" playerColorIndex="4" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
         <worker name="Frank" gender="male" playerColorIndex="5" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
         <worker name="Gary" gender="male" playerColorIndex="6" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
