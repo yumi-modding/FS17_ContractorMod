@@ -12,7 +12,7 @@ source(Utils.getFilename("scripts/ContractorModWorker.lua", g_currentModDirector
 ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
-ContractorMod.debug = true --false --
+ContractorMod.debug = false --true --
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
@@ -56,15 +56,9 @@ function ContractorMod:registerActionEvents()
                               "ContractorMod_WORKER8" }) do
     -- print("actionName "..actionName)
     local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.activateWorker ,false ,true ,false ,true)
-    -- print("__ "..tostring(__))
-    -- print("eventName "..eventName)
-    -- print("event "..tostring(event))
-    -- print("action "..tostring(action))
     if __ then
       g_inputBinding.events[eventName].displayIsVisible = false
     end
-    -- DebugUtil.printTableRecursively(actionName, " ", 1, 2);
-    --__, eventName = self:addActionEvent(self.actionEvents, actionName, self, ContractorMod.activateWorker, false, true, false, true)
   end
   
   -- TODO: replace here ContractorMod.debug by variable in ContractorMod.xml
@@ -468,7 +462,6 @@ function ContractorMod:CopyContractorModXML()
         if fileExists(xmlSourceFilePath) then
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_3") end
           xmlSourceFile = loadXMLFile('ContractorMod', xmlSourceFilePath);
-          --xmlFile = createXMLFile('ContractorMod', xmlFilePath, 'ContractorMod');
           saveXMLFileTo(xmlSourceFile, xmlFilePath);
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_4") end
         end
@@ -581,8 +574,6 @@ end
 function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     if ContractorMod.debug then print("ContractorMod.ManageNewVehicle") end
 
-    --DebugUtil.printTableRecursively(self, 1, 1, 2);
-
     if SpecializationUtil.hasSpecialization(Enterable, self.specializations) then
       self.passengers = {}
       local foundConfig = false
@@ -607,39 +598,6 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
     end
 end
 Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
-
-
--- function ContractorMod:ManageNewPlayer(a, b, c, d, e, f, g, h, i, j, k)
---   if ContractorMod.debug then print("ContractorMod.ManageNewPlayer") end
---   -- DebugUtil.printTableRecursively(self, 1, 1, 2);
---   print("a:"..tostring(a))
---   print("b:"..tostring(b))
---   -- DebugUtil.printTableRecursively(b, 1, 1, 2);
---   print("c:"..tostring(c))
---   print("d:"..tostring(d))
---   print("e:"..tostring(e))
---   -- DebugUtil.printTableRecursively(e, 1, 1, 2);
---   print("f:"..tostring(f))
---   print("g:"..tostring(g))
---   -- DebugUtil.printTableRecursively(g, 1, 1, 2);
---   print("h:"..tostring(h))
---   print("i:"..tostring(i))
---   print("j:"..tostring(j))
---   print("k:"..tostring(k))
--- end
--- Player.loadVisuals = Utils.appendedFunction(Player.loadVisuals, ContractorMod.ManageNewPlayer);
-
--- function ContractorMod:ManageKeyEvent(a, b, c, d, e)
---   if ContractorMod.debug then print("ContractorMod.ManageKeyEvent") end
---   -- DebugUtil.printTableRecursively(self, 1, 1, 2);
---   print("a:"..tostring(a))
---   print("b:"..tostring(b))
---   -- DebugUtil.printTableRecursively(b, 1, 1, 2);
---   print("c:"..tostring(c))
---   print("d:"..tostring(d))
---   print("e:"..tostring(e))
--- end
--- InputBinding.keyEvent = Utils.appendedFunction(InputBinding.keyEvent, ContractorMod.ManageKeyEvent);
 
 -- @doc Define empty passenger for special vehicles like trains, crane
 function ContractorMod:manageSpecialVehicles()
@@ -712,17 +670,6 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
           if seatIndex > 0 then
             print('Adding seat for '..xmlVehicleName)
             vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
-            
-            -- DebugUtil.printTableRecursively(vehicle.passengers[seatIndex], " ", 1, 2);
-            -- local x1, y1, z1 = getTranslation(vehicle.passengers[seatIndex].characterNode)
-            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
-            
-            -- local characterNode = vehicle.spec_enterable.defaultCharacterNode
-            -- print(tostring(characterNode))
-            -- local x1, y1, z1 = getTranslation(characterNode)
-            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
-            -- local dx,dy,dz = localToLocal(characterNode, vehicle.rootNode, 0, 0, 0);
-            -- print("dx: "..tostring(dx).." dy: "..tostring(dy).." dz: "..tostring(dz))
           end
         end
         i = i + 1
@@ -730,70 +677,6 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   end
   return foundConfig
 end
-
-function ContractorMod:loadCharacter(xmlFilename, playerStyle)
-  print("ContractorMod:loadCharacter")
-  print("a:"..tostring(xmlFilename))
-  print("b:"..tostring(playerStyle))
-  --print("b:"..tostring(b.player.name))
-  printCallstack()
---------------------------  DebugUtil.printTableRecursively(playerStyle, " ", 1, 3);
-end
-VehicleCharacter.loadCharacter = Utils.appendedFunction(VehicleCharacter.loadCharacter, ContractorMod.loadCharacter)
-
-function ContractorMod:setRotation(rotX, rotY)
-  print("ContractorMod:setRotation")
-  print("rotX:"..tostring(rotX))
-  print("rotY:"..tostring(rotY))
-  printCallstack()
-end
-Player.setRotation = Utils.appendedFunction(Player.setRotation, ContractorMod.setRotation)
-
-function ContractorMod:playerLoad(xml, playerStyle, creatorConnection, isOwner)
-  print("ContractorMod:playerLoad")
-  print("xml:"..tostring(xml))
-  print("playerStyle:"..tostring(playerStyle))
-  print("creatorConnection:"..tostring(creatorConnection))
-  print("isOwner:"..tostring(isOwner))
-  --print("b:"..tostring(b.player.name))
-  printCallstack()
- --------------------------  DebugUtil.printTableRecursively(creatorConnection, " ", 1, 3);
-end
-Player.load = Utils.appendedFunction(Player.load, ContractorMod.playerLoad)
-
-function ContractorMod:createPlayer(a, b, c, d, e, f)
-  print("ContractorMod:createPlayer")
-  --------------------------  DebugUtil.printTableRecursively(a, " ", 1, 3);  --connection
-  print("b:"..tostring(b))                        --isOwner ?
-  --------------------------  DebugUtil.printTableRecursively(c, " ", 1, 3);  --playerStyle
-  print("d:"..tostring(d))                        -- ?
-  print("e:"..tostring(e))                        -- ?
-  print("f:"..tostring(f))
-  printCallstack()
-end
-FSBaseMission.createPlayer = Utils.appendedFunction(FSBaseMission.createPlayer, ContractorMod.createPlayer)
-
--- function ContractorMod:addSpecialization(a, b, c, d, e)
---   print("ContractorMod:addSpecialization")
---   print("a:"..tostring(a))
---   print("b:"..tostring(b))
---   print("a:"..tostring(c))
---   print("a:"..tostring(d))
---   print("a:"..tostring(e))
---   printCallstack()
--- end
--- VehicleTypeManager.addSpecialization =  Utils.appendedFunction(VehicleTypeManager.addSpecialization, ContractorMod.addSpecialization)
-
--- function ContractorMod:getVehicleTypes(a, b, c, d, e)
---   print("ContractorMod:getVehicleTypes")
---   print("a:"..tostring(a))
---   print("b:"..tostring(b))
---   print("a:"..tostring(c))
---   print("a:"..tostring(d))
---   print("a:"..tostring(e))
---   printCallstack()
--- end
--- VehicleTypeManager.getVehicleTypes =  Utils.appendedFunction(VehicleTypeManager.getVehicleTypes, ContractorMod.getVehicleTypes)
 
 -- @doc Load and display characters in vehicle for drivers & passengers instead of default methods
 function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
@@ -806,12 +689,8 @@ function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
   local character = vehicle:getVehicleCharacter()
   if seat == 0 and character ~= nil then
     -- Driver
-    print("setVehicleCharacter as driver")
-    -- local playerModel = g_playerModelManager:getPlayerModelByIndex(spec.playerStyle.selectedModelIndex)
+    if ContractorMod.debug then print("ContractorMod: setVehicleCharacter as driver") end
     character = vehicle:setVehicleCharacter(worker.xmlFile, worker.playerStyle)
-    -- vehicle.vehicleCharacter:loadCharacter(worker.xmlFile, worker.playerStyle)
-    --IKUtil.updateIKChains(vehicle.spec_enterable.vehicleCharacter.ikChains);
-    --character:setAllowCharacterUpdate(true)
   else
     -- Passenger
     if vehicle.passengers ~= nil then
@@ -932,24 +811,6 @@ function ContractorMod:ReplaceSetVehicleCharacter(superFunc, xmlFilename, player
 end
 Enterable.setVehicleCharacter = Utils.overwrittenFunction(Enterable.setVehicleCharacter, ContractorMod.ReplaceSetVehicleCharacter)
 
--- function ContractorMod:ReplaceOnStartAiVehicle(superFunc, isControlling, playerIndex, playerStyle)
---     if ContractorMod.debug then print("ContractorMod:ReplaceOnStartAiVehicle") end
---     local tmpVehicleCharacter = self.vehicleCharacter
---     self.vehicleCharacter = nil -- Keep it from beeing modified
---     superFunc(self)
---     self.vehicleCharacter = tmpVehicleCharacter
--- end
--- AIVehicle.onStartAiVehicle = Utils.overwrittenFunction(AIVehicle.onStartAiVehicle, ContractorMod.ReplaceOnStartAiVehicle)
-
--- function ContractorMod:ReplaceOnStopAiVehicle(superFunc, isControlling, playerIndex, playerStyle)
---     if ContractorMod.debug then print("ContractorMod:ReplaceOnStopAiVehicle") end
---     local tmpVehicleCharacter = self.vehicleCharacter
---     self.vehicleCharacter = nil -- Keep it from beeing modified
---     superFunc(self)
---     self.vehicleCharacter = tmpVehicleCharacter
--- end
--- AIVehicle.onStopAiVehicle = Utils.overwrittenFunction(AIVehicle.onStopAiVehicle, ContractorMod.ReplaceOnStopAiVehicle)
-
 -- Enterable:enter()        => loadCharacter if isHired == false
 -- Enterable:leaveVehicle() => deleteCharacter if disableCharacterOnLeave == true
 function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
@@ -1014,6 +875,7 @@ function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
     if ContractorMod.debug then print("isHired " .. tostring(vehicle.isHired) .. " disableChar " .. tostring(vehicle.disableCharacterOnLeave) .. " steering " .. tostring(vehicle.steeringEnabled)) end
   end
 end
+
 function ContractorMod:beforeEnterVehicle(vehicle, playerStyle)
   if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle:getFullName()) end
   --print("arg1 "..tostring(playerStyle))
@@ -1400,10 +1262,6 @@ function ContractorMod:update(dt)
        for i = 2, self.numWorkers do
           local worker = self.workers[i]
           if worker.currentVehicle ~= nil then
-          --  if worker.meshThirdPerson and self.displayOnFootWorker then
-          --    setVisibility(worker.skeletonThirdPerson, false)
-          --    setVisibility(worker.meshThirdPerson, false)
-          --    setVisibility(worker.animRootThirdPerson, false)
             if self.displayOnFootWorker then
               worker.player.isEntered = true
               worker.player.isControlled = true
@@ -1411,26 +1269,15 @@ function ContractorMod:update(dt)
               print("set visible 0: "..worker.name)
               worker.player:setVisibility(false)
             end
-           --if ContractorMod.debug then print("sendEvent VehicleEnterRequestEvent " .. worker.name .. " : " .. worker.currentVehicle.typeName) end
-          --  g_client:getServerConnection():sendEvent(VehicleEnterRequestEvent:new(worker.currentVehicle, worker.playerStyle, worker.farmId));
-          --  g_currentMission:onLeaveVehicle()
           else
             if self.displayOnFootWorker then
-            -- if worker.meshThirdPerson and self.displayOnFootWorker then
               if ContractorMod.debug then print("ContractorMod: setVisibility(worker.meshThirdPerson"); end
 
-                print("set visible 1: "..worker.name)
+              if ContractorMod.debug then print("set visible 1: "..worker.name) end
                 worker.player:setVisibility(true)
                 worker.player:moveRootNodeToAbsolute(worker.x, worker.y, worker.z)
-                -- self.player:setRotation(self.rotX, self.rotY)
-                setRotation(worker.player.graphicsRootNode, 0, worker.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
-                setRotation(worker.player.cameraNode, worker.rotX, worker.rotY, 0)
-                -- setVisibility(worker.skeletonThirdPerson, true)
-                -- setVisibility(worker.meshThirdPerson, true)
-                -- setVisibility(worker.animRootThirdPerson, true)
-                -- local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-                -- setTranslation(worker.graphicsRootNode, worker.x, worker.y - playerOffSet, worker.z)
-                -- setRotation(worker.graphicsRootNode, 0, worker.rotY, 0)
+                -- setRotation(worker.player.graphicsRootNode, 0, worker.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
+                -- setRotation(worker.player.cameraNode, worker.rotX, worker.rotY, 0)
               end
             end
         end
@@ -1440,10 +1287,7 @@ function ContractorMod:update(dt)
     local firstWorker = self.workers[self.currentID]
     if g_currentMission.player and g_currentMission.player ~= nil then
       if ContractorMod.debug then print("ContractorMod: moveToAbsolute"); end
-      -- setTranslation(g_currentMission.player.rootNode, firstWorker.x, firstWorker.y, firstWorker.z);
       g_currentMission.player:moveToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
-      -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(firstWorker.x, firstWorker.y, firstWorker.z, true, true));
-      -- g_currentMission.player.rotY = firstWorker.rotY
       g_currentMission.player:setRotation(firstWorker.rotX, firstWorker.rotY)
       if firstWorker.currentVehicle ~= nil then
         firstWorker:afterSwitch()
@@ -1529,64 +1373,6 @@ function ContractorMod:update(dt)
       end
     end
   end
-  
---[[ MOVED to activateWorker
-  if Input.isKeyPressed(Input.KEY_tab) then
-    if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_NEXTWORKER") end
-    local nextID = 0
-    if ContractorMod.debug then print("ContractorMod: self.currentID " .. tostring(self.currentID)) end
-    if ContractorMod.debug then print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers)) end
-    if self.currentID < self.numWorkers then
-      nextID = self.currentID + 1
-    else
-      nextID = 1
-    end
-    if ContractorMod.debug then print("ContractorMod: nextID " .. tostring(nextID)) end
-    self:setCurrentContractorModWorker(nextID)
-  elseif Input.isKeyPressed(KEY_lshift) and Input.isKeyPressed(KEY_tab) then
-    if ContractorMod.debug then print("ContractorMod:update(dt) ContractorMod_PREVWORKER") end
-    local prevID = 0
-    if self.currentID > 1 then
-      prevID = self.currentID - 1
-    else
-      prevID = self.numWorkers
-    end    
-    self:setCurrentContractorModWorker(prevID)
-  end--[[
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER1) then
-    if self.numWorkers >= 1 then
-      self:setCurrentContractorModWorker(1)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER2) then
-    if self.numWorkers >= 2 then
-      self:setCurrentContractorModWorker(2)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER3) then
-    if self.numWorkers >= 3 then
-      self:setCurrentContractorModWorker(3)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER4) then
-    if self.numWorkers >= 4 then
-      self:setCurrentContractorModWorker(4)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER5) then
-    if self.numWorkers >= 5 then
-      self:setCurrentContractorModWorker(5)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER6) then
-    if self.numWorkers >= 6 then
-      self:setCurrentContractorModWorker(6)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER7) then
-    if self.numWorkers >= 7 then
-      self:setCurrentContractorModWorker(7)
-    end
-  elseif InputBinding.keyEvent(InputBinding.ContractorMod_WORKER8) then
-    if self.numWorkers >= 8 then
-      self:setCurrentContractorModWorker(8)
-    end
-  end
-  ]]
 end
 
 -- @doc Change active worker

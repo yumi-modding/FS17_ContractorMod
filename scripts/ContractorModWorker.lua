@@ -10,7 +10,7 @@
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
-ContractorModWorker.debug = true --false --
+ContractorModWorker.debug = false --true --
 
 function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;
@@ -46,17 +46,12 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   self.displayOnFoot = displayOnFoot
 
   if index > 0 then
-    print("Create other players for index "..tostring(index))
     FSBaseMission:createPlayer(g_currentMission.player.networkInformation.creatorConnection, false, playerStyle, farmId, (index+1))
   end
 
-  -- DebugUtil.printTableRecursively(g_currentMission.players, " ", 1, 3)
   for k, p in pairs(g_currentMission.players) do
-    print("Player "..tostring(k).. "  "..tostring(p))
     if p ~= nil then
-      print("Player "..tostring(p.userId))
       if p.userId == (index+1) then
-        print("found p.userId "..tostring(p.userId))
         self.name = name
         self.nickname = g_settingsNickname
         g_settingsNickname = name
@@ -93,13 +88,8 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
           setRotation(p.cameraNode, self.rotX, self.rotY, 0)
         end
         self.player = p
-        print("return self")
         return self
-      else
-        print("p.userId "..tostring(p.userId))
       end
-    else
-      print("p is nil")
     end
   end
 end
@@ -153,31 +143,15 @@ function ContractorModWorker:beforeSwitch(noEventSend)
       if ContractorModWorker.debug then print("ContractorModWorker: "..tostring(self.x)..", "..tostring(self.y)..", "..tostring(self.z)) end
       self.rotX = g_currentMission.player.rotX;
       self.rotY = g_currentMission.player.rotY;
-      -- self.player.isControlled = true
-      --[[
-      if self.player.skeletonThirdPerson ~= nil and self.displayOnFoot then
-        if noEventSend == nil or noEventSend == false then
-          setVisibility(self.player.skeletonThirdPerson, true)
-          setVisibility(self.player.meshThirdPerson, true)
-          setVisibility(self.player.animRootThirdPerson, true)
-          self.player.visualInformation:setVisibility(true)
-        end
-        local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-        setTranslation(self.player.graphicsRootNode, self.x, self.y, self.z)
-        setRotation(self.player.graphicsRootNode, 0, self.rotY, 0)
-        setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
-      end]]
       if self.displayOnFoot then
         self.player.isEntered = false
         if noEventSend == nil or noEventSend == false then
           print("set visible 1: "..self.name)
           self.player:setVisibility(true)
         end
-        -- setTranslation(self.player.rootNode, self.x, self.y, self.z);
         if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(self.player.visualInformation.playerName)); end
         self.player:moveRootNodeToAbsolute(self.x, self.y, self.z)
-        -- self.player:setRotation(self.rotX, self.rotY)
-        setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
+        setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0)
         setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
       end
     end
@@ -203,26 +177,13 @@ function ContractorModWorker:afterSwitch(noEventSend)
     if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
       if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(g_currentMission.player.visualInformation.playerName)); end
       setTranslation(g_currentMission.player.rootNode, self.x, self.y, self.z);
-      -- g_currentMission.player:moveTo(self.x, 0, self.z, false, true);
       g_currentMission.player:moveRootNodeToAbsolute(self.x, self.y-0.2, self.z);
       g_currentMission.player:setRotation(self.rotX, self.rotY)
-      -- setRotation(g_currentMission.player.graphicsRootNode, 0, self.rotY, 0)
-      -- setRotation(g_currentMission.player.cameraNode, self.rotX, self.rotY, 0)
-      if noEventSend == nil or noEventSend == false then
-        local playerOffSet = g_currentMission.player.baseInformation.capsuleTotalHeight * 0.5
-        -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, 0, self.z, false, true));
-        -- g_client:getServerConnection():sendEvent(PlayerTeleportEvent:new(self.x, self.y - playerOffSet, self.z, true, true));
-      end
-      -- g_currentMission.player.rotX = self.rotX
-      -- g_currentMission.player.rotY = self.rotY
       if self.displayOnFoot then
-        -- setVisibility(self.player.skeletonThirdPerson, false)
-        -- setVisibility(self.player.meshThirdPerson, false)
-        -- setVisibility(self.player.animRootThirdPerson, false)
         self.player.isEntered = true
         self.player.isControlled = true
         self.player:moveToAbsoluteInternal(0, -200, 0); -- to avoid having player at the same location than current player
-        print("set visible 0: "..self.name)
+        if ContractorModWorker.debug then print("ContractorModWorker: set visible 0: "..self.name); end
         -- TODO --self.player:setVisibility(false)
       end
     end
