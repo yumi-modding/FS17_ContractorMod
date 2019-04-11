@@ -31,11 +31,11 @@
         <Passenger vehiclesName="data/vehicles/rostselmash/nova330/nova330.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <!-- tractors -->
         <Passenger vehiclesName="data/vehicles/armaTrac/1104/1104.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/caseIH/magnum/magnum.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+        <Passenger vehiclesName="data/vehicles/caseIH/magnum/magnum.xml" seatIndex="1" x="0.5000" y="2.4225" z="-0.9132" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/caseIH/magnum7240Pro/magnum7240Pro.xml" seatIndex="-1" x="0.521" y="2.337" z="-0.76" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/caseIH/maxxum145CVX/maxxum145CVX.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/caseIH/optum/optum.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/caseIH/puma/puma.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+        <Passenger vehiclesName="data/vehicles/caseIH/maxxum145CVX/maxxum145CVX.xml" seatIndex="1" x="0.5000" y="2.0052" z="-0.8539" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/caseIH/optum/optum.xml" seatIndex="1" x="0.5000" y="2.3687" z="-0.5841" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/caseIH/puma/puma.xml" seatIndex="1" x="0.5145" y="2.0939" z="-0.6783" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/caseIH/quadtrac/quadtrac.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/challenger/mt700/mt700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/challenger/mt800/mt800.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
