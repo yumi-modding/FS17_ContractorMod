@@ -122,28 +122,28 @@
   </actions>
   <inputBinding>
     <actionBinding action="ContractorMod_WORKER1">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_1" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_1" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER2">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_2" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_2" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER3">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_3" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_3" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER4">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_4" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_4" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER5">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_5" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_5" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER6">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_6" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_6" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER7">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_7" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_7" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <actionBinding action="ContractorMod_WORKER8">
-        <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_8" axisComponent="+" inputComponent="+" index="1"/>
+        <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_8" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <!-- Remove comment to activate debug commands -->
     <!-- -->
