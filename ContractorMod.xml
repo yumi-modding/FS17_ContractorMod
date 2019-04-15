@@ -16,7 +16,7 @@
        - gender = male and playerBodyIndex 1 - 4 => Character1 to Character4
        - gender = female and playerBodyIndex 1 - 4 => Character5 to Character8
      - Worker playerHairIndex can be set from 1 to 4
-     - Worker playerHairIndex can be set from 0 to 109
+     - Worker playerHatIndex can be set from 0 to 109
      - Worker playerJacketIndex can be set from 0 to 1
        - None : 0
        - Vest : 1
