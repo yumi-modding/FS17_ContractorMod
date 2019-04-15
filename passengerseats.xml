@@ -22,7 +22,7 @@
         <Passenger vehiclesName="data/vehicles/holmer/terraDosT4_40/terraDosT4_40.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/johnDeere/S790/S790.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/johnDeere/T560/T560.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/masseyFerguson/activa7347/activa7347.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+        <Passenger vehiclesName="data/vehicles/masseyFerguson/activa7347/activa7347.xml" seatIndex="1" x="0.5000" y="2.7058" z="3.0086" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/newHolland/cr1090/cr1090.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/newHolland/TX32/TX32.xml" seatIndex="1" x="0.356" y="2.391" z="2.635" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/ropa/panther2/panther2.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
@@ -32,34 +32,34 @@
         <!-- tractors -->
         <Passenger vehiclesName="data/vehicles/armaTrac/1104/1104.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/caseIH/magnum/magnum.xml" seatIndex="1" x="0.5000" y="2.4225" z="-0.9132" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/caseIH/magnum7240Pro/magnum7240Pro.xml" seatIndex="-1" x="0.521" y="2.337" z="-0.76" rx="0" ry="0" rz="0" />
+            <Passenger vehiclesName="data/vehicles/caseIH/magnum7240Pro/magnum7240Pro.xml" seatIndex="-1" x="0.521" y="2.337" z="-0.76" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/caseIH/maxxum145CVX/maxxum145CVX.xml" seatIndex="1" x="0.5000" y="2.0052" z="-0.8539" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/caseIH/optum/optum.xml" seatIndex="1" x="0.5000" y="2.3687" z="-0.5841" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/caseIH/puma/puma.xml" seatIndex="1" x="0.5145" y="2.0939" z="-0.6783" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/caseIH/quadtrac/quadtrac.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/challenger/mt700/mt700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/challenger/mt800/mt800.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/challenger/mt900/mt900E.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/deutz/series9/series9.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/favorit500/favorit500.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/fendt300/fendt300.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/fendt700/fendt700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/fendt900/fendt900.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/mt1100/mt1100.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/mt900/mt900.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fendt/vario1000/vario1000.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/fiat/fiat1300dt/fiat1300dt.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/jcb/fastrac4220/fastrac4220.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/jcb/fastrac8330/fastrac8330.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/johnDeere/series6M/series6M.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/johnDeere/series6R/series6R.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/johnDeere/series7R/series7R.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/johnDeere/series8R/series8R.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/johnDeere/series8RT/series8RT.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/lindner/lintrac90/lintrac90.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF5600/MF5600.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF7700/MF7700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF8700/MF8700.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+        <Passenger vehiclesName="data/vehicles/caseIH/quadtrac/quadtrac.xml" seatIndex="1" x="0.5000" y="2.7388" z="-0.1826" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/challenger/mt700/mt700.xml" seatIndex="1" x="0.5500" y="2.3857" z="-0.2801" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/challenger/mt800/mt800.xml" seatIndex="1" x="0.5000" y="2.3378" z="-0.8570" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/challenger/mt900/mt900E.xml" seatIndex="1" x="0.5000" y="2.8188" z="-0.1526" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/deutz/series9/series9.xml" seatIndex="1" x="0.4500" y="2.3105" z="-0.5841" rx="0" ry="0" rz="0" />
+            <Passenger vehiclesName="data/vehicles/fendt/favorit500/favorit500.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/fendt300/fendt300.xml" seatIndex="1" x="0.5000" y="1.9517" z="-0.8391" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/fendt700/fendt700.xml" seatIndex="1" x="0.5000" y="2.1277" z="-0.6427" rx="0" ry="-0.19" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/fendt900/fendt900.xml" seatIndex="1" x="0.5000" y="2.2520" z="-0.7350" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/mt1100/mt1100.xml" seatIndex="1" x="0.5500" y="2.3878" z="-0.8570" rx="0" ry="-0.19" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/mt900/mt900.xml" seatIndex="1" x="0.5000" y="2.3857" z="-0.2801" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/fendt/vario1000/vario1000.xml" seatIndex="1" x="0.5000" y="2.5169" z="-0.6077" rx="0" ry="0" rz="0" />
+            <Passenger vehiclesName="data/vehicles/fiat/fiat1300dt/fiat1300dt.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+        <Passenger vehiclesName="data/vehicles/jcb/fastrac4220/fastrac4220.xml" seatIndex="1" x="0.5000" y="1.9691" z="-0.2972" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/jcb/fastrac8330/fastrac8330.xml" seatIndex="1" x="0.5000" y="2.2756" z="-0.3258" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/johnDeere/series6M/series6M.xml" seatIndex="1" x="0.4276" y="1.9060" z="-0.5134" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/johnDeere/series6R/series6R.xml" seatIndex="1" x="0.5000" y="2.2919" z="-0.8044" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/johnDeere/series7R/series7R.xml" seatIndex="1" x="0.5500" y="2.3836" z="-0.9806" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/johnDeere/series8R/series8R.xml" seatIndex="1" x="0.5494" y="2.3036" z="-1.3561" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/johnDeere/series8RT/series8RT.xml" seatIndex="1" x="0.5500" y="2.2242" z="-1.4052" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/lindner/lintrac90/lintrac90.xml" seatIndex="1" x="0.4000" y="1.3631" z="-0.7201" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF5600/MF5600.xml" seatIndex="1" x="0.5000" y="1.7929" z="-0.5885" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF7700/MF7700.xml" seatIndex="1" x="0.4500" y="2.2808" z="-0.7529" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF8700/MF8700.xml" seatIndex="1" x="0.5000" y="2.2391" z="-0.9681" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/newHolland/T5/T5.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/newHolland/T6/T6.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <Passenger vehiclesName="data/vehicles/newHolland/T7/T7.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
@@ -95,7 +95,7 @@
         <!-- teleLoader -->
         <Passenger vehiclesName="data/vehicles/manitou/MLAT533/MLAT533.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/manitou/MLT737/MLT737.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
-        <Passenger vehiclesName="data/vehicles/masseyFerguson/MF9407S/MF9407S.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+            <Passenger vehiclesName="data/vehicles/masseyFerguson/MF9407S/MF9407S.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
         <!-- woodHarvester -->
         <Passenger vehiclesName="data/vehicles/komatsu/forwarder875/forwarder875.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
         <Passenger vehiclesName="data/vehicles/komatsu/xc931/xc931.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
