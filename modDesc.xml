@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="41">
+<modDesc descVersion="43">
   <author>yumi</author>
   <version>1.3.0.rc1</version>
   <contributors>yumi, mrbear, jujuokl, alpha117</contributors>
@@ -10,86 +10,86 @@
   </title>
   <description>
     <en><![CDATA[
-    This mod enable simulating a defined number of characters you control one by one during a solo game.
+This mod enable simulating a defined number of characters you control one by one during a solo game.
 
-    ==== CHANGELOG ====
-    New in v1.3.0.beta
-     - Porting mod to FS19 in progress
-    ==== KNOWN ISSUES ====
-     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
+==== CHANGELOG ====
+New in v1.3.0.beta
+- Porting mod to FS19 in progress
+==== KNOWN ISSUES ====
+- Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
 
-    By default, 4 characters are available Alex, Barbara, Chris and David.
-    At first loading of a map, they are located at the Career starting point.
-    When saving the game, characters location and vehicle is saved so they will be restored when next loading the game.
-    So you will be able to continue your game exactly as you left it.
+By default, 4 characters are available Alex, Barbara, Chris and David.
+At first loading of a map, they are located at the Career starting point.
+When saving the game, characters location and vehicle is saved so they will be restored when next loading the game.
+So you will be able to continue your game exactly as you left it.
 
-    Default keys to switch between characters are:
-    - NEXT    : Tab
-    - PREVIOUS: Shift + Tab
-    They can be changed but by default they replaced the standard switch between vehicles since it's disable.
+Default keys to switch between characters are:
+- NEXT    : Tab
+- PREVIOUS: Shift + Tab
+They can be changed but by default they replaced the standard switch between vehicles since it's disable.
 
-    This mod is compatible with CoursePlay and FollowMe mods.
-    So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
-    Characters can be seen on the minimap when activating default category (the last one represented by a house) in the map overview screen.
+This mod is compatible with CoursePlay and FollowMe mods.
+So, for example, when using FollowMe, one character will be the Leader and another one the Follower.
+Characters can be seen on the minimap when activating default category (the last one represented by a house) in the map overview screen.
 
-    Name, gender, color, body, hair, accessories and number of characters can be changed in ContractorMod.xml file for new games.
-    Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
-    ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
-    ]]></en>
+Name, gender, color, body, hair, accessories and number of characters can be changed in ContractorMod.xml file for new games.
+Once a game has been saved, they can be changed in ContractorMod.xml file present in related savegame folder.
+ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
+]]></en>
     <de><![CDATA[
-    Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
+Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
 
-    ==== CHANGELOG ====
-    New in v1.3.0.beta
-     - Porting mod to FS19 in progress
-    ==== KNOWN ISSUES ====
-     - Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
+==== CHANGELOG ====
+New in v1.3.0.beta
+- Porting mod to FS19 in progress
+==== KNOWN ISSUES ====
+- Incab passenger camera is same camera than incab driver camera => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
 
-    Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
-    Beim ersten Laden einer Karte befinden sie sich am Karrierestartpunkt.
-    Beim Speichern des Spiels werden der Standort des Charakters und das Fahrzeug gespeichert, damit sie beim nächsten Laden des Spiels wiederhergestellt werden.
-    So können Sie Ihr Spiel genauso fortsetzen, wie Sie es verlassen haben.
+Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
+Beim ersten Laden einer Karte befinden sie sich am Karrierestartpunkt.
+Beim Speichern des Spiels werden der Standort des Charakters und das Fahrzeug gespeichert, damit sie beim nächsten Laden des Spiels wiederhergestellt werden.
+So können Sie Ihr Spiel genauso fortsetzen, wie Sie es verlassen haben.
 
-    Standardschlüssel zum Umschalten zwischen Zeichen sind:
-    - NÄCHSTER: Tab
-    - ZURÜCK: Umschalt + Tab
-    Sie können geändert werden, aber standardmäßig ersetzen sie den Standard-Switch zwischen Fahrzeugen, da er deaktiviert ist.
+Standardschlüssel zum Umschalten zwischen Zeichen sind:
+- NÄCHSTER: Tab
+- ZURÜCK: Umschalt + Tab
+Sie können geändert werden, aber standardmäßig ersetzen sie den Standard-Switch zwischen Fahrzeugen, da er deaktiviert ist.
 
-    Dieser Mod ist kompatibel mit CoursePlay und FollowMe Mods.
-    So wird zum Beispiel bei der Verwendung von FollowMe ein Charakter der Leader und ein weiterer der Follower sein.
-    Charaktere können auf der Minikarte gesehen werden, wenn die Standardkategorie (die letzte durch ein Haus repräsentiert) im Kartenübersichtsbildschirm aktiviert wird.
-    
-    Name, Geschlecht, Farbe, Körper, Haar, Accessoires und Anzahl der Zeichen können in der ContractorMod.xml Datei für neue Spiele geändert werden.
-    Sobald ein Spiel gespeichert wurde, kann es in der Datei "ContractorMod.xml" geändert werden, die im zugehörigen Spielstandordner vorhanden ist.
-    ContractorMod.xml Datei enthält auch die Konfiguration für Passagiere für Mods Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
-    ]]></de>
+Dieser Mod ist kompatibel mit CoursePlay und FollowMe Mods.
+So wird zum Beispiel bei der Verwendung von FollowMe ein Charakter der Leader und ein weiterer der Follower sein.
+Charaktere können auf der Minikarte gesehen werden, wenn die Standardkategorie (die letzte durch ein Haus repräsentiert) im Kartenübersichtsbildschirm aktiviert wird.
+
+Name, Geschlecht, Farbe, Körper, Haar, Accessoires und Anzahl der Zeichen können in der ContractorMod.xml Datei für neue Spiele geändert werden.
+Sobald ein Spiel gespeichert wurde, kann es in der Datei "ContractorMod.xml" geändert werden, die im zugehörigen Spielstandordner vorhanden ist.
+ContractorMod.xml Datei enthält auch die Konfiguration für Passagiere für Mods Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
+]]></de>
     <fr><![CDATA[
-    Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
+Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
 
-    ==== CHANGELOG ====
-    New in v1.3.0.beta
-     - Porting mod to FS19 in progress
-    ==== PROBLEMES CONNUS ====
-     - La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
+==== CHANGELOG ====
+New in v1.3.0.beta
+- Porting mod to FS19 in progress
+==== PROBLEMES CONNUS ====
+- La caméra intérieure du passager est la même que celle du conducteur => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
 
-    Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
-    Au premier chargement d'une map ils sont positionnés au point de départ de la map.
-    Dès la première sauvegarde, les positions/véhicules des perso sont sauvegardés et seront rechargés au prochain chargement.
-    Vous pouvez ainsi reprendre la partie exactement là où vous l'avez laissé.
+Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
+Au premier chargement d'une map ils sont positionnés au point de départ de la map.
+Dès la première sauvegarde, les positions/véhicules des perso sont sauvegardés et seront rechargés au prochain chargement.
+Vous pouvez ainsi reprendre la partie exactement là où vous l'avez laissé.
 
-    Les touches par défaut pour passer d'un perso à l'autre sont:
-    - SUIVANT   : Tab
-    - PRECEDENT : Shift + Tab
-    Ces touches peuvent être personnalisées et remplacent le switch standard de véhicules qui est désactivé dans le mod.
+Les touches par défaut pour passer d'un perso à l'autre sont:
+- SUIVANT   : Tab
+- PRECEDENT : Shift + Tab
+Ces touches peuvent être personnalisées et remplacent le switch standard de véhicules qui est désactivé dans le mod.
 
-    Ce mod est compatible avec les mods CoursePlay et FollowMe.
-    Ainsi, en mode FollowMe par exemple, un perso sera le Leader et un autre perso le Follower.
-    Les perso sont visibles sur la minimap lorsque la catégorie par défaut (la dernière représentée par une maison) est activée dans la vue Aperçu de la carte.
+Ce mod est compatible avec les mods CoursePlay et FollowMe.
+Ainsi, en mode FollowMe par exemple, un perso sera le Leader et un autre perso le Follower.
+Les perso sont visibles sur la minimap lorsque la catégorie par défaut (la dernière représentée par une maison) est activée dans la vue Aperçu de la carte.
 
-    Le nom, le genre, la couleur, le corps, les cheveux, les accessoires et le nombre de perso peuvent être modifiés dans le fichier ContractorMod.xml pour les nouvelles parties.
-    Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
-    Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
-    ]]></fr>
+Le nom, le genre, la couleur, le corps, les cheveux, les accessoires et le nombre de perso peuvent être modifiés dans le fichier ContractorMod.xml pour les nouvelles parties.
+Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
+Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
+]]></fr>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>
 
@@ -110,7 +110,7 @@
     <action name="ContractorMod_WORKER7" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER8" category="ONFOOT VEHICLE"/>
     <!-- Remove comment to activate debug commands -->
-    <!--  -->
+    <!-- 
     <action name="ContractorMod_DEBUG_MOVE_PASS_LEFT" category="VEHICLE"/>
     <action name="ContractorMod_DEBUG_MOVE_PASS_RIGHT" category="VEHICLE"/>
     <action name="ContractorMod_DEBUG_MOVE_PASS_TOP" category="VEHICLE"/>
@@ -118,7 +118,7 @@
     <action name="ContractorMod_DEBUG_MOVE_PASS_FRONT" category="VEHICLE"/>
     <action name="ContractorMod_DEBUG_MOVE_PASS_BACK" category="VEHICLE"/>
     <action name="ContractorMod_DEBUG_DUMP_PASS" category="VEHICLE"/>
-    <!--      -->
+          -->
   </actions>
   <inputBinding>
     <actionBinding action="ContractorMod_WORKER1">
@@ -146,7 +146,7 @@
         <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_8" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
     <!-- Remove comment to activate debug commands -->
-    <!-- -->
+    <!-- 
     <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_LEFT">
         <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_a" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
@@ -168,7 +168,7 @@
     <actionBinding action="ContractorMod_DEBUG_DUMP_PASS">
         <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_e" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
-    <!--      -->
+          -->
   </inputBinding>
 
 </modDesc>

@@ -13,6 +13,7 @@ ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
 ContractorMod.debug = false --true --
+ContractorMod.useDebugCommands = false
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle
@@ -61,8 +62,7 @@ function ContractorMod:registerActionEvents()
     end
   end
   
-  -- TODO: replace here ContractorMod.debug by variable in ContractorMod.xml
-  if ContractorMod.debug then
+  if ContractorMod.useDebugCommands then
     print("ContractorMod:registerActionEvents() for DEBUG")
     for _,actionName in pairs({ "ContractorMod_DEBUG_MOVE_PASS_LEFT",
                                 "ContractorMod_DEBUG_MOVE_PASS_RIGHT",
@@ -88,6 +88,18 @@ FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.regist
 -- @doc Called by update method only once at the beginning when nothing is initialized yet
 function ContractorMod:init()
   if ContractorMod.debug then print("ContractorMod:init()") end
+
+  -- Look for file FS19_ContractorMod.debug in mod directory to activate debug commands
+  if g_currentMission ~= nil and g_currentMission:getIsServer() then
+    if ContractorMod.myCurrentModDirectory then
+      local debugFilePath = ContractorMod.myCurrentModDirectory .. "../FS19_ContractorMod.debug"
+      if fileExists(debugFilePath) then
+        print("ContractorMod: Activating DEBUG commands")
+        ContractorMod.useDebugCommands = true
+        self:addDebugInputBinding()
+      end
+    end
+  end
 
   self.currentID = 1.
   self.numWorkers = 4.
@@ -659,8 +671,7 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
             -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
             local dx,dy,dz = localToLocal(vehicle.rootNode, characterNode, 0,0,0);
             -- print("x=\""..tostring(dx).."\" y=\""..tostring(dy).."\" z=\""..tostring(dz))
-            -- To replace by variable in ContractorMod.xml
-            if ContractorMod.debug then
+            if ContractorMod.useDebugCommands then
               x = -dx
               y = -dy
               z = -dz
@@ -718,17 +729,17 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
       local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
       for seat = 0, 4 do
         local seatUsed = false
-        print("loop on workers")
+        if ContractorMod.debug then print("loop on workers") end
         for i = 1, ContractorMod.numWorkers do
           local worker = ContractorMod.workers[i]
-          print(worker.name)
-          print("currentSeat "..tostring(worker.currentSeat))
-          print("seat        "..tostring(seat))
+          if ContractorMod.debug then print(worker.name) end
+            if ContractorMod.debug then print("currentSeat "..tostring(worker.currentSeat)) end
+              if ContractorMod.debug then print("seat        "..tostring(seat)) end
           if worker.currentVehicle ~= nil then
-            print("currentVehicle "..worker.currentVehicle:getFullName())
+            if ContractorMod.debug then print("currentVehicle "..worker.currentVehicle:getFullName()) end
           end
           if self ~= nil then
-            print("self           "..self:getFullName())
+            if ContractorMod.debug then print("self           "..self:getFullName()) end
           end
           if worker.currentSeat == seat and worker.currentVehicle == self then
             seatUsed = true
@@ -737,7 +748,7 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
         end
         if seatUsed == false and ( self.passengers[1] ~= nil or seat == 0 ) then
           firstFreepassengerSeat = seat
-          print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat))
+          if ContractorMod.debug then print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat)) end
           break
         end
       end
@@ -960,17 +971,17 @@ function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
   local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
   for seat = 0, 4 do
     local seatUsed = false
-    print("loop on workers")
+    if ContractorMod.debug then print("loop on workers") end
     for i = 1, ContractorMod.numWorkers do
       local worker = ContractorMod.workers[i]
-      print(worker.name)
-      print("currentSeat "..tostring(worker.currentSeat))
-      print("seat        "..tostring(seat))
+      if ContractorMod.debug then print(worker.name) end
+      if ContractorMod.debug then print("currentSeat "..tostring(worker.currentSeat)) end
+      if ContractorMod.debug then print("seat        "..tostring(seat)) end
       if worker.currentVehicle ~= nil then
-        print("currentVehicle "..worker.currentVehicle:getFullName())
+        if ContractorMod.debug then print("currentVehicle "..worker.currentVehicle:getFullName()) end
       end
       if self.object ~= nil then
-        print("self           "..self.object:getFullName())
+        if ContractorMod.debug then print("self           "..self.object:getFullName()) end
       end
       if worker.currentSeat == seat and worker.currentVehicle == self.object and worker == ContractorMod.workers[ContractorMod.currentID] then
         canEnterWhenSwitching = true
@@ -985,7 +996,7 @@ function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
       break
     end
   end
-  print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat))
+  if ContractorMod.debug then print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat)) end
 
   if not canEnterWhenSwitching then
     if firstFreepassengerSeat < 0 and not ContractorMod.initializing then
@@ -1418,6 +1429,106 @@ function ContractorMod:manageModsConflicts()
 		end
 	end
 	--***********************************************************************************
+end
+
+-- function ContractorMod:loadActions(a, b, c, d)
+--   if ContractorMod.debug then print("ContractorMod:loadActions ") end
+--   print("a "..tostring(a))
+--   print("b "..tostring(b))
+--   print("c "..tostring(c))
+--   print("d "..tostring(d))
+--   printCallstack()
+-- end
+-- InputBinding.loadActions = Utils.appendedFunction(InputBinding.loadActions, ContractorMod.loadActions);
+
+
+-- function ContractorMod:loadActionBindingsFromXML(a, b, c, d)
+--   if ContractorMod.debug then print("ContractorMod:loadActionBindingsFromXML ") end
+--   print("a "..tostring(a))
+--   print("b "..tostring(b))
+--   print("c "..tostring(c))
+--   print("d "..tostring(d))
+--   printCallstack()
+-- end
+-- InputBinding.loadActionBindingsFromXML = Utils.appendedFunction(InputBinding.loadActionBindingsFromXML, ContractorMod.loadActionBindingsFromXML);
+
+-- function ContractorMod:assignActionPrimaryBindings(a, b, c, d)
+--   if ContractorMod.debug then print("ContractorMod:assignActionPrimaryBindings ") end
+--   print("a "..tostring(a))
+--   print("b "..tostring(b))
+--   print("c "..tostring(c))
+--   print("d "..tostring(d))
+--   printCallstack()
+-- end
+-- InputBinding.assignActionPrimaryBindings = Utils.appendedFunction(InputBinding.assignActionPrimaryBindings, ContractorMod.assignActionPrimaryBindings);
+
+function ContractorMod:addDebugInputBinding()
+  if ContractorMod.debug then print("ContractorMod:addDebugInputBinding ") end
+    
+  local xmltext = " \z
+  <modDesc descVersion=\"43\">\z
+  <actions>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_LEFT\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_RIGHT\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_TOP\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_BOTTOM\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_FRONT\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_MOVE_PASS_BACK\" category=\"VEHICLE\"/>\z
+  <action name=\"ContractorMod_DEBUG_DUMP_PASS\" category=\"VEHICLE\"/>\z
+  </actions>\z
+  </modDesc>\z
+  "
+  local xmlFile = loadXMLFileFromMemory("actions", xmltext)
+
+  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
+
+  InputBinding.loadActions(g_inputBinding, xmlFile, "FS19_ContractorMod")
+
+  print("after loadActions")
+  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
+
+  xmltext = " \z
+  <modDesc descVersion=\"43\">\z
+  <inputBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_LEFT\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_a\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_RIGHT\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_d\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_TOP\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_q\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_BOTTOM\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_z\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_FRONT\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_w\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_BACK\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_s\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>\z
+  <actionBinding action=\"ContractorMod_DEBUG_DUMP_PASS\">\z
+  <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_e\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
+  </actionBinding>  \z
+  </inputBinding>\z
+  </modDesc>\z
+  "
+  xmlFile = loadXMLFileFromMemory("inputBinding", xmltext)
+
+  InputBinding.loadActionBindingsFromXML(g_inputBinding, xmlFile, true, "FS19_ContractorMod")
+  for _,actionName in pairs({ "ContractorMod_DEBUG_MOVE_PASS_LEFT",
+    "ContractorMod_DEBUG_MOVE_PASS_RIGHT",
+    "ContractorMod_DEBUG_MOVE_PASS_TOP",
+    "ContractorMod_DEBUG_MOVE_PASS_BOTTOM",
+    "ContractorMod_DEBUG_MOVE_PASS_FRONT",
+    "ContractorMod_DEBUG_MOVE_PASS_BACK",
+    "ContractorMod_DEBUG_DUMP_PASS" }) do
+    InputBinding.assignActionPrimaryBindings(g_inputBinding, actionName)
+  end
+
+  print("after loadActionBindingsFromXML")
+  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
 end
 
 addModEventListener(ContractorMod);
