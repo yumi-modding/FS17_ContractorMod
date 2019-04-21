@@ -43,6 +43,6 @@
     </workers>
     <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
-
+        <Passenger vehiclesName="$moddir$FS19_caseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0" />
     </passengerSeats>
 </ContractorMod>
