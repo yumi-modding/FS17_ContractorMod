@@ -43,6 +43,26 @@
     </workers>
     <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
-        <Passenger vehiclesName="$moddir$FS19_caseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.381" y="1.793" z="-1.331" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_D754_Truck/CsD754.xml" seatIndex="1" x="-0.7214" y="1.8694" z="1.9484" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_valtraTSeriesWREdition/valtraTSeriesWREdition.xml" seatIndex="1" x="0.4997" y="2.0115" z="-0.8128" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_valtraTSeriesCowEdition/valtraTSeriesCowEdition.xml" seatIndex="1" x="0.4997" y="2.0115" z="-0.8128" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_valtraSSeriesCowEdition/valtraSSeriesCowEdition.xml" seatIndex="1" x="0.5498" y="2.3012" z="-0.8387" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_valtraNSeriesCowEdition/valtraNSeriesCowEdition.xml" seatIndex="1" x="0.5008" y="1.8116" z="-0.6122" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_newHollandSP400F/SP400F.xml" seatIndex="1" x="0.5500" y="2.8500" z="1.5500" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_newHolland8340/newHolland8340.xml" seatIndex="1" x="0.4500" y="1.7500" z="-0.7000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_lamborghiniMachVRT/Mach230VRT.xml" seatIndex="1" x="0.5000" y="2.1000" z="-0.5000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_kroneBiGX580/kroneBiGX580.xml" seatIndex="1" x="0.5000" y="2.8500" z="1.6000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_fendt900BlackBeauty/fendt900BB.xml" seatIndex="1" x="0.5500" y="2.2500" z="-0.7000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_deutzSeries7/deutzFahrSeries7.xml" seatIndex="1" x="0.4500" y="2.1000" z="-0.5000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_CLAAS_Axion_900/axion.xml" seatIndex="1" x="0.4500" y="2.3500" z="-0.6500" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_challengerMT800EFieldPython/challengerMT800FieldPython.xml" seatIndex="1" x="0.5000" y="2.4000" z="-1.0000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_challengerMT700EStealth/challengerMT700EStealth.xml" seatIndex="1" x="0.5000" y="2.4500" z="-1.0000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_challengerMT700EFieldViper/challengerMT700EFieldViper.xml" seatIndex="1" x="0.5000" y="2.4500" z="-1.0000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_caseIH1660/caseIH1660.xml" seatIndex="1" x="0.7500" y="2.7500" z="2.2500" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_caseIH1455XL/caseIH1455.xml" seatIndex="1" x="0.3310" y="1.7930" z="-1.3310" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_rsm1403Pack/rsm1403.xml" seatIndex="1" x="0.4500" y="2.7000" z="1.3000" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_newHollandTC590/newHollandTC590.xml" seatIndex="1" x="0.5500" y="2.7500" z="2.2500" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_amazonePantera/amazonePantera4502.xml" seatIndex="1" x="0.5000" y="2.2500" z="2.6500" rx="0" ry="0" rz="0" />
+		<Passenger vehiclesName="$moddir$FS19_horschPack/horsch/leebPT350/leebPT350.xml" seatIndex="1" x="0.5000" y="2.8000" z="1.4500" rx="0" ry="0" rz="0" />
     </passengerSeats>
 </ContractorMod>
