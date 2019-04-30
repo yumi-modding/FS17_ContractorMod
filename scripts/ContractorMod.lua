@@ -522,6 +522,7 @@ function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
   end
 end
 function ContractorMod:removeVehicle(vehicle, callDelete)
+  -- callDelete is always nil now
   ContractorMod:ManageSoldVehicle(vehicle, callDelete)
 end
 BaseMission.removeVehicle = Utils.prependedFunction(BaseMission.removeVehicle, ContractorMod.removeVehicle);
@@ -583,11 +584,11 @@ print("child "..cameraChildIndex)
 end
 
 -- @doc Called when loading a vehicle (load game or buy new vehicle) to retrieve and add passengers info
-function ContractorMod:ManageNewVehicle(i3dNode, arguments)
+function ContractorMod:ManageNewVehicle(vehicle)
     if ContractorMod.debug then print("ContractorMod.ManageNewVehicle") end
 
-    if SpecializationUtil.hasSpecialization(Enterable, self.specializations) then
-      self.passengers = {}
+    if SpecializationUtil.hasSpecialization(Enterable, vehicle.specializations) then
+      vehicle.passengers = {}
       local foundConfig = false
       -- Don't display warning by default in log, only if displayWarning = true
       local xmlPath = "ContractorMod.passengerSeats"
@@ -598,18 +599,18 @@ function ContractorMod:ManageNewVehicle(i3dNode, arguments)
         displayWarning = Utils.getNoNil(getXMLBool(xmlFile, xmlPath.."#displayWarning"), false);
       end
       -- xml file in zip containing mainly base game vehicles
-      foundConfig = ContractorMod:loadPassengersFromXML(self, ContractorMod.myCurrentModDirectory.."passengerseats.xml");
+      foundConfig = ContractorMod:loadPassengersFromXML(vehicle, ContractorMod.myCurrentModDirectory.."passengerseats.xml");
       if foundConfig == false then
         -- Try xml file in mods dir containing user mods
-        foundConfig = ContractorMod:loadPassengersFromXML(self, modDirectoryXMLFilePath);
+        foundConfig = ContractorMod:loadPassengersFromXML(vehicle, modDirectoryXMLFilePath);
       end
       if foundConfig == false and displayWarning == true then
-        print("[ContractorMod]No passenger seat configured for vehicle "..self.configFileName)
+        print("[ContractorMod]No passenger seat configured for vehicle "..vehicle.configFileName)
         print("[ContractorMod]Please edit ContractorMod.xml to set passenger position")
       end
     end
 end
-Vehicle.loadFinished = Utils.appendedFunction(Vehicle.loadFinished, ContractorMod.ManageNewVehicle);
+BaseMission.addVehicle = Utils.appendedFunction(BaseMission.addVehicle, ContractorMod.ManageNewVehicle);
 
 -- @doc Define empty passenger for special vehicles like trains, crane
 function ContractorMod:manageSpecialVehicles()
@@ -652,9 +653,9 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
         elseif string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then --20171116 - fix for Horsch CTF vehicle pack
           xmlVehicleName = NetworkUtil.convertFromNetworkFilename(xmlVehicleName)
         end
-        if ContractorMod.debug then print("Trying to add passenger to "..xmlVehicleName) end
+        -- if ContractorMod.debug then print("Trying to add passenger to "..xmlVehicleName) end
         --< ======================================
-        if ContractorMod.debug then print("Compare to vehicle config  "..vehicle.configFileName) end
+        -- if ContractorMod.debug then print("Compare to vehicle config  "..vehicle.configFileName) end
         if vehicle.configFileName == xmlVehicleName then
           foundConfig = true
           local seatIndex = getXMLInt(xmlFile, xmlPath.."#seatIndex")
@@ -680,7 +681,7 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
             end
           end
           if seatIndex > 0 then
-            print('Adding seat for '..xmlVehicleName)
+            print('Adding seat '..tostring(seatIndex)..' for '..xmlVehicleName)
             vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
           end
         end
@@ -889,10 +890,17 @@ function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
 end
 
 function ContractorMod:beforeEnterVehicle(vehicle, playerStyle)
-  if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle:getFullName()) end
+  -- print("vehicle "..tostring(vehicle))
   --print("arg1 "..tostring(playerStyle))
   -- DebugUtil.printTableRecursively(playerStyle, " ", 1, 1)
-  ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
+  -- printCallstack()
+  -- if vehicle ~= nil then 
+    -- DebugUtil.printTableRecursively(vehicle, " ", 1, 1)
+    if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle:getFullName()) end
+    ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
+  -- else
+  --   if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle nil") end
+  -- end
 end
 BaseMission.onEnterVehicle = Utils.prependedFunction(BaseMission.onEnterVehicle, ContractorMod.beforeEnterVehicle);
 
@@ -1006,10 +1014,21 @@ function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
       return
     end
   end
+  -- local enterableSpec = self.object.spec_enterable
+  -- print("self.object "..tostring(self.object))
+  -- DebugUtil.printTableRecursively(self.object, " ", 1, 1)
+  -- print("enterableSpec "..tostring(enterableSpec))
+  -- print("enterableSpec.isControlled "..tostring(enterableSpec.isControlled))
+  -- print("objectId "..tostring(self.objectId))
+  -- local object = NetworkUtil.getObject(self.objectId)
+  -- print("object "..tostring(object))
+  -- if object ~= nil then 
+  --   DebugUtil.printTableRecursively(object, " ", 1, 1)
+  -- end
   return superfunc(self, connection)
 end
 VehicleEnterRequestEvent.run = Utils.overwrittenFunction(VehicleEnterRequestEvent.run, ContractorMod.replaceVehicleEnterRequestEventRun);
- 
+
 -- @doc Make some checks before leaving a vehicle to manage passengers and hired worker
 function ContractorMod:ManageLeaveVehicle(controlledVehicle)
   if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle >>") end
