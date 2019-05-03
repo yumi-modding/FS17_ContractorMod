@@ -92,7 +92,7 @@ function ContractorMod:init()
   -- Look for file FS19_ContractorMod.debug in mod directory to activate debug commands
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
     if ContractorMod.myCurrentModDirectory then
-      local debugFilePath = ContractorMod.myCurrentModDirectory .. "../FS19_ContractorMod.debug"
+      local debugFilePath = ContractorMod.myCurrentModDirectory .. "../FS19_ContractorMod.debug.xml"
       if fileExists(debugFilePath) then
         print("ContractorMod: Activating DEBUG commands")
         ContractorMod.useDebugCommands = true
@@ -1458,48 +1458,6 @@ function ContractorMod:manageModsConflicts()
 	--***********************************************************************************
 end
 
--- function ContractorMod:loadActions(a, b, c, d)
---   if ContractorMod.debug then print("ContractorMod:loadActions ") end
---   print("a "..tostring(a))
---   print("b "..tostring(b))
---   print("c "..tostring(c))
---   print("d "..tostring(d))
---   printCallstack()
--- end
--- InputBinding.loadActions = Utils.appendedFunction(InputBinding.loadActions, ContractorMod.loadActions);
-
-
--- function ContractorMod:loadActionBindingsFromXML(a, b, c, d)
---   if ContractorMod.debug then print("ContractorMod:loadActionBindingsFromXML ") end
---   print("a "..tostring(a))
---   print("b "..tostring(b))
---   print("c "..tostring(c))
---   print("d "..tostring(d))
---   printCallstack()
--- end
--- InputBinding.loadActionBindingsFromXML = Utils.appendedFunction(InputBinding.loadActionBindingsFromXML, ContractorMod.loadActionBindingsFromXML);
-
--- function ContractorMod:assignActionPrimaryBindings(a, b, c, d)
---   if ContractorMod.debug then print("ContractorMod:assignActionPrimaryBindings ") end
---   print("a "..tostring(a))
---   print("b "..tostring(b))
---   print("c "..tostring(c))
---   print("d "..tostring(d))
---   printCallstack()
---   -- 2019-04-18 09:21 a nil
---   -- 2019-04-18 09:21 b nil
---   -- 2019-04-18 09:21 c nil
---   -- 2019-04-18 09:21 d nil
---   -- 2019-04-18 09:21 LUA call stack:
---   -- 2019-04-18 09:21   =C:/Users/gr2/Documents/My Games/FarmingSimulator2019/mods/FS19_ContractorMod/scripts/ContractorMod.lua (1461) : printCallstack
---   -- 2019-04-18 09:21   dataS/scripts/utils/Utils.lua (382) : newFunc
---   -- 2019-04-18 09:21   dataS/scripts/input/InputBinding.lua (1361) : assignActionPrimaryBindings
---   -- 2019-04-18 09:21   dataS/scripts/gui/ControlsController.lua (269) : commitBindingChanges
---   -- 2019-04-18 09:21   dataS/scripts/gui/SettingsControlsFrame.lua (163) : saveChanges
---   -- 2019-04-18 09:21   dataS/scripts/gui/SettingsControlsFrame.lua (95) : saveChanges
--- end
--- InputBinding.assignActionPrimaryBindings = Utils.appendedFunction(InputBinding.assignActionPrimaryBindings, ContractorMod.assignActionPrimaryBindings);
-
 function ContractorMod:addDebugInputBinding()
   if ContractorMod.debug then print("ContractorMod:addDebugInputBinding ") end
     
@@ -1518,12 +1476,7 @@ function ContractorMod:addDebugInputBinding()
   "
   local xmlFile = loadXMLFileFromMemory("actions", xmltext)
 
-  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
-
   InputBinding.loadActions(g_inputBinding, xmlFile, "FS19_ContractorMod")
-
-  print("after loadActions")
-  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
 
   xmltext = " \z
   <modDesc descVersion=\"43\">\z
@@ -1555,18 +1508,9 @@ function ContractorMod:addDebugInputBinding()
   xmlFile = loadXMLFileFromMemory("inputBinding", xmltext)
 
   InputBinding.loadActionBindingsFromXML(g_inputBinding, xmlFile, true, "FS19_ContractorMod")
-  -- for _,actionName in pairs({ "ContractorMod_DEBUG_MOVE_PASS_LEFT",
-  --   "ContractorMod_DEBUG_MOVE_PASS_RIGHT",
-  --   "ContractorMod_DEBUG_MOVE_PASS_TOP",
-  --   "ContractorMod_DEBUG_MOVE_PASS_BOTTOM",
-  --   "ContractorMod_DEBUG_MOVE_PASS_FRONT",
-  --   "ContractorMod_DEBUG_MOVE_PASS_BACK",
-  --   "ContractorMod_DEBUG_DUMP_PASS" }) do
   InputBinding.assignActionPrimaryBindings(g_inputBinding) --, actionName)
-  -- end
+  InputBinding.commitBindingChanges(g_inputBinding)
 
-  print("after loadActionBindingsFromXML")
-  -- DebugUtil.printTableRecursively(g_inputBinding, " ", 1, 3)
 end
 
 addModEventListener(ContractorMod);
