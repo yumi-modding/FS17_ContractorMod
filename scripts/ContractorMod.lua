@@ -549,7 +549,6 @@ function ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
         "
         local xmlFile = loadXMLFileFromMemory("passengerConfig", xmltext)
         local passenger = VehicleCharacter:new(vehicle)
-        --@FS19: How to load passenger ? should so like vehicleSetCharacter
         passenger:load(xmlFile, "vehicle.enterable.characterNode")
 
         --[[ Trying to add camera like passenger
@@ -623,7 +622,7 @@ function ContractorMod:manageSpecialVehicles()
         -- no passengers for train
         v.passengers = {}
       else
-        -- @FS19: to identify crane
+        -- @FS19: to identify crane if any
         if v.stationCraneId ~= nil then
           -- no passengers for Station Crane
           v.passengers = {}
@@ -708,7 +707,7 @@ function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
     -- Passenger
     if vehicle.passengers ~= nil then
       if vehicle.passengers[seat] ~= nil then
-        print("setVehicleCharacter as passenger")
+        print("DEBUG: setVehicleCharacter as passenger")
         vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerStyle)
         IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
       end
@@ -756,7 +755,7 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
       end
 
       if self.typeName == "horse" then
-        print("horse: "..self:getFullName())
+        print("DEBUG: horse: "..self:getFullName())
         superFunc(self, isControlling, ContractorMod.workers[ContractorMod.currentID].playerStyle, farmId)
         return
       end
@@ -801,24 +800,24 @@ Enterable.enterVehicle = Utils.overwrittenFunction(Enterable.enterVehicle, Contr
 
 -- @doc Prevent to replace driver character when activating a worker
 function ContractorMod:ReplaceSetRandomVehicleCharacter()
-  print("ContractorMod:ReplaceSetRandomVehicleCharacter")
+  if ContractorMod.debug then print("ContractorMod:ReplaceSetRandomVehicleCharacter") end
 end
 Enterable.setRandomVehicleCharacter = Utils.overwrittenFunction(Enterable.setRandomVehicleCharacter, ContractorMod.ReplaceSetRandomVehicleCharacter)
 
 -- @doc Prevent to replace driver character when stopping a worker
 function ContractorMod:ReplaceRestoreVehicleCharacter()
-  print("ContractorMod:ReplaceRestoreVehicleCharacter")
+  if ContractorMod.debug then print("ContractorMod:ReplaceRestoreVehicleCharacter") end
 end
 Enterable.restoreVehicleCharacter = Utils.overwrittenFunction(Enterable.restoreVehicleCharacter, ContractorMod.ReplaceRestoreVehicleCharacter)
 
 -- @doc Prevent to replace driver character when entering as passenger
 function ContractorMod:ReplaceSetVehicleCharacter(superFunc, xmlFilename, playerStyle)
-  print("ContractorMod:ReplaceSetVehicleCharacter")
+  if ContractorMod.debug then print("ContractorMod:ReplaceSetVehicleCharacter") end
   if not ContractorMod.passengerEntering then
-    print("ContractorMod: not passengerEntering")
+    print("DEBUG: ContractorMod: not passengerEntering")
     superFunc(self, xmlFilename, playerStyle)
   end
-  print("ContractorMod: passengerEntering return")
+  print("DEBUG: ContractorMod: passengerEntering return")
   ContractorMod.passengerEntering = false
   return
 end
@@ -890,68 +889,10 @@ function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
 end
 
 function ContractorMod:beforeEnterVehicle(vehicle, playerStyle)
-  -- print("vehicle "..tostring(vehicle))
-  --print("arg1 "..tostring(playerStyle))
-  -- DebugUtil.printTableRecursively(playerStyle, " ", 1, 1)
-  -- printCallstack()
-  -- if vehicle ~= nil then 
-    -- DebugUtil.printTableRecursively(vehicle, " ", 1, 1)
     if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle " .. vehicle:getFullName()) end
     ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)
-  -- else
-  --   if ContractorMod.debug then print("ContractorMod:beforeEnterVehicle nil") end
-  -- end
 end
 BaseMission.onEnterVehicle = Utils.prependedFunction(BaseMission.onEnterVehicle, ContractorMod.beforeEnterVehicle);
-
-function ContractorMod:preOnStopAiVehicle()
-  if ContractorMod.debug then print("ContractorMod:preOnStopAiVehicle ") end
-  --backup character
-  self.tmpCharacter = self.vehicleCharacter;
-  --won't be deleted next if nil
-  self.vehicleCharacter = nil
-end
-AIVehicle.onStopAiVehicle = Utils.prependedFunction(AIVehicle.onStopAiVehicle, ContractorMod.preOnStopAiVehicle);
-
-function ContractorMod:appOnStopAiVehicle()
-  if ContractorMod.debug then print("ContractorMod:appOnStopAiVehicle ") end
-  --restore character
-  self.vehicleCharacter = self.tmpCharacter ;
-  self.tmpCharacter = nil
-end
-AIVehicle.onStopAiVehicle = Utils.appendedFunction(AIVehicle.onStopAiVehicle, ContractorMod.appOnStopAiVehicle);
-
-function ContractorMod:ReplaceOnStopFollowMe(superFunc, reason, noEventSend)
-  if ContractorMod.debug then print("ContractorMod:ReplaceOnStopFollowMe") end
-  local tmpVehicleCharacter = self.vehicleCharacter
-  self.vehicleCharacter = nil -- Keep it from beeing modified
-  superFunc(self, reason, noEventSend)
-  self.vehicleCharacter = tmpVehicleCharacter
-end
-
-function ContractorMod:ReplaceOnStartFollowMe(superFunc, followObj, helperIndex, noEventSend)
-  if ContractorMod.debug then print("ContractorMod:ReplaceOnStartFollowMe") end
-  local tmpVehicleCharacter = self.vehicleCharacter
-  self.vehicleCharacter = nil -- Keep it from beeing modified
-  superFunc(self, followObj, helperIndex, noEventSend)
-  self.vehicleCharacter = tmpVehicleCharacter
-end
-
-function ContractorMod:ReplaceStartCoursePlay(superFunc, vehicle)
-  if ContractorMod.debug then print("ContractorMod:ReplaceStartCoursePlay") end
-  local tmpVehicleCharacter = vehicle.spec_enterable.vehicleCharacter
-  vehicle.spec_enterable.vehicleCharacter = nil -- Keep it from beeing modified
-  superFunc(self, vehicle)
-  vehicle.spec_enterable.vehicleCharacter = tmpVehicleCharacter
-end
-
-function ContractorMod:ReplaceStopCoursePlay(superFunc, vehicle)
-  if ContractorMod.debug then print("ContractorMod:ReplaceStopCoursePlay") end
-  local tmpVehicleCharacter = vehicle.spec_enterable.vehicleCharacter
-  vehicle.spec_enterable.vehicleCharacter = nil -- Keep it from beeing modified
-  superFunc(self, vehicle)
-  vehicle.spec_enterable.vehicleCharacter = tmpVehicleCharacter
-end
 
 -- @doc Prevent from removing driver character
 function ContractorMod:replaceGetDisableVehicleCharacterOnLeave(superfunc)
@@ -1297,7 +1238,7 @@ function ContractorMod:update(dt)
               worker.player.isEntered = true
               worker.player.isControlled = true
               -- TODO --worker.player:moveToAbsoluteInternal(0, -200, 0); -- commented to avoid character falling
-              print("set visible 0: "..worker.name)
+              -- print("set visible 0: "..worker.name)
               worker.player:setVisibility(false)
             end
           else
@@ -1437,24 +1378,16 @@ function ContractorMod:manageModsConflicts()
 	--***********************************************************************************
 	--** taking care of FollowMe & CoursePlay Mods (thanks Dural for this code sample)
 	--***********************************************************************************		
-  if g_modIsLoaded["FS17_DCK_FollowMe"] then		
-		local mod1 = getfenv(0)["FS17_DCK_FollowMe"]		
-		if mod1 ~= nil and mod1.FollowMe ~= nil then
-      ContractorMod.mod1 = mod1
-      if ContractorMod.debug then print("We have found FollowMe mod and will encapsulate some functions") end
-      mod1.FollowMe.onStopFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStopFollowMe, ContractorMod.ReplaceOnStopFollowMe)
-      mod1.FollowMe.onStartFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStartFollowMe, ContractorMod.ReplaceOnStartFollowMe)
-		end
-  end
-  if g_modIsLoaded["FS17_Courseplay"] then		
-		local mod2 = getfenv(0)["FS17_Courseplay"]		
-		if mod2 ~= nil and mod2.courseplay ~= nil then
-      ContractorMod.mod2 = mod2
-      if ContractorMod.debug then print("We have found Courseplay mod and will encapsulate some functions") end
-      mod2.courseplay.start = Utils.overwrittenFunction(mod2.courseplay.start, ContractorMod.ReplaceStartCoursePlay)
-      mod2.courseplay.stop = Utils.overwrittenFunction(mod2.courseplay.stop, ContractorMod.ReplaceStopCoursePlay)
-		end
-	end
+  -- Useless on FS19 so keeping this in case new mod would require this same kind of overwrite
+  -- if g_modIsLoaded["FS17_DCK_FollowMe"] then
+	-- 	local mod1 = getfenv(0)["FS17_DCK_FollowMe"]		
+	-- 	if mod1 ~= nil and mod1.FollowMe ~= nil then
+  --     ContractorMod.mod1 = mod1
+  --     if ContractorMod.debug then print("We have found FollowMe mod and will encapsulate some functions") end
+  --     mod1.FollowMe.onStopFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStopFollowMe, ContractorMod.ReplaceOnStopFollowMe)
+  --     mod1.FollowMe.onStartFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStartFollowMe, ContractorMod.ReplaceOnStartFollowMe)
+	-- 	end
+  -- end
 	--***********************************************************************************
 end
 
@@ -1508,7 +1441,7 @@ function ContractorMod:addDebugInputBinding()
   xmlFile = loadXMLFileFromMemory("inputBinding", xmltext)
 
   InputBinding.loadActionBindingsFromXML(g_inputBinding, xmlFile, true, "FS19_ContractorMod")
-  InputBinding.assignActionPrimaryBindings(g_inputBinding) --, actionName)
+  InputBinding.assignActionPrimaryBindings(g_inputBinding)
   InputBinding.commitBindingChanges(g_inputBinding)
 
 end

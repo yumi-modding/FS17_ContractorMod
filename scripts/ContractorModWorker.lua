@@ -78,12 +78,12 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
         if index > 1 then
           p:setVisibility(true)
           p.isEntered = false
-          print("set visible 1: "..self.name)
+          -- print("set visible 1: "..self.name)
         else
           --p:moveToAbsoluteInternal(0, -200, 0);
           p:setVisibility(false)
           p.isEntered = true
-          print("set visible 0: "..self.name)
+          -- print("set visible 0: "..self.name)
           setRotation(p.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
           setRotation(p.cameraNode, self.rotX, self.rotY, 0)
         end
@@ -146,7 +146,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
       if self.displayOnFoot then
         self.player.isEntered = false
         if noEventSend == nil or noEventSend == false then
-          print("set visible 1: "..self.name)
+          -- print("set visible 1: "..self.name)
           self.player:setVisibility(true)
         end
         if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(self.player.visualInformation.playerName)); end
