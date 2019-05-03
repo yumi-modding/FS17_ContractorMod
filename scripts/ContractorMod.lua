@@ -112,8 +112,8 @@ function ContractorMod:init()
   self.passengerLeaving = false
   ContractorMod.passengerEntering = false
 
-  self:manageModsConflicts()
-  self:manageSpecialVehicles() --g_currentMission.nodeToVehicle is nil
+  -- self:manageModsConflicts() -- Useless on FS19
+  self:manageSpecialVehicles()
 
   local savegameDir;
   if g_currentMission.missionInfo.savegameDirectory then
@@ -665,7 +665,7 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
           local rx = getXMLFloat(xmlFile, xmlPath.."#rx")
           local ry = getXMLFloat(xmlFile, xmlPath.."#ry")
           local rz = getXMLFloat(xmlFile, xmlPath.."#rz")
-          if seatIndex == -1 and x == 0.0 and y == 0.0 and z == 0.0 then
+          if seatIndex == 1 and x == 0.0 and y == 0.0 and z == 0.0 then
             print("[ContractorMod]Passenger seat not configured yet for vehicle "..xmlVehicleName)
             local characterNode = vehicle.spec_enterable.defaultCharacterNode
             -- print("Driver position node is: "..tostring(characterNode))
@@ -681,7 +681,7 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
             end
           end
           if seatIndex > 0 then
-            print('Adding seat '..tostring(seatIndex)..' for '..xmlVehicleName)
+            if ContractorMod.debug then print('Adding seat '..tostring(seatIndex)..' for '..xmlVehicleName) end
             vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
           end
         end
@@ -1306,7 +1306,9 @@ function ContractorMod:update(dt)
 
               if ContractorMod.debug then print("set visible 1: "..worker.name) end
                 worker.player:setVisibility(true)
+                setTranslation(worker.player.rootNode, worker.x, worker.y, worker.z);
                 worker.player:moveRootNodeToAbsolute(worker.x, worker.y, worker.z)
+                worker.player:setRotation(worker.rotX, worker.rotY)
                 -- setRotation(worker.player.graphicsRootNode, 0, worker.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
                 -- setRotation(worker.player.cameraNode, worker.rotX, worker.rotY, 0)
               end
@@ -1318,8 +1320,13 @@ function ContractorMod:update(dt)
     local firstWorker = self.workers[self.currentID]
     if g_currentMission.player and g_currentMission.player ~= nil then
       if ContractorMod.debug then print("ContractorMod: moveToAbsolute"); end
-      g_currentMission.player:moveToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
+      setTranslation(g_currentMission.player.rootNode, firstWorker.x, firstWorker.y, firstWorker.z);
+      g_currentMission.player:moveRootNodeToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
       g_currentMission.player:setRotation(firstWorker.rotX, firstWorker.rotY)
+      if firstWorker.displayOnFoot then
+        firstWorker.player.isEntered = true
+        firstWorker.player.isControlled = true
+      end
       if firstWorker.currentVehicle ~= nil then
         firstWorker:afterSwitch()
       end
