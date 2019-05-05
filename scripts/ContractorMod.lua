@@ -749,6 +749,18 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
         end
         if seatUsed == false and ( self.passengers[1] ~= nil or seat == 0 ) then
           firstFreepassengerSeat = seat
+          for i = 1, ContractorMod.numWorkers do
+            local worker = ContractorMod.workers[i]
+            if seat == 0 and worker.currentVehicle == self then
+              --Check if character is not already passenger
+              if worker.currentSeat > 0 then
+                --set him as driver instead since no driver in the vehicle
+                self.passengers[worker.currentSeat]:delete()
+                worker.currentSeat = 0
+                break
+              end
+            end
+          end
           if ContractorMod.debug then print("firstFreepassengerSeat "..tostring(firstFreepassengerSeat)) end
           break
         end
