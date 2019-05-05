@@ -706,8 +706,8 @@ function ContractorMod:placeVisualWorkerInVehicle(worker, vehicle, seat)
   else
     -- Passenger
     if vehicle.passengers ~= nil then
-      if vehicle.passengers[seat] ~= nil 
-      if ContractorMod.debug then print("ContractorMod: setVehicleCharacter as passenger") end
+      if vehicle.passengers[seat] ~= nil then
+        if ContractorMod.debug then print("ContractorMod: setVehicleCharacter as passenger") end
         vehicle.passengers[seat]:loadCharacter(worker.xmlFile, worker.playerStyle)
         IKUtil.updateIKChains(vehicle.passengers[seat].ikChains);
       end
@@ -826,10 +826,10 @@ Enterable.restoreVehicleCharacter = Utils.overwrittenFunction(Enterable.restoreV
 function ContractorMod:ReplaceSetVehicleCharacter(superFunc, xmlFilename, playerStyle)
   if ContractorMod.debug then print("ContractorMod:ReplaceSetVehicleCharacter") end
   if not ContractorMod.passengerEntering then
-    if ContractorMod.debug print("ContractorMod: not passengerEntering") end
+    if ContractorMod.debug then print("ContractorMod: not passengerEntering") end
     superFunc(self, xmlFilename, playerStyle)
   end
-  if ContractorMod.debug print("ContractorMod: passengerEntering return") end
+  if ContractorMod.debug then print("ContractorMod: passengerEntering return") end
   ContractorMod.passengerEntering = false
   return
 end
