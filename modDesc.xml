@@ -29,25 +29,25 @@ Once a game has been saved, they can be changed in ContractorMod.xml file presen
 ContractorMod.xml file also contains configuration for passengers for mods vehicles. You can add your own mods here.
 ]]></en>
     <de><![CDATA[
-Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die du während eines Solospiels einzeln kontrollierst.
+Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die Du während eines Einzelspieler-Spiels einzeln kontrollierst.
 
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
-Beim ersten Laden einer Karte befinden sie sich am Karrierestartpunkt.
-Beim Speichern des Spiels werden der Standort des Charakters und das Fahrzeug gespeichert, damit sie beim nächsten Laden des Spiels wiederhergestellt werden.
+Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
+Beim Speichern des Spiels werden der Standort des Charakters und des Fahrzeugs gespeichert, damit diese beim nächsten Laden des Spiels wiederhergestellt werden.
 So können Sie Ihr Spiel genauso fortsetzen, wie Sie es verlassen haben.
 
-Standardschlüssel zum Umschalten zwischen Zeichen sind:
+Standard Tastenbelegung zum Wechseln zwischen Charakteren ist:
 - NÄCHSTER: Tab
-- ZURÜCK: Umschalt + Tab
-Sie können geändert werden, aber standardmäßig ersetzen sie den Standard-Switch zwischen Fahrzeugen, da er deaktiviert ist.
+- VORHERIGER: Umschalt + Tab
+Die Belegung kann geändert werden, aber standardmäßig ersetzen sie den Switch zwischen Fahrzeugen, da diese Funktion deaktiviert ist.
 
-Dieser Mod ist kompatibel mit CoursePlay und FollowMe Mods.
+Dieser Mod ist kompatibel mit CoursePlay und FollowMe.
 So wird zum Beispiel bei der Verwendung von FollowMe ein Charakter der Leader und ein weiterer der Follower sein.
 Charaktere können auf der Minikarte gesehen werden, wenn die Standardkategorie (die letzte durch ein Haus repräsentiert) im Kartenübersichtsbildschirm aktiviert wird.
 
 Name, Geschlecht, Farbe, Körper, Haar, Accessoires und Anzahl der Zeichen können in der ContractorMod.xml Datei für neue Spiele geändert werden.
-Sobald ein Spiel gespeichert wurde, kann es in der Datei "ContractorMod.xml" geändert werden, die im zugehörigen Spielstandordner vorhanden ist.
-ContractorMod.xml Datei enthält auch die Konfiguration für Passagiere für Mods Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
+Sobald ein Spiel gespeichert wurde, kann es in der Datei ContractorMod.xml geändert werden, die im zugehörigen Spielstandsordner vorhanden ist.
+ContractorMod.xml enthält auch die Konfiguration von Passagieren für Mod-Fahrzeuge. Sie können hier Ihre eigenen Mods hinzufügen.
 ]]></de>
     <fr><![CDATA[
 Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
