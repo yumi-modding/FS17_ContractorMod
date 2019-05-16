@@ -320,15 +320,19 @@ function ContractorMod:initFromSave()
               worker.dy = yRot
               worker.rotY = yRot
               worker.dz = zRot
-              local vehicleID = getXMLFloat(xmlFile, key.."#vehicleID");
-              if vehicleID > 0 then
-                local vehicle = NetworkUtil.getObject(vehicleID)
-                if vehicle ~= nil then
-                  if ContractorMod.debug then print("ContractorMod: vehicle not nil") end
-                  worker.currentVehicle = vehicle
-                  local currentSeat = getXMLInt(xmlFile, key.."#currentSeat");
-                  if currentSeat ~= nil then
-                    worker.currentSeat = currentSeat
+              local vehicleID = getXMLString(xmlFile, key.."#vehicleID");
+              if vehicleID ~= "0" then
+                if ContractorMod.mapVehicleLoad ~= nil then
+                  -- map savegame vehicle id and network id
+                  local saveId = ContractorMod.mapVehicleLoad[vehicleID]
+                  local vehicle = NetworkUtil.getObject(tonumber(saveId))
+                  if vehicle ~= nil then
+                    if ContractorMod.debug then print("ContractorMod: vehicle not nil") end
+                    worker.currentVehicle = vehicle
+                    local currentSeat = getXMLInt(xmlFile, key.."#currentSeat");
+                    if currentSeat ~= nil then
+                      worker.currentSeat = currentSeat
+                    end
                   end
                 end
               end
@@ -1097,6 +1101,29 @@ function ContractorMod:onLeaveVehicle()
 end
 BaseMission.onLeaveVehicle = Utils.prependedFunction(BaseMission.onLeaveVehicle, ContractorMod.onLeaveVehicle);
 
+-- @doc Set mapping between savegame vehicle id and vehicle network id when vehicle is loaded
+ContractorMod.appVehicleLoad = function(self, vehicleData, asyncCallbackFunction, asyncCallbackObject, asyncCallbackArguments)
+  if ContractorMod.debug then print("ContractorMod:replaceVehicleLoad ") end
+  if vehicleData.savegame ~= nil then
+    -- When loading savegame
+    if ContractorMod.mapVehicleLoad == nil then
+      ContractorMod.mapVehicleLoad = {}
+    end
+    if SpecializationUtil.hasSpecialization(Enterable, self.specializations) then
+      local key = vehicleData.savegame.key
+      -- key is something like vehicles.vehicle(saveId)
+      local saveId = 1 + tonumber(string.sub(key, string.find(key, '(', 1, true) + 1, string.find(key, ')', 1, true) - 1))
+      local vehicleID = self.id
+      -- print("saveId "..tostring(saveId))
+      -- print("vehicleID "..tostring(vehicleID).." - "..self:getFullName())
+      -- Set mapping between savegame vehicle id and vehicle network id once loaded
+      ContractorMod.mapVehicleLoad[tostring(saveId)] = vehicleID
+      -- DebugUtil.printTableRecursively(ContractorMod.mapVehicleLoad, " ", 1, 2);
+    end
+  end
+end
+Vehicle.load = Utils.appendedFunction(Vehicle.load, ContractorMod.appVehicleLoad)
+
 -- @doc Save workers info to restore them when starting game
 function ContractorMod:onSaveCareerSavegame()
   if ContractorMod.debug then print("ContractorMod:onSaveCareerSavegame ") end
@@ -1145,11 +1172,13 @@ function ContractorMod:onSaveCareerSavegame()
         setXMLString(xmlFile, key.."#position", pos);
         local rot = worker.dx..' '..worker.dy..' '..worker.dz
         setXMLString(xmlFile, key.."#rotation", rot);
-        local vehicleID = 0.
+        local vehicleID = "0"
         if worker.currentVehicle ~= nil then
-          vehicleID = NetworkUtil.getObjectId(worker.currentVehicle)
+          -- This id was not stable enough when saving
+          -- vehicleID = NetworkUtil.getObjectId(worker.currentVehicle)
+          vehicleID = worker.saveId
         end
-        setXMLFloat(xmlFile, key.."#vehicleID", vehicleID);
+        setXMLString(xmlFile, key.."#vehicleID", vehicleID);
       end
       saveXMLFile(xmlFile);
     end
@@ -1162,6 +1191,34 @@ SavegameController.onSaveComplete = Utils.prependedFunction(SavegameController.o
     ContractorMod:onSaveCareerSavegame()
     -- end
 end);
+
+-- @doc store savegame vehicle id if worker is in this vehicle
+function ContractorMod:mapVehicleSave(vehicle, saveId)
+  if ContractorMod.debug then print("ContractorMod:mapVehicleSave ") end
+  if self.workers ~= nil then
+    if #self.workers > 0 then
+      for i = 1, self.numWorkers do
+        local worker = self.workers[i]
+        if worker ~= nil and worker.currentVehicle ~= nil then
+          if vehicle == worker.currentVehicle then
+            -- store savegame vehicle id 
+            worker.saveId = saveId
+          end
+        end
+      end
+    end
+  end
+end
+
+-- @doc Set mapping between savegame vehicle id and vehicle network id when vehicle is saved
+function ContractorMod:preVehicleSave(xmlFile, key, usedModNames)
+  -- key is something like vehicles.vehicle(saveId)
+  local saveId = 1 + tonumber(string.sub(key, string.find(key, '(', 1, true) + 1, string.find(key, ')', 1, true) - 1))
+  if SpecializationUtil.hasSpecialization(Enterable, self.specializations) then
+    ContractorMod:mapVehicleSave(self, tostring(saveId))
+  end
+end
+Vehicle.saveToXMLFile = Utils.prependedFunction(Vehicle.saveToXMLFile, ContractorMod.preVehicleSave);
 
 -- @doc Draw worker name and hotspots on map
 function ContractorMod:draw()
