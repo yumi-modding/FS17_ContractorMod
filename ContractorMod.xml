@@ -41,6 +41,13 @@
         <worker name="Gary" gender="male" playerColorIndex="6" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
         <worker name="Henry" gender="male" playerColorIndex="7" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
     </workers>
+    <displaySettings>
+        <!-- 
+          You can change here the position and size of current character name displayed on screen
+          Default values used on FS17: x="0.9828" y="0.45" size="0.024"
+        -->
+        <characterName x="0.9828" y="0.90" size="0.024" />
+    </displaySettings>
     <passengerSeats displayWarning="false">
         <!-- mods can be added here so they won't be overwritten if ContractorMod is updated -->
 		<Passenger vehiclesName="$moddir$FS19_D754_Truck/CsD754.xml" seatIndex="1" x="-0.7214" y="1.8694" z="1.9484" rx="0" ry="0" rz="0" />

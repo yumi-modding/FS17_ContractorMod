@@ -147,6 +147,11 @@ function ContractorMod:init()
       table.insert(self.workers, worker)
       self.numWorkers = 4
       self.enableSeveralDrivers = true
+      self.displaySettings = {}
+      self.displaySettings.characterName = {}
+      self.displaySettings.characterName.x = 0.9828
+      self.displaySettings.characterName.y = 0.90
+      self.displaySettings.characterName.size = 0.024
     end
   end
   -- DebugUtil.printTableRecursively(g_currentMission.players, " ", 1, 3)
@@ -350,6 +355,24 @@ function ContractorMod:initFromSave()
           else
             self.enableSeveralDrivers = false
           end
+          xmlKey = "ContractorMod.displaySettings.characterName"
+          self.displaySettings = {}
+          self.displaySettings.characterName = {}
+          local x = getXMLFloat(xmlFile, xmlKey .. string.format("#x"));
+          if x == nil then
+            x = 0.9828
+          end
+          self.displaySettings.characterName.x = x
+          local y = getXMLFloat(xmlFile, xmlKey .. string.format("#y"));
+          if y == nil then
+            y = 0.90
+          end
+          self.displaySettings.characterName.y = y
+          local size = getXMLFloat(xmlFile, xmlKey .. string.format("#size"));
+          if size == nil then
+            size = 0.024
+          end
+          self.displaySettings.characterName.size = size
         end
         self.numWorkers = numWorkers
         return true
@@ -448,6 +471,24 @@ function ContractorMod:initFromParam()
           else
             self.enableSeveralDrivers = false
           end
+          xmlKey = "ContractorMod.displaySettings.characterName"
+          self.displaySettings = {}
+          self.displaySettings.characterName = {}
+          local x = getXMLFloat(xmlFile, xmlKey .. string.format("#x"));
+          if x == nil then
+            x = 0.9828
+          end
+          self.displaySettings.characterName.x = x
+          local y = getXMLFloat(xmlFile, xmlKey .. string.format("#y"));
+          if y == nil then
+            y = 0.90
+          end
+          self.displaySettings.characterName.y = y
+          local size = getXMLFloat(xmlFile, xmlKey .. string.format("#size"));
+          if size == nil then
+            size = 0.024
+          end
+          self.displaySettings.characterName.size = size
         end
         self.numWorkers = numWorkers
         return true

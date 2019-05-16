@@ -102,7 +102,15 @@ function ContractorModWorker:displayName(contractorMod)
   setTextAlignment(RenderText.ALIGN_RIGHT);
   
   setTextColor(self.color[1], self.color[2], self.color[3], 1.0);
-  renderText(0.9828, 0.45, 0.024, self.name);
+  local x = 0.9828
+  local y = 0.45
+  local size = 0.024
+  if contractorMod.displaySettings ~= nil and contractorMod.displaySettings.characterName ~= nil then
+    x = contractorMod.displaySettings.characterName.x
+    y = contractorMod.displaySettings.characterName.y
+    size = contractorMod.displaySettings.characterName.size
+  end
+  renderText(x, y, size, self.name);
   
   if ContractorModWorker.debug then
     if self.currentVehicle ~= nil then
