@@ -16,16 +16,9 @@ ContractorMod.debug = false --true --
 ContractorMod.useDebugCommands = false
 -- TODO:
 -- Passenger: Try to add cameras
--- Passenger: Worker continues until no more character in the vehicle
 -- Try to have workers on different farms (farmId)
 
 -- TO FIX:
--- OnFoot character KO - seems                OK
--- OnFoot character > 1 has skeleton visible  OK
--- New game => Alex has hair visible          OK
--- onFoot character falling /!\               OK
--- Only passenger in car => driver when switching 
--- Test new game + save
 -- Wrong rotation of on Foot Characters
 
 -- @doc First code called during map loading (before we can actually interact)
@@ -246,7 +239,7 @@ end
 function ContractorMod:initFromSave()
   if ContractorMod.debug then print("ContractorMod:initFromSave") end
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
-    -- Copy ContractorMod.xml from zip to mods dir
+    -- Copy ContractorMod.xml from zip to modsSettings dir
     ContractorMod:CopyContractorModXML()
     if self.savegameFolderPath and self.ContractorModXmlFilePath then
       createFolder(self.savegameFolderPath);
@@ -365,10 +358,10 @@ end
 function ContractorMod:initFromParam()
   if ContractorMod.debug then print("ContractorMod:initFromParam") end
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
-    -- Copy ContractorMod.xml from zip to mods dir
+    -- Copy ContractorMod.xml from zip to modsSettings dir
     ContractorMod:CopyContractorModXML()
     if ContractorMod.myCurrentModDirectory then
-      local xmlFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
+      local xmlFilePath = ContractorMod.myCurrentModDirectory .. "../../modsSettings/ContractorMod.xml"
       local xmlFile;
       if fileExists(xmlFilePath) then
         xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
@@ -464,7 +457,8 @@ function ContractorMod:CopyContractorModXML()
   if ContractorMod.debug then print("ContractorMod:CopyContractorModXML") end
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
     if ContractorMod.myCurrentModDirectory then
-      local xmlFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
+      local modSettingsDir = ContractorMod.myCurrentModDirectory .. "../../modsSettings"
+      local xmlFilePath = modSettingsDir.."/ContractorMod.xml"
       if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_1") end
       local xmlFile;
       if not fileExists(xmlFilePath) then
@@ -474,6 +468,7 @@ function ContractorMod:CopyContractorModXML()
         if fileExists(xmlSourceFilePath) then
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_3") end
           xmlSourceFile = loadXMLFile('ContractorMod', xmlSourceFilePath);
+          createFolder(modSettingsDir)
           saveXMLFileTo(xmlSourceFile, xmlFilePath);
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_4") end
         end
@@ -591,7 +586,7 @@ function ContractorMod:ManageNewVehicle(vehicle)
       local foundConfig = false
       -- Don't display warning by default in log, only if displayWarning = true
       local xmlPath = "ContractorMod.passengerSeats"
-      local modDirectoryXMLFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
+      local modDirectoryXMLFilePath = ContractorMod.myCurrentModDirectory .. "../../modsSettings/ContractorMod.xml"
       local displayWarning = false
       if fileExists(modDirectoryXMLFilePath) then
         local xmlFile = loadXMLFile('ContractorMod', modDirectoryXMLFilePath);
@@ -605,7 +600,7 @@ function ContractorMod:ManageNewVehicle(vehicle)
       end
       if foundConfig == false and displayWarning == true then
         print("[ContractorMod]No passenger seat configured for vehicle "..vehicle.configFileName)
-        print("[ContractorMod]Please edit ContractorMod.xml to set passenger position")
+        print("[ContractorMod]Please edit modsSettings/ContractorMod.xml to set passenger position")
       end
     end
 end
