@@ -875,6 +875,19 @@ function ContractorMod:ReplaceSetVehicleCharacter(superFunc, xmlFilename, player
 end
 Enterable.setVehicleCharacter = Utils.overwrittenFunction(Enterable.setVehicleCharacter, ContractorMod.ReplaceSetVehicleCharacter)
 
+-- @doc Prevent error with FS19_Inspector
+function ContractorMod:ReplaceGetControllerName(superFunc)
+  if ContractorMod.debug then print("ContractorMod:ReplaceGetControllerName") end
+  if self.spec_enterable.playerStyle ~= nil then
+    return superFunc(self)
+  end
+  if #ContractorMod.workers > 0 then
+    return ContractorMod.workers[ContractorMod.currentID].name
+  end
+  return "NO PLAYER NAME"
+end
+Enterable.getControllerName = Utils.overwrittenFunction(Enterable.getControllerName, ContractorMod.ReplaceGetControllerName)
+
 -- Enterable:enter()        => loadCharacter if isHired == false
 -- Enterable:leaveVehicle() => deleteCharacter if disableCharacterOnLeave == true
 function ContractorMod:ManageBeforeEnterVehicle(vehicle, playerStyle)

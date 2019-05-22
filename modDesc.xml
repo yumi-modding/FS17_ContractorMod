@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="43">
   <author>yumi</author>
-  <version>1.0.0.0</version>
+  <version>1.0.0.1</version>
   <contributors>yumi, mrbear, jujuokl, alpha117,FomaDNS</contributors>
   <title>
     <en>ContractorMod</en>
@@ -9,6 +9,10 @@
   <description>
     <en><![CDATA[
 This mod enable simulating a defined number of characters you control one by one during a solo game.
+
+==== CHANGELOG ====
+Fixed in v1.0.0.1
+  - Conflict with Fruchtzwerg's Inspector mod
 
 By default, 4 characters are available Alex, Barbara, Chris and David.
 At first loading of a map, they are located at the Career starting point.
@@ -31,6 +35,10 @@ ContractorMod.xml file also contains configuration for passengers for mods vehic
     <de><![CDATA[
 Dieser Mod ermöglicht das Simulieren einer definierten Anzahl von Charakteren, die Du während eines Einzelspieler-Spiels einzeln kontrollierst.
 
+==== CHANGELOG ====
+Fixed in v1.0.0.1
+  - Konflikt mit Fruchtzwerg's Inspector mod
+
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
 Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
 Beim Speichern des Spiels werden der Standort des Charakters und des Fahrzeugs gespeichert, damit diese beim nächsten Laden des Spiels wiederhergestellt werden.
@@ -51,6 +59,10 @@ ContractorMod.xml enthält auch die Konfiguration von Passagieren für Mod-Fahrz
 ]]></de>
     <fr><![CDATA[
 Ce mod permet de simuler un nombre défini de personnages différents durant une partie solo que vous controlez tour à tour.
+
+==== CHANGELOG ====
+Fixed in v1.0.0.1
+  - Conflit avec le mod Fruchtzwerg's Inspector
 
 Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
 Au premier chargement d'une map ils sont positionnés au point de départ de la map.
