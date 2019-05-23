@@ -1156,27 +1156,25 @@ end
 BaseMission.onLeaveVehicle = Utils.prependedFunction(BaseMission.onLeaveVehicle, ContractorMod.onLeaveVehicle);
 
 -- @doc Set mapping between savegame vehicle id and vehicle network id when vehicle is loaded
-ContractorMod.appVehicleLoad = function(self, vehicleData, asyncCallbackFunction, asyncCallbackObject, asyncCallbackArguments)
-  if ContractorMod.debug then print("ContractorMod:replaceVehicleLoad ") end
-  if vehicleData.savegame ~= nil then
+ContractorMod.appEnterableOnLoad = function(self, savegame)
+  if ContractorMod.debug then print("ContractorMod:appEnterableOnLoad ") end
+  if savegame ~= nil then
     -- When loading savegame
     if ContractorMod.mapVehicleLoad == nil then
       ContractorMod.mapVehicleLoad = {}
     end
-    if SpecializationUtil.hasSpecialization(Enterable, self.specializations) then
-      local key = vehicleData.savegame.key
-      -- key is something like vehicles.vehicle(saveId)
-      local saveId = 1 + tonumber(string.sub(key, string.find(key, '(', 1, true) + 1, string.find(key, ')', 1, true) - 1))
-      local vehicleID = self.id
-      -- print("saveId "..tostring(saveId))
-      -- print("vehicleID "..tostring(vehicleID).." - "..self:getFullName())
-      -- Set mapping between savegame vehicle id and vehicle network id once loaded
-      ContractorMod.mapVehicleLoad[tostring(saveId)] = vehicleID
-      -- DebugUtil.printTableRecursively(ContractorMod.mapVehicleLoad, " ", 1, 2);
-    end
+    local key = savegame.key
+    -- key is something like vehicles.vehicle(saveId)
+    local saveId = 1 + tonumber(string.sub(key, string.find(key, '(', 1, true) + 1, string.find(key, ')', 1, true) - 1))
+    local vehicleID = self.id
+    -- print("saveId "..tostring(saveId))
+    -- print("vehicleID "..tostring(vehicleID).." - "..self:getFullName())
+    -- Set mapping between savegame vehicle id and vehicle network id once loaded
+    ContractorMod.mapVehicleLoad[tostring(saveId)] = vehicleID
+    -- DebugUtil.printTableRecursively(ContractorMod.mapVehicleLoad, " ", 1, 2);
   end
 end
-Vehicle.load = Utils.appendedFunction(Vehicle.load, ContractorMod.appVehicleLoad)
+Enterable.onLoad = Utils.appendedFunction(Enterable.onLoad, ContractorMod.appEnterableOnLoad)
 
 -- @doc Save workers info to restore them when starting game
 function ContractorMod:onSaveCareerSavegame()
