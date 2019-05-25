@@ -1232,6 +1232,10 @@ function ContractorMod:onSaveCareerSavegame()
         end
         setXMLString(xmlFile, key.."#vehicleID", vehicleID);
       end
+      local xmlKey = rootXmlKey .. ".displaySettings.characterName"
+      setXMLFloat(xmlFile, xmlKey .. "#x", self.displaySettings.characterName.x);
+      setXMLFloat(xmlFile, xmlKey .. "#y", self.displaySettings.characterName.y);
+      setXMLFloat(xmlFile, xmlKey .. "#size", self.displaySettings.characterName.size);
       saveXMLFile(xmlFile);
     end
   end
