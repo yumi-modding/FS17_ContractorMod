@@ -16,6 +16,8 @@ Fixed in v1.0.0.1
 Fixed in v1.0.0.2
   - Bug after customizing a vehicle at the shop / resetting a vehicle
   - Display settings changes only work one time
+Fixed in v1.0.0.3
+  - Game crashes when driver exits and enter again a vehicle having a passenger
 
 By default, 4 characters are available Alex, Barbara, Chris and David.
 At first loading of a map, they are located at the Career starting point.
@@ -44,6 +46,8 @@ Fixed in v1.0.0.1
 Fixed in v1.0.0.2
   - Fehler nach dem Anpassen eines Fahrzeugs im Shop / Zurücksetzen eines Fahrzeugs
   - Änderungen der Anzeigeeinstellungen funktionieren nur einmal
+Fixed in v1.0.0.3
+  - Das Spiel stürzt ab, wenn der Fahrer ein Fahrzeug mit einem Beifahrer verlässt und wieder einsteigt
 
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
 Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
@@ -72,6 +76,8 @@ Fixed in v1.0.0.1
 Fixed in v1.0.0.2
   - Bug après configuration d'un véhicule au magasin / réinitialisation d'un véhicule
   - Les modifications des paramètres d'affichage ne fonctionnent qu'une fois
+Fixed in v1.0.0.3
+  - Crash du jeu quand un conducteur sorts et entre à nouveau dans un véhicule ayant un passager
 
 Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
 Au premier chargement d'une map ils sont positionnés au point de départ de la map.
