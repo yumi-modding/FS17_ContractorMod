@@ -12,8 +12,11 @@ source(Utils.getFilename("scripts/ContractorModWorker.lua", g_currentModDirector
 ContractorMod = {};
 ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 
-ContractorMod.debug = false --true --
-ContractorMod.useDebugCommands = false
+-- Load the debug properties from modDesc.XML file.
+local modDesc = loadXMLFile("modDesc", g_currentModDirectory .. "modDesc.xml");
+ContractorMod.debug = getXMLBool(modDesc, "modDesc.developer.debug");
+ContractorMod.useDebugCommands = getXMLBool(modDesc, "modDesc.developer.useDebugCommands");
+
 -- TODO:
 -- Passenger: Try to add cameras
 -- Passenger: Worker continues until no more character in the vehicle

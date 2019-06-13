@@ -10,7 +10,9 @@
 ContractorModWorker = {};
 ContractorModWorker_mt = Class(ContractorModWorker);
 
-ContractorModWorker.debug = false --true --
+-- Load the debug property from modDesc.XML file.
+local modDesc = loadXMLFile("modDesc", g_currentModDirectory .. "modDesc.xml");
+ContractorModWorker.debug = getXMLBool(modDesc, "modDesc.developer.debug");
 
 function ContractorModWorker:getParentComponent(node)
     return self.graphicsRootNode;

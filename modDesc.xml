@@ -7,6 +7,7 @@
     <en>ContractorMod</en>
     <de>ContractorMod</de>
     <fr>Mod ETA</fr>
+    <pt>ContractorMod</pt>
   </title>
   <description>
     <en><![CDATA[
@@ -163,6 +164,9 @@ O arquivo ContractorMod.xml também contém configuração para passageiros para
         <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_8" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
   </inputBinding>
-
+  <developer>
+    <debug>false</debug>
+    <useDebugCommands>false</useDebugCommands>
+  </developer>
 </modDesc>
     
