@@ -7,7 +7,7 @@
     <en>ContractorMod</en>
     <de>ContractorMod</de>
     <fr>Mod ETA</fr>
-    <pt>ContractorMod</pt>
+    <br>ContractorMod</br>
   </title>
   <description>
     <en><![CDATA[
@@ -91,7 +91,7 @@ Le nom, le genre, la couleur, le corps, les cheveux, les accessoires et le nombr
 Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
 Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
 ]]></fr>
-    <pt><![CDATA[
+    <br><![CDATA[
 Este mod permite simular um número definido de personagens que você controla um por um durante um jogo solo.
 
 ==== CHANGELOG ====
@@ -117,7 +117,7 @@ Os personagens podem ser vistos no minimapa ao ativar a categoria padrão (a úl
 Nome, sexo, cor, corpo, cabelo, acessórios e número de personagens podem ser alterados no arquivo ContractorMod.xml para novos jogos.
 Uma vez que um jogo tenha sido salvo, ele pode ser alterado no arquivo ContractorMod.xml, presente na pasta relacionada do savegame.
 O arquivo ContractorMod.xml também contém configuração para passageiros para mods de veículos. Você pode adicionar seus próprios mods aqui.
-]]></pt>
+]]></br>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>
 
