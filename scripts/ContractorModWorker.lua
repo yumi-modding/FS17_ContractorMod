@@ -24,15 +24,9 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
   local self = {};
   setmetatable(self, ContractorModWorker_mt);
 
-  local playerModelIndex = 1
-  if gender == "female" then
-    playerModelIndex = 2
-  end
-
   local playerStyle = PlayerStyle:new()
   playerStyle:copySelection(g_currentMission.missionInfo.playerStyle)
-  -- playerStyle.selectedModelIndex = workerStyle.playerModelIndex -- = gender
-  playerStyle.selectedModelIndex = playerModelIndex
+  playerStyle.selectedModelIndex = workerStyle.playerModelIndex
   playerStyle.selectedColorIndex = workerStyle.playerColorIndex
   playerStyle.selectedBodyIndex = workerStyle.playerBodyIndex
   playerStyle.selectedHatIndex = workerStyle.playerHatIndex
@@ -67,7 +61,7 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
         end
         p.visualInformation.playerName = name
         self.mapHotSpot = nil
-        self.color = g_playerColors[(workerStyle.playerColorIndex + 1)].value
+        self.color = g_playerColors[(workerStyle.playerColorIndex)].value
         if g_currentMission.controlPlayer and g_currentMission.player ~= nil then
           self.x, self.y, self.z = getWorldTranslation(g_currentMission.player.rootNode);
           self.dx, self.dy, self.dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, 1);

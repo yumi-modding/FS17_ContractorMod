@@ -15,7 +15,6 @@ ContractorMod.myCurrentModDirectory = g_currentModDirectory;
 -- Load the debug properties from modDesc.XML file.
 local modDesc = loadXMLFile("modDesc", g_currentModDirectory .. "modDesc.xml");
 ContractorMod.debug = getXMLBool(modDesc, "modDesc.developer.debug");
-ContractorMod.useDebugCommands = getXMLBool(modDesc, "modDesc.developer.useDebugCommands");
 
 -- TODO:
 -- Passenger: Try to add cameras
@@ -58,7 +57,7 @@ function ContractorMod:registerActionEvents()
                               "ContractorMod_WORKER6",
                               "ContractorMod_WORKER7",
                               "ContractorMod_WORKER8" }) do
-    -- print("actionName "..actionName)
+    if ContractorMod.debug then print("actionName "..actionName) end
     local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.activateWorker ,false ,true ,false ,true)
     if __ then
       g_inputBinding.events[eventName].displayIsVisible = false
@@ -74,7 +73,7 @@ function ContractorMod:registerActionEvents()
                                 "ContractorMod_DEBUG_MOVE_PASS_FRONT",
                                 "ContractorMod_DEBUG_MOVE_PASS_BACK",
                                 "ContractorMod_DEBUG_DUMP_PASS" }) do
-      -- print("actionName "..actionName)
+      if ContractorMod.debug then print("actionName "..actionName) end
       local __, eventName, event, action = InputBinding.registerActionEvent(g_inputBinding, actionName, self, ContractorMod.debugCommands ,false ,true ,false ,true)
     end
   end
@@ -123,13 +122,13 @@ function ContractorMod:init()
     savegameDir = g_currentMission.missionInfo.savegameDirectory;
   end;
   if not savegameDir and g_careerScreen.currentSavegame and g_careerScreen.currentSavegame.savegameIndex then
-    savegameDir = ('%ssavegame%d'):format(getUserProfileAppPath(), g_careerScreen.currentSavegame.savegameIndex);
+    savegameDir = ("%ssavegame%d"):format(getUserProfileAppPath(), g_careerScreen.currentSavegame.savegameIndex);
   end;
   if not savegameDir and g_currentMission.missionInfo.savegameIndex ~= nil then
-    savegameDir = ('%ssavegame%d'):format(getUserProfileAppPath(), g_careerScreen.missionInfo.savegameIndex);
+    savegameDir = ("%ssavegame%d"):format(getUserProfileAppPath(), g_careerScreen.missionInfo.savegameIndex);
   end;
   self.savegameFolderPath = savegameDir;
-  self.ContractorModXmlFilePath = self.savegameFolderPath .. '/ContractorMod.xml';
+  self.ContractorModXmlFilePath = self.savegameFolderPath .. "/ContractorMod.xml";
 
   if not self:initFromSave() or #self.workers <= 0 then
     if not self:initFromParam() or #self.workers <= 0 then
@@ -137,23 +136,23 @@ function ContractorMod:init()
       if ContractorMod.debug then print("ContractorMod: No savegame: set default values") end
       local farmId = 1
       local workerStyle = {};
-      workerStyle.playerColorIndex = 0;
-      workerStyle.playerBodyIndex = 1;
-      workerStyle.playerHatIndex = 0;
-      workerStyle.playerAccessoryIndex = 0;
-      workerStyle.playerHairIndex = 0;
-      workerStyle.playerJacketIndex = 0;
-      local worker = ContractorModWorker:new("Alex", 1, "male", workerStyle, farmId, true)
+      workerStyle.playerColorIndex      = 0;
+      workerStyle.playerBodyIndex       = 1;
+      workerStyle.playerHatIndex        = 0;
+      workerStyle.playerAccessoryIndex  = 0;
+      workerStyle.playerHairIndex       = 0;
+      workerStyle.playerJacketIndex     = 0;
+      local worker = ContractorModWorker:new("Alex", 0, 1, workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 1;
       workerStyle.playerHairIndex = 1;
-      worker = ContractorModWorker:new("Barbara", 2, "female", workerStyle, farmId, true)
+      worker = ContractorModWorker:new("Barbara", 2, 2, workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 2;
-      worker = ContractorModWorker:new("Chris", 3, "male", workerStyle, farmId, true)
+      worker = ContractorModWorker:new("Chris", 3, 1, workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 3;
-      worker = ContractorModWorker:new("David", 4, "male", workerStyle, farmId, true)
+      worker = ContractorModWorker:new("David", 4, 1, workerStyle, farmId, true)
       table.insert(self.workers, worker)
       self.numWorkers = 4
       self.enableSeveralDrivers = true
@@ -163,31 +162,36 @@ function ContractorMod:init()
   if ContractorMod.debug then print("ContractorMod:init()------------") end
 end
 
-
 function ContractorMod:onSwitchVehicle(action)
 	if ContractorMod.debug then print("ContractorMod:onSwitchVehicle()") end
   self.switching = true
-  if action == "SWITCH_VEHICLE" then
-    if ContractorMod.debug then print('ContractorMod_NEXTWORKER pressed') end
-    local nextID = 0
-    if ContractorMod.debug then print("ContractorMod: self.currentID " .. tostring(self.currentID)) end
-    if ContractorMod.debug then print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers)) end
-    if self.currentID < self.numWorkers then
-      nextID = self.currentID + 1
-    else
-      nextID = 1
+  local ID = 0
+  if action == "SWITCH_VEHICLE" or action == "SWITCH_VEHICLE_BACK" then
+    if ContractorMod.debug then 
+      print("ContractorMod_SWITCHWORKER pressed") 
+      print("ContractorMod: self.currentID " .. tostring(self.currentID))
+      print("ContractorMod: self.numWorkers " .. tostring(self.numWorkers))
     end
-    if ContractorMod.debug then print("ContractorMod: nextID " .. tostring(nextID)) end
-    self:setCurrentContractorModWorker(nextID)
-  elseif action == "SWITCH_VEHICLE_BACK" then
-    if ContractorMod.debug then print('ContractorMod_PREVWORKER pressed') end
-    local prevID = 0
-    if self.currentID > 1 then
-      prevID = self.currentID - 1
-    else
-      prevID = self.numWorkers
-    end    
-    self:setCurrentContractorModWorker(prevID)
+
+    actions = {
+      ["SWITCH_VEHICLE"]      = function (x) 
+        if self.currentID < self.numWorkers then
+          ID = self.currentID + 1
+        else
+          ID = 1
+        end  
+      end,
+      ["SWITCH_VEHICLE_BACK"] = function (x) 
+        if self.currentID > 1 then
+          ID = self.currentID - 1
+        else
+          ID = self.numWorkers
+        end  
+      end
+    }
+    
+    if ContractorMod.debug then print("ContractorMod: switch to ID " .. tostring(ID)) end
+    self:setCurrentContractorModWorker(actions[action])
   end
 end
 
@@ -195,12 +199,16 @@ end
 function ContractorMod:replaceOnSwitchVehicle(superfunc, action, direction)
   ContractorMod:onSwitchVehicle(action)
 end
+
 BaseMission.onSwitchVehicle = Utils.overwrittenFunction(BaseMission.onSwitchVehicle, ContractorMod.replaceOnSwitchVehicle);
 
 -- @doc Switch directly to another worker
 function ContractorMod:activateWorker(actionName, keyStatus)
-	if ContractorMod.debug then print("ContractorMod:activateWorker") end
-  if ContractorMod.debug then print("actionName "..tostring(actionName)) end
+  if ContractorMod.debug then 
+    print("ContractorMod:activateWorker")
+    print("actionName "..tostring(actionName)) 
+  end
+  
   if string.sub(actionName, 1, 20) == "ContractorMod_WORKER" then
     local workerIndex = tonumber(string.sub(actionName, -1))
     if self.numWorkers >= workerIndex and workerIndex ~= self.currentID then
@@ -211,31 +219,28 @@ end
 
 -- @doc Debug commands to set passenger location
 function ContractorMod:debugCommands(actionName, keyStatus)
-	if ContractorMod.debug then print("ContractorMod:debugCommands") end
-  if ContractorMod.debug then print("actionName "..tostring(actionName)) end
+  if ContractorMod.debug then
+    print("ContractorMod:debugCommands")
+    print("actionName "..tostring(actionName)) 
+  end
   local x1, y1, z1 = getTranslation(g_currentMission.controlledVehicle.passengers[1].characterNode)
   if string.sub(actionName, 1, 30) == "ContractorMod_DEBUG_MOVE_PASS_" then
+    print("Current Translation x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
     if actionName == "ContractorMod_DEBUG_MOVE_PASS_LEFT" then
-      -- print("+x")
       x1 = x1 + 0.05
     elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_RIGHT" then
-      -- print("-x")
       x1 = x1 - 0.05
     elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_TOP" then
-      -- print("+z")
       z1 = z1 + 0.05
     elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_BOTTOM" then
-      -- print("-z")
       z1 = z1 - 0.05
     elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_FRONT" then
-      -- print("+y")
       y1 = y1 + 0.05
     elseif actionName == "ContractorMod_DEBUG_MOVE_PASS_BACK" then
-      -- print("-y")
       y1 = y1 - 0.05
     end
     setTranslation(g_currentMission.controlledVehicle.passengers[1].characterNode, x1, y1, z1)
-    print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+    print("New Translation x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
     DebugUtil.drawDebugReferenceAxisFromNode(g_currentMission.controlledVehicle.passengers[1].characterNode)
   end
   if actionName == "ContractorMod_DEBUG_DUMP_PASS" then
@@ -255,9 +260,9 @@ function ContractorMod:initFromSave()
       createFolder(self.savegameFolderPath);
       local xmlFile;
       if fileExists(self.ContractorModXmlFilePath) then
-        xmlFile = loadXMLFile('ContractorMod', self.ContractorModXmlFilePath);
+        xmlFile = loadXMLFile("ContractorMod", self.ContractorModXmlFilePath);
       else
-        xmlFile = createXMLFile('ContractorMod', self.ContractorModXmlFilePath, 'ContractorMod');
+        xmlFile = createXMLFile("ContractorMod", self.ContractorModXmlFilePath, "ContractorMod");
         saveXMLFile(xmlFile);
         delete(xmlFile);
         return false;
@@ -279,43 +284,22 @@ function ContractorMod:initFromSave()
 
           for i = 1, numWorkers do
             local key = xmlKey .. string.format(".worker(%d)", i - 1)
-            local workerName = getXMLString(xmlFile, key.."#name");
-            local gender = getXMLString(xmlFile, key .. string.format("#gender"));
-            if gender == nil then
-                gender = "male"
-            end
-            local playerColorIndex = getXMLInt(xmlFile, key .. string.format("#playerColorIndex"));
-            if playerColorIndex == nil then
-              playerColorIndex = 0
-            end
-            local playerBodyIndex = getXMLInt(xmlFile, key .. string.format("#playerBodyIndex"));
-            if playerBodyIndex == nil then
-              playerBodyIndex = 1
-            end
-            local playerHatIndex = getXMLInt(xmlFile, key .. string.format("#playerHatIndex"));
-            if playerHatIndex == nil then
-              playerHatIndex = 0
-            end
-            local playerAccessoryIndex = getXMLInt(xmlFile, key .. string.format("#playerAccessoryIndex"));
-            if playerAccessoryIndex == nil then
-              playerAccessoryIndex = 0
-            end
-            local playerHairIndex = getXMLInt(xmlFile, key .. string.format("#playerHairIndex"));
-            if playerHairIndex == nil then
-              playerHairIndex = 0
-            end
-            local playerJacketIndex = getXMLInt(xmlFile, key .. string.format("#playerJacketIndex"));
-            if playerJacketIndex == nil then
-              playerJacketIndex = 0
-            end
+            local workerName            = getXMLString(xmlFile, key.."#name");
+            local gender                = getXMLInt(xmlFile, key .. string.format("#gender"))               or 1;
+            local playerColorIndex      = getXMLInt(xmlFile, key .. string.format("#playerColorIndex"))     or 0;
+            local playerBodyIndex       = getXMLInt(xmlFile, key .. string.format("#playerBodyIndex"))      or 1;
+            local playerHatIndex        = getXMLInt(xmlFile, key .. string.format("#playerHatIndex"))       or 0;
+            local playerAccessoryIndex  = getXMLInt(xmlFile, key .. string.format("#playerAccessoryIndex")) or 0;
+            local playerHairIndex       = getXMLInt(xmlFile, key .. string.format("#playerHairIndex"))      or 0;
+            local playerJacketIndex     = getXMLInt(xmlFile, key .. string.format("#playerJacketIndex"))    or 0;
             if ContractorMod.debug then print(workerName) end
             local workerStyle = {};
-            workerStyle.playerColorIndex = playerColorIndex;
-            workerStyle.playerBodyIndex = playerBodyIndex;
-            workerStyle.playerHatIndex = playerHatIndex;
-            workerStyle.playerAccessoryIndex = playerAccessoryIndex;
-            workerStyle.playerHairIndex = playerHairIndex;
-            workerStyle.playerJacketIndex = playerJacketIndex;
+            workerStyle.playerColorIndex      = playerColorIndex;
+            workerStyle.playerBodyIndex       = playerBodyIndex;
+            workerStyle.playerHatIndex        = playerHatIndex;
+            workerStyle.playerAccessoryIndex  = playerAccessoryIndex;
+            workerStyle.playerHairIndex       = playerHairIndex;
+            workerStyle.playerJacketIndex     = playerJacketIndex;
             local farmId = 1
             local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, farmId, self.displayOnFootWorker)
             if ContractorMod.debug then print(getXMLString(xmlFile, key.."#position")) end
@@ -374,7 +358,7 @@ function ContractorMod:initFromParam()
       local xmlFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
       local xmlFile;
       if fileExists(xmlFilePath) then
-        xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
+        xmlFile = loadXMLFile("ContractorMod", xmlFilePath);
       else
         return false;
       end;
@@ -395,42 +379,24 @@ function ContractorMod:initFromParam()
           for i = 1, numWorkers do
             local key = xmlKey .. string.format(".worker(%d)", i - 1)
             local workerName = getXMLString(xmlFile, key.."#name");
-            local gender = getXMLString(xmlFile, key .. string.format("#gender"));
+            local gender = getXMLInt(xmlFile, key .. string.format("#gender"));
             if gender == nil then
-                gender = "male"
+                gender = 1
             end
-            local playerColorIndex = getXMLInt(xmlFile, key .. string.format("#playerColorIndex"));
-            if playerColorIndex == nil then
-              playerColorIndex = 0
-            end
-            local playerBodyIndex = getXMLInt(xmlFile, key .. string.format("#playerBodyIndex"));
-            if playerBodyIndex == nil then
-              playerBodyIndex = 0
-            end
-            local playerHatIndex = getXMLInt(xmlFile, key .. string.format("#playerHatIndex"));
-            if playerHatIndex == nil then
-              playerHatIndex = 0
-            end
-            local playerAccessoryIndex = getXMLInt(xmlFile, key .. string.format("#playerAccessoryIndex"));
-            if playerAccessoryIndex == nil then
-              playerAccessoryIndex = 0
-            end
-            local playerHairIndex = getXMLInt(xmlFile, key .. string.format("#playerHairIndex"));
-            if playerHairIndex == nil then
-              playerHairIndex = 0
-            end
-            local playerJacketIndex = getXMLInt(xmlFile, key .. string.format("#playerJacketIndex"));
-            if playerJacketIndex == nil then
-              playerJacketIndex = 0
-            end
+            local playerColorIndex      = getXMLInt(xmlFile, key .. string.format("#playerColorIndex"))     or 0;
+            local playerBodyIndex       = getXMLInt(xmlFile, key .. string.format("#playerBodyIndex"))      or 0;
+            local playerHatIndex        = getXMLInt(xmlFile, key .. string.format("#playerHatIndex"))       or 0;
+            local playerAccessoryIndex  = getXMLInt(xmlFile, key .. string.format("#playerAccessoryIndex")) or 0;
+            local playerHairIndex       = getXMLInt(xmlFile, key .. string.format("#playerHairIndex"))      or 0;
+            local playerJacketIndex     = getXMLInt(xmlFile, key .. string.format("#playerJacketIndex"))    or 0;
             if ContractorMod.debug then print(workerName) end
             local workerStyle = {};
-            workerStyle.playerColorIndex = playerColorIndex;
-            workerStyle.playerBodyIndex = playerBodyIndex;
-            workerStyle.playerHatIndex = playerHatIndex;
-            workerStyle.playerAccessoryIndex = playerAccessoryIndex;
-            workerStyle.playerHairIndex = playerHairIndex;
-            workerStyle.playerJacketIndex = playerJacketIndex;
+            workerStyle.playerColorIndex      = playerColorIndex;
+            workerStyle.playerBodyIndex       = playerBodyIndex;
+            workerStyle.playerHatIndex        = playerHatIndex;
+            workerStyle.playerAccessoryIndex  = playerAccessoryIndex;
+            workerStyle.playerHairIndex       = playerHairIndex;
+            workerStyle.playerJacketIndex     = playerJacketIndex;
             if ContractorMod.debug then print(workerName) end
             local farmId = 1
             local worker = ContractorModWorker:new(workerName, i, gender, workerStyle, farmId,  self.displayOnFootWorker)
@@ -462,7 +428,7 @@ function ContractorMod:initFromParam()
   end
 end
 
--- @doc Copy default parameters from mod mod zip file to mods directory so end-user can edit it
+-- @doc Copy default parameters from mod zip file to mods directory so end-user can edit it
 function ContractorMod:CopyContractorModXML()
   if ContractorMod.debug then print("ContractorMod:CopyContractorModXML") end
   if g_currentMission ~= nil and g_currentMission:getIsServer() then
@@ -476,7 +442,7 @@ function ContractorMod:CopyContractorModXML()
         local xmlSourceFile;
         if fileExists(xmlSourceFilePath) then
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_3") end
-          xmlSourceFile = loadXMLFile('ContractorMod', xmlSourceFilePath);
+          xmlSourceFile = loadXMLFile("ContractorMod", xmlSourceFilePath);
           saveXMLFileTo(xmlSourceFile, xmlFilePath);
           if ContractorMod.debug then print("ContractorMod:CopyContractorModXML_4") end
         end
@@ -524,6 +490,7 @@ function ContractorMod:ManageSoldVehicle(vehicle, callDelete)
     end
   end
 end
+
 function ContractorMod:removeVehicle(vehicle, callDelete)
   -- callDelete is always nil now
   ContractorMod:ManageSoldVehicle(vehicle, callDelete)
@@ -597,7 +564,7 @@ function ContractorMod:ManageNewVehicle(vehicle)
       local modDirectoryXMLFilePath = ContractorMod.myCurrentModDirectory .. "../ContractorMod.xml"
       local displayWarning = false
       if fileExists(modDirectoryXMLFilePath) then
-        local xmlFile = loadXMLFile('ContractorMod', modDirectoryXMLFilePath);
+        local xmlFile = loadXMLFile("ContractorMod", modDirectoryXMLFilePath);
         displayWarning = Utils.getNoNil(getXMLBool(xmlFile, xmlPath.."#displayWarning"), false);
       end
       -- xml file in zip containing mainly base game vehicles
@@ -640,24 +607,22 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
   if ContractorMod.debug then print("ContractorMod:loadPassengersFromXML") end
   local foundConfig = false
   if fileExists(xmlFilePath) then 
-    local xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
+    local xmlFile = loadXMLFile("ContractorMod", xmlFilePath);
     local i = 0
-    local xmlVehicleName = ''
+    local xmlVehicleName = ""
     while hasXMLProperty(xmlFile, "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)) do
         xmlPath = "ContractorMod.passengerSeats"..string.format(".Passenger(%d)", i)
         xmlVehicleName = getXMLString(xmlFile, xmlPath.."#vehiclesName")
         --> ==Manage DLC & mods thanks to dural==
-        --replace $pdlcdir by the full path
-        if string.sub(xmlVehicleName, 1, 8):lower() == "$pdlcdir" then
-          --xmlVehicleName = getUserProfileAppPath() .. "pdlc/" .. string.sub(xmlVehicleName, 10)
+        -- replace $pdlcdir & $moddir by the full path
+        -- 20171116 - fix for Horsch CTF vehicle pack
+        if string.sub(xmlVehicleName, 1, 8):lower() == "$pdlcdir" or string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then 
           --required for steam users
-          xmlVehicleName = NetworkUtil.convertFromNetworkFilename(xmlVehicleName)
-        elseif string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then --20171116 - fix for Horsch CTF vehicle pack
           xmlVehicleName = NetworkUtil.convertFromNetworkFilename(xmlVehicleName)
         end
         -- if ContractorMod.debug then print("Trying to add passenger to "..xmlVehicleName) end
         --< ======================================
-        -- if ContractorMod.debug then print("Compare to vehicle config  "..vehicle.configFileName) end
+        if ContractorMod.debug then print("Compare to vehicle config  "..vehicle.configFileName) end
         if vehicle.configFileName == xmlVehicleName then
           foundConfig = true
           local seatIndex = getXMLInt(xmlFile, xmlPath.."#seatIndex")
@@ -679,11 +644,10 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
               x = -dx
               y = -dy
               z = -dz
-              seatIndex = 1
             end
           end
           if seatIndex > 0 then
-            if ContractorMod.debug then print('Adding seat '..tostring(seatIndex)..' for '..xmlVehicleName) end
+            if ContractorMod.debug then print("Adding seat "..tostring(seatIndex).." for "..xmlVehicleName) end
             vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
           end
         end
@@ -930,12 +894,14 @@ function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
       if ContractorMod.debug then print(worker.name) end
       if ContractorMod.debug then print("currentSeat "..tostring(worker.currentSeat)) end
       if ContractorMod.debug then print("seat        "..tostring(seat)) end
-      if worker.currentVehicle ~= nil then
-        if ContractorMod.debug then print("currentVehicle "..worker.currentVehicle:getFullName()) end
+
+      if worker.currentVehicle ~= nil and ContractorMod.debug then
+        print("currentVehicle "..worker.currentVehicle:getFullName())
       end
-      if self.object ~= nil then
-        if ContractorMod.debug then print("self           "..self.object:getFullName()) end
+      if self.object ~= nil and ContractorMod.debug then
+        print("self           "..self.object:getFullName())
       end
+
       if worker.currentSeat == seat and worker.currentVehicle == self.object and worker == ContractorMod.workers[ContractorMod.currentID] then
         canEnterWhenSwitching = true
       end
@@ -975,14 +941,15 @@ VehicleEnterRequestEvent.run = Utils.overwrittenFunction(VehicleEnterRequestEven
 
 -- @doc Make some checks before leaving a vehicle to manage passengers and hired worker
 function ContractorMod:ManageLeaveVehicle(controlledVehicle)
-  if ContractorMod.debug then print("ContractorMod:prependedLeaveVehicle >>") end
-  if controlledVehicle ~= nil then
-    if ContractorMod.debug then print("isHired " .. tostring(controlledVehicle.isHired) .. " disableChar " .. tostring(controlledVehicle.disableCharacterOnLeave) .. " steering " .. tostring(controlledVehicle.steeringEnabled)) end
+  if ContractorMod.debug then 
+    print("ContractorMod:prependedLeaveVehicle >>")
+    if controlledVehicle ~= nil then
+      print(string.format("isHired %s disableChar %s steering %s",tostring(controlledVehicle.isHired), tostring(controlledVehicle.disableCharacterOnLeave), tostring(controlledVehicle.steeringEnabled)))
+    end
   end
 
   if controlledVehicle ~= nil then
     if self.shouldStopWorker then
-    
       local occupants = 0
       
       for i = 1, self.numWorkers do
@@ -1005,7 +972,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
             if controlledVehicle.cp.isDriving then
              -- Try to stop the CP vehicle
               if ContractorMod.debug then print("setCourseplayFunc stop") end
-              controlledVehicle:setCourseplayFunc('stop', nil, false, 1);
+              controlledVehicle:setCourseplayFunc("stop", nil, false, 1);
             else
               controlledVehicle:stopAIVehicle();
             end
@@ -1084,6 +1051,7 @@ function ContractorMod:ManageLeaveVehicle(controlledVehicle)
     if ContractorMod.debug then print("isHired " .. tostring(controlledVehicle.isHired) .. " disableChar " .. tostring(controlledVehicle.disableCharacterOnLeave) .. " steering " .. tostring(controlledVehicle.steeringEnabled)) end
   end
 end
+
 function ContractorMod:onLeaveVehicle()
   if ContractorMod.debug then print("ContractorMod:onLeaveVehicle ") end
   local controlledVehicle = g_currentMission.controlledVehicle
@@ -1099,9 +1067,9 @@ function ContractorMod:onSaveCareerSavegame()
   if self.workers ~= nil then
     local xmlFile;
     if fileExists(self.ContractorModXmlFilePath) then
-      xmlFile = loadXMLFile('ContractorMod', self.ContractorModXmlFilePath);
+      xmlFile = loadXMLFile("ContractorMod", self.ContractorModXmlFilePath);
     else
-      xmlFile = createXMLFile('ContractorMod', self.ContractorModXmlFilePath, 'ContractorMod');
+      xmlFile = createXMLFile("ContractorMod", self.ContractorModXmlFilePath, "ContractorMod");
       saveXMLFile(xmlFile);
     end;
 
@@ -1123,11 +1091,7 @@ function ContractorMod:onSaveCareerSavegame()
         local worker = self.workers[i]
         local key = string.format(rootXmlKey .. ".workers.worker(%d)", i - 1);
         setXMLString(xmlFile, key.."#name", worker.name);
-        local gender = "male"
-        if worker.playerStyle.selectedModelIndex > 1 then
-          gender = "female"
-        end
-        setXMLString(xmlFile, key.."#gender", gender);
+        setXMLInt(xmlFile, key.."#gender", worker.playerStyle.selectedModelIndex);
         setXMLInt(xmlFile, key.."#playerColorIndex", worker.playerStyle.selectedColorIndex);
         setXMLInt(xmlFile, key.."#playerBodyIndex", worker.playerStyle.selectedBodyIndex);
         setXMLInt(xmlFile, key.."#playerHatIndex", worker.playerStyle.selectedHatIndex);
@@ -1137,9 +1101,9 @@ function ContractorMod:onSaveCareerSavegame()
         if worker.currentSeat ~= nil then
           setXMLInt(xmlFile, key.."#currentSeat", worker.currentSeat);
         end
-        local pos = worker.x..' '..worker.y..' '..worker.z
+        local pos = worker.x.." "..worker.y.." "..worker.z
         setXMLString(xmlFile, key.."#position", pos);
-        local rot = worker.dx..' '..worker.dy..' '..worker.dz
+        local rot = worker.dx.." "..worker.dy.." "..worker.dz
         setXMLString(xmlFile, key.."#rotation", rot);
         local vehicleID = 0.
         if worker.currentVehicle ~= nil then
@@ -1161,7 +1125,6 @@ end);
 
 -- @doc Draw worker name and hotspots on map
 function ContractorMod:draw()
-  --if ContractorModWorker.debug then print("ContractorMod:draw()") end
   --Display current worker name
   if self.workers ~= nil then
     if #self.workers > 0 and g_currentMission.hud.isVisible then

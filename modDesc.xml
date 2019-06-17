@@ -165,8 +165,7 @@ O arquivo ContractorMod.xml também contém configuração para passageiros para
     </actionBinding>
   </inputBinding>
   <developer>
-    <debug>false</debug>
-    <useDebugCommands>false</useDebugCommands>
+    <debug>true</debug>
   </developer>
 </modDesc>
     
