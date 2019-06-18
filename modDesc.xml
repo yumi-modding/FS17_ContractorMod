@@ -7,6 +7,7 @@
     <en>ContractorMod</en>
     <de>ContractorMod</de>
     <fr>Mod ETA</fr>
+    <br>ContractorMod</br>
   </title>
   <description>
     <en><![CDATA[
@@ -90,6 +91,33 @@ Le nom, le genre, la couleur, le corps, les cheveux, les accessoires et le nombr
 Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
 Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
 ]]></fr>
+    <br><![CDATA[
+Este mod permite simular um número definido de personagens que você controla um por um durante um jogo solo.
+
+==== CHANGELOG ====
+New in v1.3.0.0.0
+- Porting mod to FS19
+==== PROBLEMAS COMUN ====
+- A câmera do passageiro de Incab é a mesma câmera que a câmera do excitador do incab => https://github.com/yumi-modding/FS17_ContractorMod/issues/20
+
+Por padrão, 4 personagens estão disponíveis: Alex, Barbara, Chris e David.
+No primeiro carregamento de um mapa, eles estão localizados no ponto inicial da carreira.
+Ao salvar o jogo, a localização dos personagens e o veículo são salvos, então eles serão restaurados no próximo carregamento do jogo.
+Então você poderá continuar seu jogo exatamente como você o deixou.
+
+As teclas padrão para alternar entre os personagens são:
+- PRÓXIMO  : Tab
+- ANTERIOR : Shift + Tab
+Eles podem ser alterados, mas, por padrão, eles substituíram o interruptor padrão entre veículos, já que ele é desativado.
+
+Este mod é compatível com os mods CoursePlay e FollowMe.
+Assim, por exemplo, ao usar o FollowMe, um personagem será o Líder e outro o Seguidor.
+Os personagens podem ser vistos no minimapa ao ativar a categoria padrão (a última representada por uma casa) na tela de visão geral do mapa.
+
+Nome, sexo, cor, corpo, cabelo, acessórios e número de personagens podem ser alterados no arquivo ContractorMod.xml para novos jogos.
+Uma vez que um jogo tenha sido salvo, ele pode ser alterado no arquivo ContractorMod.xml, presente na pasta relacionada do savegame.
+O arquivo ContractorMod.xml também contém configuração para passageiros para mods de veículos. Você pode adicionar seus próprios mods aqui.
+]]></br>
   </description>
   <iconFilename>images/ContractorMod.dds</iconFilename>
 
