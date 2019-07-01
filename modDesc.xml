@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="43">
+<modDesc descVersion="44">
   <author>yumi</author>
-  <version>1.0.0.3</version>
+  <version>1.0.0.4</version>
   <contributors>yumi, mrbear, jujuokl, alpha117,FomaDNS</contributors>
   <title>
     <en>ContractorMod</en>
@@ -18,6 +18,8 @@ Fixed in v1.0.0.2
   - Display settings changes only work one time
 Fixed in v1.0.0.3
   - Game crashes when driver exits and enter again a vehicle having a passenger
+Fixed in v1.0.0.4
+  - Adding portuguese (brasil) translation
 
 By default, 4 characters are available Alex, Barbara, Chris and David.
 At first loading of a map, they are located at the Career starting point.
@@ -48,6 +50,8 @@ Fixed in v1.0.0.2
   - Änderungen der Anzeigeeinstellungen funktionieren nur einmal
 Fixed in v1.0.0.3
   - Das Spiel stürzt ab, wenn der Fahrer ein Fahrzeug mit einem Beifahrer verlässt und wieder einsteigt
+Fixed in v1.0.0.4
+  - Hinzufügen von Portugiesisch (Brasilien) Übersetzung
 
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
 Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
@@ -78,6 +82,8 @@ Fixed in v1.0.0.2
   - Les modifications des paramètres d'affichage ne fonctionnent qu'une fois
 Fixed in v1.0.0.3
   - Crash du jeu quand un conducteur sorts et entre à nouveau dans un véhicule ayant un passager
+Fixed in v1.0.0.4
+  - Ajout de la traduction portuguaise (Brésil)
 
 Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
 Au premier chargement d'une map ils sont positionnés au point de départ de la map.
@@ -97,6 +103,38 @@ Le nom, le genre, la couleur, le corps, les cheveux, les accessoires et le nombr
 Une fois la partie sauvegardée, les modifications se font dans le fichier ContractorMod.xml du répertoire de sauvegarde habituel (savegame..).
 Le fichier ContractorMod.xml contient aussi la configuration des passagers pour les véhicules mods. Vous pouvez ajoutez vos propres mods ici.
 ]]></fr>
+    <br><![CDATA[
+Este mod permite simular um número definido de personagens que você controla um por um durante um jogo solo.
+
+==== CHANGELOG ====
+Fixed in v1.0.0.1
+  - Conflicto com Fruchtzwerg's Inspector mod
+Fixed in v1.0.0.2
+  - Bug após personalizar um veículo na loja / reinicializar um veículo
+  - As alterações das configurações de exibição só funcionam uma vez
+Fixed in v1.0.0.3
+  - O jogo trava quando o motorista sai e entra novamente em um veículo com um passageiro
+Fixed in v1.0.0.4
+  - Adding portuguese (brasil) translation
+
+Por padrão, 4 personagens estão disponíveis: Alex, Barbara, Chris e David.
+No primeiro carregamento de um mapa, eles estão localizados no ponto inicial da carreira.
+Ao salvar o jogo, a localização dos personagens e o veículo são salvos, então eles serão restaurados no próximo carregamento do jogo.
+Então você poderá continuar seu jogo exatamente como você o deixou.
+
+As teclas padrão para alternar entre os personagens são:
+- PRÓXIMO  : Tab
+- ANTERIOR : Shift + Tab
+Eles podem ser alterados, mas, por padrão, eles substituíram o interruptor padrão entre veículos, já que ele é desativado.
+
+Este mod é compatível com os mods CoursePlay e FollowMe.
+Assim, por exemplo, ao usar o FollowMe, um personagem será o Líder e outro o Seguidor.
+Os personagens podem ser vistos no minimapa ao ativar a categoria padrão (a última representada por uma casa) na tela de visão geral do mapa.
+
+Nome, sexo, cor, corpo, cabelo, acessórios e número de personagens podem ser alterados no arquivo ContractorMod.xml para novos jogos.
+Uma vez que um jogo tenha sido salvo, ele pode ser alterado no arquivo ContractorMod.xml, presente na pasta relacionada do savegame.
+O arquivo ContractorMod.xml também contém configuração para passageiros para mods de veículos. Você pode adicionar seus próprios mods aqui.
+]]></br>
   </description>
   <iconFilename>images/icon_ContractorMod.dds</iconFilename>
 
