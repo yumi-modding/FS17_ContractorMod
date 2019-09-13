@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="44">
   <author>yumi</author>
-  <version>1.0.0.4</version>
+  <version>1.0.0.5</version>
   <contributors>yumi, mrbear, jujuokl, alpha117,FomaDNS</contributors>
   <title>
     <en>ContractorMod</en>
@@ -20,6 +20,9 @@ Fixed in v1.0.0.3
   - Game crashes when driver exits and enter again a vehicle having a passenger
 Fixed in v1.0.0.4
   - Adding portuguese (brasil) translation
+Fixed in v1.0.0.5
+  - Check maximum number of passengers in a vehicle
+  - Capability to hide player name by setting displayPlayerNames="false" in ContractorMod.xml
 
 By default, 4 characters are available Alex, Barbara, Chris and David.
 At first loading of a map, they are located at the Career starting point.
@@ -52,6 +55,9 @@ Fixed in v1.0.0.3
   - Das Spiel stürzt ab, wenn der Fahrer ein Fahrzeug mit einem Beifahrer verlässt und wieder einsteigt
 Fixed in v1.0.0.4
   - Hinzufügen von Portugiesisch (Brasilien) Übersetzung
+Fixed in v1.0.0.5
+  - Überprüfen Sie die maximale Anzahl der Passgiere in einem Fahrzeug
+  - Möglichkeit, den Spielernamen durch Setzen von displayPlayerNames = "false" in ContractorMod.xml auszublenden
 
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Barbara, Chris und David.
 Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
@@ -84,6 +90,9 @@ Fixed in v1.0.0.3
   - Crash du jeu quand un conducteur sorts et entre à nouveau dans un véhicule ayant un passager
 Fixed in v1.0.0.4
   - Ajout de la traduction portuguaise (Brésil)
+Fixed in v1.0.0.5
+  - Vérification du nombre maximum de passagers dans un véhicule
+  - Possibilité de cacher le nom du joueur en mettant displayPlayerNames="false" dans ContractorMod.xml
 
 Par défaut, 4 personnages sont disponibles Alex, Barbara, Chris et David.
 Au premier chargement d'une map ils sont positionnés au point de départ de la map.
@@ -116,6 +125,9 @@ Fixed in v1.0.0.3
   - O jogo trava quando o motorista sai e entra novamente em um veículo com um passageiro
 Fixed in v1.0.0.4
   - Adding portuguese (brasil) translation
+Fixed in v1.0.0.5
+  - Verifique o número máximo de passageiros em um veículo
+  - Capacidade de ocultar o nome do jogador, definindo displayPlayerNames = "false" em ContractorMod.xml
 
 Por padrão, 4 personagens estão disponíveis: Alex, Barbara, Chris e David.
 No primeiro carregamento de um mapa, eles estão localizados no ponto inicial da carreira.

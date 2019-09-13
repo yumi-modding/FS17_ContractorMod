@@ -104,6 +104,7 @@ function ContractorMod:init()
   self.switching = false
   self.passengerLeaving = false
   ContractorMod.passengerEntering = false
+  ContractorMod.displayPlayerNames = true
 
   -- self:manageModsConflicts() -- Useless on FS19
   self:manageSpecialVehicles()
@@ -373,6 +374,8 @@ function ContractorMod:initFromSave()
             size = 0.024
           end
           self.displaySettings.characterName.size = size
+          xmlKey = "ContractorMod.displaySettings.playerName"
+          ContractorMod.displayPlayerNames = Utils.getNoNil(getXMLBool(xmlFile, xmlKey .. string.format("#displayPlayerNames")), true);
         end
         self.numWorkers = numWorkers
         return true
@@ -489,6 +492,8 @@ function ContractorMod:initFromParam()
             size = 0.024
           end
           self.displaySettings.characterName.size = size
+          xmlKey = "ContractorMod.displaySettings.playerName"
+          ContractorMod.displayPlayerNames = Utils.getNoNil(getXMLBool(xmlFile, xmlKey .. string.format("#displayPlayerNames")), true);
         end
         self.numWorkers = numWorkers
         return true
@@ -768,7 +773,12 @@ function ContractorMod:ReplaceEnterVehicle(superFunc, isControlling, playerStyle
       -- 0 is drivers seat
       local seat
       local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
-      for seat = 0, 4 do
+      local nbSeats = 0
+      if self.passengers ~= nil then
+        nbSeats = #self.passengers
+        -- print("nbSeats "..tostring(nbSeats))
+      end
+      for seat = 0, nbSeats do
         local seatUsed = false
         if ContractorMod.debug then print("loop on workers") end
         for i = 1, ContractorMod.numWorkers do
@@ -984,7 +994,12 @@ function ContractorMod:replaceVehicleEnterRequestEventRun(superfunc, connection)
   -- 0 is drivers seat
   local seat
   local firstFreepassengerSeat = -1 -- no seat assigned. nil: not in vehicle.
-  for seat = 0, 4 do
+  local nbSeats = 0
+  if self.object ~= nil and self.object.passengers ~= nil then
+    nbSeats = #self.object.passengers
+    -- print("nbSeats "..tostring(nbSeats))
+  end
+  for seat = 0, nbSeats do
     local seatUsed = false
     if ContractorMod.debug then print("loop on workers") end
     for i = 1, ContractorMod.numWorkers do
@@ -1236,6 +1251,8 @@ function ContractorMod:onSaveCareerSavegame()
       setXMLFloat(xmlFile, xmlKey .. "#x", self.displaySettings.characterName.x);
       setXMLFloat(xmlFile, xmlKey .. "#y", self.displaySettings.characterName.y);
       setXMLFloat(xmlFile, xmlKey .. "#size", self.displaySettings.characterName.size);
+      xmlKey = rootXmlKey .. ".displaySettings.playerName"
+      setXMLBool(xmlFile, xmlKey .. "#displayPlayerNames", ContractorMod.displayPlayerNames);
       saveXMLFile(xmlFile);
     end
   end
@@ -1341,6 +1358,13 @@ function ContractorMod:draw()
     end
   end
 end
+
+function ContractorMod:drawUIInfo(superfunc)
+  if ContractorMod.displayPlayerNames then
+    superfunc(self)
+  end
+end
+Player.drawUIInfo = Utils.overwrittenFunction(Player.drawUIInfo, ContractorMod.drawUIInfo);
 
 -- @doc Launch init at first call and then update workers positions and states
 function ContractorMod:update(dt)
