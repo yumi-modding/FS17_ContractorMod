@@ -174,6 +174,13 @@ O arquivo ContractorMod.xml também contém configuração para passageiros para
     <action name="ContractorMod_WORKER6" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER7" category="ONFOOT VEHICLE"/>
     <action name="ContractorMod_WORKER8" category="ONFOOT VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_LEFT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_RIGHT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_TOP" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_BOTTOM" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_FRONT" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_MOVE_PASS_BACK" category="VEHICLE"/>
+    <action name="ContractorMod_DEBUG_DUMP_PASS" category="VEHICLE"/>
   </actions>
   <inputBinding>
     <actionBinding action="ContractorMod_WORKER1">
@@ -200,6 +207,27 @@ O arquivo ContractorMod.xml também contém configuração para passageiros para
     <actionBinding action="ContractorMod_WORKER8">
         <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_8" axisComponent="+" inputComponent="+" index="1"/>
     </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_LEFT">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_a" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_RIGHT">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_d" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_TOP">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_q" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_BOTTOM">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_z" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_FRONT">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_w" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_MOVE_PASS_BACK">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_s" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>
+  <actionBinding action="ContractorMod_DEBUG_DUMP_PASS">
+  <binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_e" axisComponent="+" inputComponent="+" index="1"/>
+  </actionBinding>  
   </inputBinding>
 
 </modDesc>
