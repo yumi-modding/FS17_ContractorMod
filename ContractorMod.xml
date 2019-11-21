@@ -33,7 +33,7 @@
     -->
     <workers numWorkers="4" enableSeveralDrivers="true" displayOnFootWorker="true">
         <worker name="Alex" gender="male" playerColorIndex="0" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />
-        <worker name="Barbara" gender="female" playerColorIndex="13" playerBodyIndex="2" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="2" playerJacketIndex="0" />
+        <worker name="Brenda" gender="female" playerColorIndex="13" playerBodyIndex="2" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="2" playerJacketIndex="0" />
         <worker name="Chris" gender="male" playerColorIndex="5" playerBodyIndex="3" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="3" playerJacketIndex="0" />
         <worker name="David" gender="male" playerColorIndex="9" playerBodyIndex="4" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="4" playerJacketIndex="0" />
         <worker name="Ed" gender="male" playerColorIndex="4" playerBodyIndex="1" playerHatIndex="0" playerAccessoryIndex="0" playerHairIndex="1" playerJacketIndex="0" />

@@ -127,7 +127,22 @@
         <Passenger vehiclesName="data/vehicles/krone/bigM450/bigM450.xml" seatIndex="1" x="0.5000" y="3.0128" z="0.7497" rx="0" ry="0" rz="0" />
         <!-- skidSteerVehicles -->
 			<Passenger vehiclesName="data/vehicles/newHolland/C232/C232.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
-			<Passenger vehiclesName="data/vehicles/newHolland/L218/L218.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" /> 
+			<Passenger vehiclesName="data/vehicles/newHolland/L218/L218.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <!-- Platinum DLC -->
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/arion400/arion400.xml" seatIndex="1" x="0.5000" y="1.5989" z="-0.5676" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/arion600/arion600.xml" seatIndex="1" x="0.5000" y="1.9922" z="-0.7752" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/axion800/axion800.xml" seatIndex="1" x="0.5000" y="2.0444" z="-0.8023" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/axion900/axion900.xml" seatIndex="1" x="0.5000" y="2.4301" z="-0.6238" rx="0" ry="-0.1" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/jaguar960TT/jaguar960TT.xml" seatIndex="1" x="0.5000" y="2.9046" z="2.6570" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/jaguar980/jaguar980.xml" seatIndex="1" x="0.5500" y="2.5051" z="1.6833" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/lexion8000/lexion8000.xml" seatIndex="1" x="0.5000" y="2.8293" z="2.3824" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/scorpion1033/scorpion1033.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/torion1914/torion1914.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/torion639/torion639.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/torion956Sinus/torion956Sinus.xml" seatIndex="-1" x="0.0" y="0.0" z="0.0" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/tucano580/tucano580.xml" seatIndex="1" x="0.4978" y="2.8015" z="2.6504" rx="0" ry="0" rz="0" />
+        <Passenger vehiclesName="$pdlcdir$claasPack/vehicles/claas/xerion5000/xerion5000.xml" seatIndex="1" x="0.5500" y="2.7937" z="-0.4386" rx="0" ry="0" rz="0" />
+
         <!-- mods -->
         <!-- Mods are now set in ContractorMod.xml in mods folder so they won't be overwritten when mod is updated -->
     </passengerSeats>
