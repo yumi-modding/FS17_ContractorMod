@@ -89,7 +89,7 @@ function ContractorMod:init()
       if fileExists(debugFilePath) then
         print("ContractorMod: Activating DEBUG commands")
         ContractorMod.useDebugCommands = true
-        self:addDebugInputBinding()
+        -- self:addDebugInputBinding()
       end
     end
   end
@@ -138,7 +138,7 @@ function ContractorMod:init()
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 1;
       workerStyle.playerHairIndex = 1;
-      worker = ContractorModWorker:new("Barbara", 2, "female", workerStyle, farmId, true)
+      worker = ContractorModWorker:new("Brenda", 2, "female", workerStyle, farmId, true)
       table.insert(self.workers, worker)
       workerStyle.playerColorIndex = 2;
       worker = ContractorModWorker:new("Chris", 3, "male", workerStyle, farmId, true)
@@ -1247,6 +1247,7 @@ function ContractorMod:onSaveCareerSavegame()
         end
         setXMLString(xmlFile, key.."#vehicleID", vehicleID);
       end
+      currentWorker.player:moveToAbsoluteInternal(0, -200, 0);
       local xmlKey = rootXmlKey .. ".displaySettings.characterName"
       setXMLFloat(xmlFile, xmlKey .. "#x", self.displaySettings.characterName.x);
       setXMLFloat(xmlFile, xmlKey .. "#y", self.displaySettings.characterName.y);
@@ -1539,7 +1540,7 @@ function ContractorMod:addDebugInputBinding()
   if ContractorMod.debug then print("ContractorMod:addDebugInputBinding ") end
     
   local xmltext = " \z
-  <modDesc descVersion=\"43\">\z
+  <modDesc descVersion=\"46\">\z
   <actions>\z
   <action name=\"ContractorMod_DEBUG_MOVE_PASS_LEFT\" category=\"VEHICLE\"/>\z
   <action name=\"ContractorMod_DEBUG_MOVE_PASS_RIGHT\" category=\"VEHICLE\"/>\z
@@ -1556,7 +1557,7 @@ function ContractorMod:addDebugInputBinding()
   InputBinding.loadActions(g_inputBinding, xmlFile, "FS19_ContractorMod")
 
   xmltext = " \z
-  <modDesc descVersion=\"43\">\z
+  <modDesc descVersion=\"46\">\z
   <inputBinding>\z
   <actionBinding action=\"ContractorMod_DEBUG_MOVE_PASS_LEFT\">\z
   <binding device=\"KB_MOUSE_DEFAULT\" input=\"KEY_lctrl KEY_a\" axisComponent=\"+\" inputComponent=\"+\" index=\"1\"/>\z
@@ -1589,5 +1590,11 @@ function ContractorMod:addDebugInputBinding()
   InputBinding.commitBindingChanges(g_inputBinding)
 
 end
+
+-- function ContractorMod:loadActionBindingsFromXML(superfunc, arg1, arg2, arg3, arg4, arg5)
+--     print(tostring(arg1)..'|'..tostring(arg2)..'|'..tostring(arg3)..'|'..tostring(arg4)..'|'..tostring(arg5)..'|')
+--     superfunc(self, arg1, arg2, arg3, arg4, arg5)
+-- end
+-- InputBinding.loadActionBindingsFromXML = Utils.overwrittenFunction(InputBinding.loadActionBindingsFromXML, ContractorMod.loadActionBindingsFromXML);
 
 addModEventListener(ContractorMod);
