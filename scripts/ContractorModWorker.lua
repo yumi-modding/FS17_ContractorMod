@@ -87,6 +87,8 @@ function ContractorModWorker:new(name, index, gender, workerStyle, farmId, displ
           setRotation(p.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
           setRotation(p.cameraNode, self.rotX, self.rotY, 0)
         end
+        -- Fix conflict with Manure System mod
+        p:registerActionEvents()
         self.player = p
         return self
       end

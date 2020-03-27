@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="47">
   <author>yumi</author>
-  <version>1.0.0.7</version>
+  <version>1.0.0.8</version>
   <contributors>yumi, mrbear, jujuokl, alpha117,FomaDNS</contributors>
   <title>
     <en>ContractorMod</en>
@@ -27,6 +27,8 @@ Fixed in v1.0.0.6
   - Passengers support for Platinium extension CLAAS vehicles
 Fixed in v1.0.0.7
   - Character seen twice when outside a vehicle during saving game
+Fixed in v1.0.0.8
+  - Conflict with Manure System mod
 
 By default, 4 characters are available Alex, Brenda, Chris and David.
 At first loading of a map, they are located at the Career starting point.
@@ -66,6 +68,8 @@ Fixed in v1.0.0.6
   - Unterstützung für "Claas Platinium Add-on" -Fahrzeuge hinzugefügt
 Fixed in v1.0.0.7
   - Charakter zweimal gesehen, wenn außerhalb eines Fahrzeugs beim Speichern des Spiels
+Fixed in v1.0.0.8
+  - Konflikt mit Manure System mod
 
 Standardmäßig sind 4 Charaktere verfügbar: Alex, Brenda, Chris und David.
 Beim erstmaligen Laden einer Karte befinden sie sich am Karrierestartpunkt.
@@ -105,6 +109,8 @@ Fixed in v1.0.0.6
   - Support des passengers pour les véhicules de l'extension Platinium CLAAS
 Fixed in v1.0.0.7
   - Personnage en double lorsqu'on sauve la partie en dehors d'un véhicule
+Fixed in v1.0.0.8
+  - Conflit avec le mod Manure System
 
 Par défaut, 4 personnages sont disponibles Alex, Brenda, Chris et David.
 Au premier chargement d'une map ils sont positionnés au point de départ de la map.
@@ -144,6 +150,8 @@ Fixed in v1.0.0.6
   - Suporte a passageiros para veículos CLAAS de extensão Platinum
 Fixed in v1.0.0.7
   - Personagem visto duas vezes quando estiver fora de um veículo durante o jogo de salvamento
+Fixed in v1.0.0.8
+  - Conflicto com Manure System mod
 
 Por padrão, 4 personagens estão disponíveis: Alex, Brenda, Chris e David.
 No primeiro carregamento de um mapa, eles estão localizados no ponto inicial da carreira.
