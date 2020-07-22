@@ -24,6 +24,7 @@ ContractorMod.useDebugCommands = false
 -- @doc First code called during map loading (before we can actually interact)
 function ContractorMod:loadMap(name)
   if ContractorMod.debug then print("ContractorMod:loadMap(name)") end
+  self:manageModsConflicts()
   self.initializing = true
   if self.initialized then
     return;
@@ -54,7 +55,7 @@ function ContractorMod:registerActionEvents()
       g_inputBinding.events[eventName].displayIsVisible = false
     end
   end
-  
+
   if ContractorMod.useDebugCommands then
     print("ContractorMod:registerActionEvents() for DEBUG")
     for _,actionName in pairs({ "ContractorMod_DEBUG_MOVE_PASS_LEFT",
@@ -105,8 +106,10 @@ function ContractorMod:init()
   self.passengerLeaving = false
   ContractorMod.passengerEntering = false
   ContractorMod.displayPlayerNames = true
+  ContractorMod.UniversalPassenger = nil
+  ContractorMod.UniversalPassenger_VehiclesOfModHub = nil
 
-  -- self:manageModsConflicts() -- Useless on FS19
+  self:manageModsConflicts()
   self:manageSpecialVehicles()
 
   local savegameDir;
@@ -161,7 +164,7 @@ end
 
 
 function ContractorMod:onSwitchVehicle(action)
-	if ContractorMod.debug then print("ContractorMod:onSwitchVehicle()") end
+  if ContractorMod.debug then print("ContractorMod:onSwitchVehicle()") end
   self.switching = true
   if action == "SWITCH_VEHICLE" then
     if ContractorMod.debug then print('ContractorMod_NEXTWORKER pressed') end
@@ -647,6 +650,16 @@ function ContractorMod:ManageNewVehicle(vehicle)
       if foundConfig == false then
         -- Try xml file in mods dir containing user mods
         foundConfig = ContractorMod:loadPassengersFromXML(vehicle, modDirectoryXMLFilePath);
+        if foundConfig == false and ContractorMod.UniversalPassenger then
+          -- Try xml file from UniversalPassenger
+          local UniversalPassengerXML = ContractorMod.UniversalPassenger.modDir .. "xml/BaseVehicles.xml"
+          foundConfig = ContractorMod:loadPassengersFromUniversalPassengerXML(vehicle, UniversalPassengerXML);
+          if foundConfig == false and ContractorMod.UniversalPassenger_VehiclesOfModHub then
+            UniversalPassengerXML = ContractorMod.UniversalPassenger_VehiclesOfModHub.modDir .. "xml/VehiclesOfModHub.xml"
+            -- Try xml file from UniversalPassenger
+            foundConfig = ContractorMod:loadPassengersFromUniversalPassengerXML(vehicle, UniversalPassengerXML);
+          end
+        end
       end
       if foundConfig == false and displayWarning == true then
         print("[ContractorMod]No passenger seat configured for vehicle "..vehicle.configFileName)
@@ -730,6 +743,72 @@ function ContractorMod:loadPassengersFromXML(vehicle, xmlFilePath)
           end
         end
         i = i + 1
+    end
+  end
+  return foundConfig
+end
+
+function ContractorMod:loadPassengersFromUniversalPassengerXML(vehicle, xmlFilePath)
+  if ContractorMod.debug then print("ContractorMod:loadPassengersFromUniversalPassengerXML") end
+  local foundConfig = false
+  if fileExists(xmlFilePath) then 
+    local xmlFile = loadXMLFile('ContractorMod', xmlFilePath);
+    -- DebugUtil.printTableRecursively(xmlFile, " ", 1, 2);
+    local xmlPath = "universalPassengerVehicles."
+    local i = 0
+    local xmlVehicleName = ''
+    while hasXMLProperty(xmlFile, "universalPassengerVehicles"..string.format(".vehicle(%d)", i)) do
+      xmlPath = "universalPassengerVehicles"..string.format(".vehicle(%d)", i)
+      local xmlVehicleName = ""
+      if getXMLString(xmlFile, xmlPath.."#modName", nil) then
+        xmlVehicleName = "$moddir$" .. getXMLString(xmlFile, xmlPath.."#modName") .. "/" .. getXMLString(xmlFile, xmlPath.."#xmlFilename")
+        --> ==Manage DLC & mods thanks to dural==
+        --replace $pdlcdir by the full path
+        if string.sub(xmlVehicleName, 1, 8):lower() == "$pdlcdir" then
+          --xmlVehicleName = getUserProfileAppPath() .. "pdlc/" .. string.sub(xmlVehicleName, 10)
+          --required for steam users
+          xmlVehicleName = NetworkUtil.convertFromNetworkFilename(xmlVehicleName)
+        elseif string.sub(xmlVehicleName, 1, 7):lower() == "$moddir" then --20171116 - fix for Horsch CTF vehicle pack
+          xmlVehicleName = NetworkUtil.convertFromNetworkFilename(xmlVehicleName)
+        end
+      else
+        xmlVehicleName = getXMLString(xmlFile, xmlPath.."#xmlFilename")
+      end
+      if vehicle.configFileName == xmlVehicleName then
+        foundConfig = true
+        local j = 0
+        while hasXMLProperty(xmlFile, xmlPath..string.format(".passenger(%d)", j)) do
+          xmlPassengerPath = xmlPath..string.format(".passenger(%d)", j)..".passengerNode"
+          local seatIndex = Utils.getNoNil(getXMLInt(xmlFile, xmlPassengerPath.."#seatIndex"), j + 1)
+          local x, y, z = StringUtil.getVectorFromString(getXMLString(xmlFile, xmlPassengerPath.."#position"));
+          if ContractorMod.debug then print("x "..tostring(x)) end
+          local rDegx, rDegy, rDegz = StringUtil.getVectorFromString(getXMLString(xmlFile, xmlPassengerPath.."#rotation"));
+          local rx = MathUtil.degToRad(rDegx)
+          local ry = MathUtil.degToRad(rDegy)
+          local rz = MathUtil.degToRad(rDegz)
+          if seatIndex == 1 and x == 0.0 and y == 0.0 and z == 0.0 then
+            print("[ContractorMod]Passenger seat not configured yet for vehicle "..xmlVehicleName)
+            local characterNode = vehicle.spec_enterable.defaultCharacterNode
+            -- print("Driver position node is: "..tostring(characterNode))
+            -- local x1, y1, z1 = getTranslation(characterNode)
+            -- print("x1: "..tostring(x1).." y1: "..tostring(y1).." z1: "..tostring(z1))
+            local dx,dy,dz = localToLocal(vehicle.rootNode, characterNode, 0,0,0);
+            -- print("x=\""..tostring(dx).."\" y=\""..tostring(dy).."\" z=\""..tostring(dz))
+            if ContractorMod.useDebugCommands then
+              x = -dx
+              y = -dy
+              z = -dz
+              seatIndex = 1
+            end
+          end
+          if seatIndex > 0 then
+            if ContractorMod.debug then print('Adding seat '..tostring(seatIndex)..' for '..xmlVehicleName) end
+            vehicle.passengers[seatIndex] = ContractorMod.addPassenger(vehicle, x, y, z, rx, ry, rz)
+          end
+          j = j + 1
+        end
+      end
+      i = i + 1
     end
   end
   return foundConfig
@@ -1518,21 +1597,34 @@ function ContractorMod:setCurrentContractorModWorker(setID)
   --------------------------  DebugUtil.printTableRecursively(self.workers, " ", 1, 3)
 end
 
+function ContractorMod:doNothing()
+  if ContractorMod.debug then print("ContractorMod:doNothing ") end
+  -- print("Prevent entering as passenger")
+  return
+end
+
 -- @doc Enable to overwrite other mods functions
 function ContractorMod:manageModsConflicts()
+  if ContractorMod.debug then print("ContractorMod:manageModsConflicts ") end
 	--***********************************************************************************
-	--** taking care of FollowMe & CoursePlay Mods (thanks Dural for this code sample)
+	--** taking care of FS19_UniversalPassenger Mod (thanks Dural for this code sample)
 	--***********************************************************************************		
-  -- Useless on FS19 so keeping this in case new mod would require this same kind of overwrite
-  -- if g_modIsLoaded["FS17_DCK_FollowMe"] then
-	-- 	local mod1 = getfenv(0)["FS17_DCK_FollowMe"]		
-	-- 	if mod1 ~= nil and mod1.FollowMe ~= nil then
-  --     ContractorMod.mod1 = mod1
-  --     if ContractorMod.debug then print("We have found FollowMe mod and will encapsulate some functions") end
-  --     mod1.FollowMe.onStopFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStopFollowMe, ContractorMod.ReplaceOnStopFollowMe)
-  --     mod1.FollowMe.onStartFollowMe = Utils.overwrittenFunction(mod1.FollowMe.onStartFollowMe, ContractorMod.ReplaceOnStartFollowMe)
-	-- 	end
-  -- end
+  if g_modIsLoaded["FS19_UniversalPassenger"] then
+		local mod1 = getfenv(0)["FS19_UniversalPassenger"]		
+		if mod1 ~= nil and mod1.UniversalPassenger ~= nil then
+      ContractorMod.UniversalPassenger = g_modManager:getModByName("FS19_UniversalPassenger")
+      if ContractorMod.debug then print("We have found FS19_UniversalPassenger mod. We can use passenger data from it but need to disable it") end
+      -- print(mod1.UniversalPassenger.versionString)
+      mod1.UniversalPassenger.onInputEnterPassengerSeat = Utils.overwrittenFunction(mod1.UniversalPassenger.onInputEnterPassengerSeat, ContractorMod.doNothing)
+      if g_modIsLoaded["FS19_UniversalPassenger_VehiclesOfModHub"] then
+        local mod2 = getfenv(0)["FS19_UniversalPassenger_VehiclesOfModHub"]		
+        if mod2 ~= nil then
+          ContractorMod.UniversalPassenger_VehiclesOfModHub = g_modManager:getModByName("FS19_UniversalPassenger_VehiclesOfModHub")
+          if ContractorMod.debug then print("We have found FS19_UniversalPassenger_VehiclesOfModHub mod and will read passenger data from it") end
+        end
+      end 
+		end
+  end
 	--***********************************************************************************
 end
 
