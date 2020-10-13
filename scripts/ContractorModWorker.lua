@@ -160,7 +160,27 @@ function ContractorModWorker:beforeSwitch(noEventSend)
           self.player:setVisibility(true)
         end
         if ContractorModWorker.debug then print("ContractorModWorker: moveTo "..tostring(self.player.visualInformation.playerName)); end
-        self.player:moveRootNodeToAbsolute(self.x, self.y, self.z)
+
+        local terrainHeight = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, self.x, 300, self.z)
+        -- self.y = math.max(terrainHeight + 0.1, self.y + 0.9)
+      
+        -- self.player:moveRootNodeToAbsolute(self.x, self.y, self.z)
+        
+        -- local x, y, z = getWorldTranslation(spawnPoint)
+        -- local dx, _, dz = localDirectionToWorld(spawnPoint, 0, 0, -1)
+        local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
+        local ry = MathUtil.getYRotationFromDirection(dx, dz)
+        local y = math.max(self.y, getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, self.x, 0, self.z) + 0.2)
+
+        self.player:moveTo(self.x, y, self.z, true, true)
+        self.player:setRotation(0, ry)
+        --[[
+        self.player.baseInformation.isOnGround = true
+        self.player:moveToAbsoluteInternal(self.x, self.y, self.z)
+      
+        local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
+        self.rotY = MathUtil.getYRotationFromDirection(dx, dz)
+      
         setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0)
         setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
       end
