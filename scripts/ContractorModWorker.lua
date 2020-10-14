@@ -178,7 +178,7 @@ function ContractorModWorker:beforeSwitch(noEventSend)
         self.player.baseInformation.isOnGround = true
         self.player:moveToAbsoluteInternal(self.x, self.y, self.z)
       
-        local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
+        local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)  --]]
         self.rotY = MathUtil.getYRotationFromDirection(dx, dz)
       
         setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0)
