@@ -179,9 +179,9 @@ function ContractorModWorker:beforeSwitch(noEventSend)
         self.player:moveToAbsoluteInternal(self.x, self.y, self.z)
       
         local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)  --]]
-        self.rotY = MathUtil.getYRotationFromDirection(dx, dz)
+        -- self.rotY = MathUtil.getYRotationFromDirection(dx, dz)
       
-        setRotation(self.player.graphicsRootNode, 0, self.rotY + math.rad(180.0), 0)
+        setRotation(self.player.graphicsRootNode, 0, self.rotY, 0)
         setRotation(self.player.cameraNode, self.rotX, self.rotY, 0)
       end
     end

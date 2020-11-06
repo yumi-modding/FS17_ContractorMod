@@ -1472,7 +1472,12 @@ function ContractorMod:update(dt)
               if ContractorMod.debug then print("set visible 1: "..worker.name) end
                 worker.player:setVisibility(true)
                 setTranslation(worker.player.rootNode, worker.x, worker.y, worker.z);
-                worker.player:moveRootNodeToAbsolute(worker.x, worker.y, worker.z)
+                -- worker.player:moveRootNodeToAbsolute(worker.x, worker.y, worker.z)
+                local terrainHeight = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, worker.x, 300, worker.z)
+                local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
+                local ry = MathUtil.getYRotationFromDirection(dx, dz)
+                local y = math.max(worker.y, getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, worker.x, 0, worker.z) + 0.2)
+                worker.player:moveTo(worker.x, worker.y, worker.z, true, true)                
                 worker.player:setRotation(worker.rotX, worker.rotY)
                 -- setRotation(worker.player.graphicsRootNode, 0, worker.rotY + math.rad(180.0), 0) -- + math.rad(120.0), 0)  -- Why 120° difference ???
                 -- setRotation(worker.player.cameraNode, worker.rotX, worker.rotY, 0)
@@ -1486,7 +1491,13 @@ function ContractorMod:update(dt)
     if g_currentMission.player and g_currentMission.player ~= nil then
       if ContractorMod.debug then print("ContractorMod: moveToAbsolute"); end
       setTranslation(g_currentMission.player.rootNode, firstWorker.x, firstWorker.y, firstWorker.z);
-      g_currentMission.player:moveRootNodeToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
+      -- g_currentMission.player:moveRootNodeToAbsolute(firstWorker.x, firstWorker.y, firstWorker.z);
+      local terrainHeight = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, firstWorker.x, 300, firstWorker.z)
+      local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
+      local ry = MathUtil.getYRotationFromDirection(dx, dz)
+      local y = math.max(firstWorker.y, getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, firstWorker.x, 0, firstWorker.z) + 0.2)
+      self.player:moveTo(firstWorker.x, y, firstWorker.z, true, true)
+      self.player:setRotation(0, ry)      
       g_currentMission.player:setRotation(firstWorker.rotX, firstWorker.rotY)
       if firstWorker.displayOnFoot then
         firstWorker.player.isEntered = true
