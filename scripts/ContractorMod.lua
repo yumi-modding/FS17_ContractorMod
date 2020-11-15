@@ -1496,8 +1496,8 @@ function ContractorMod:update(dt)
       local dx, _, dz = localDirectionToWorld(g_currentMission.player.rootNode, 0, 0, -1)
       local ry = MathUtil.getYRotationFromDirection(dx, dz)
       local y = math.max(firstWorker.y, getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, firstWorker.x, 0, firstWorker.z) + 0.2)
-      self.player:moveTo(firstWorker.x, y, firstWorker.z, true, true)
-      self.player:setRotation(0, ry)      
+      g_currentMission.player:moveTo(firstWorker.x, y, firstWorker.z, true, true)
+      -- g_currentMission.player:setRotation(0, ry)
       g_currentMission.player:setRotation(firstWorker.rotX, firstWorker.rotY)
       if firstWorker.displayOnFoot then
         firstWorker.player.isEntered = true
